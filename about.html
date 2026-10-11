@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About us — public makers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=26" />
+</head>
+<body>
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="public makers home">
+      <img src="assets/logo-nav.svg" alt="public makers" />
+    </a>
+
+    <nav class="nav__tabs" aria-label="Primary">
+      <a class="tab" href="approach.html">
+        <span class="tab__label">Approach</span>
+      </a>
+      <a class="tab" href="projects.html">
+        <span class="tab__label">Projects</span>
+      </a>
+      <a class="tab" href="partners.html">
+        <span class="tab__label">Partners</span>
+      </a>
+      <a class="tab tab--selected" href="about.html" aria-current="page">
+        <span class="tab__label">About</span>
+      </a>
+      <a class="tab tab--join" href="joinus.html">
+        <span class="tab__pill">Join us</span>
+      </a>
+    </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero__panel">
+        <div class="hero__title">
+          <h1>About us</h1>
+        </div>
+        <div class="hero__image">
+          <img src="assets/hero.png" alt="The public makers team" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Intro large text -->
+    <section class="large-text">
+      <p>Our team unites 20+ members from diverse academic backgrounds across Germany, Europe, and beyond.</p>
+    </section>
+
+    <!-- Our board -->
+    <section class="board">
+      <h2 class="board__heading">Our board</h2>
+      <div class="board__grid">
+        <article class="member">
+          <div class="member__image">
+            <img src="assets/board1.png" alt="Yannic Plumpe" />
+          </div>
+          <div class="member__info">
+            <div class="member__row">
+              <h3 class="member__name">Yannic Plumpe</h3>
+              <a class="member__social" href="#" aria-label="Yannic Plumpe on LinkedIn">
+                <img src="assets/icon-linkedin.svg" alt="" />
+              </a>
+            </div>
+            <p class="member__role">Chairperson</p>
+          </div>
+        </article>
+
+        <article class="member">
+          <div class="member__image">
+            <img src="assets/board2.png" alt="Florian Stupp" />
+          </div>
+          <div class="member__info">
+            <div class="member__row">
+              <h3 class="member__name">Florian Stupp</h3>
+              <a class="member__social" href="#" aria-label="Florian Stupp on LinkedIn">
+                <img src="assets/icon-linkedin.svg" alt="" />
+              </a>
+            </div>
+            <p class="member__role">Vice chairperson</p>
+          </div>
+        </article>
+
+        <article class="member">
+          <div class="member__image">
+            <img src="assets/board3.png" alt="Luise Baranowski" />
+          </div>
+          <div class="member__info">
+            <div class="member__row">
+              <h3 class="member__name">Luise Baranowski</h3>
+              <a class="member__social" href="#" aria-label="Luise Baranowski on LinkedIn">
+                <img src="assets/icon-linkedin.svg" alt="" />
+              </a>
+            </div>
+            <p class="member__role">Treasure</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Large text -->
+    <section class="large-text">
+      <p>Together we bring experience from public administration, policy, research, and practice.</p>
+    </section>
+
+    <!-- Right-aligned paragraph -->
+    <section class="text-section">
+      <p class="text-section__body">We share the conviction that the public sector can and must be actively shaped — through informed decisions, institutional understanding, and a clear commitment to the common good.</p>
+    </section>
+
+    <!-- Contact -->
+    <section class="apply">
+      <div class="apply__card">
+        <h2 class="apply__title">Contact us</h2>
+        <div class="apply__block">
+          <p class="apply__lead">Feel free to reach out and write us:</p>
+          <p class="apply__email">hello@publicmakers.org</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <a class="footer__logo" href="index.html" aria-label="public makers home">
+        <img src="assets/logo-footer.svg" alt="public makers" />
+      </a>
+      <div class="footer__right">
+        <div class="footer__social">
+          <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
+          <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+        </div>
+        <nav class="footer__links" aria-label="Legal">
+          <a href="#">Imprint</a>
+          <a href="#">Data privacy</a>
+        </nav>
+        <p class="footer__copy">© 2025 public makers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Motion (motion.dev) — exposed as window.Motion -->
+  <script type="module">
+    import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
+    window.Motion = Motion;
+  </script>
+  <script src="script.js?v=23"></script>
+</body>
+</html>

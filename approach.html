@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our approach — public makers</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Play CDN (runtime) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    // CLAUDE.md grid system: breakpoints + grid tiers
+    tailwind.config = {
+      theme: {
+        screens: { sm: "481px", md: "750px", lg: "941px", xl: "1281px" },
+        container: {
+          center: true,
+          padding: { DEFAULT: "16px", sm: "40px", md: "40px", lg: "40px", xl: "40px" },
+          screens: { xl: "1440px" },
+        },
+        extend: {
+          borderRadius: {
+            0: "var(--radius-0)", 2: "var(--radius-2)", 4: "var(--radius-4)",
+            8: "var(--radius-8)", 12: "var(--radius-12)", 16: "var(--radius-16)",
+            24: "var(--radius-24)", 32: "var(--radius-32)", 40: "var(--radius-40)",
+            48: "var(--radius-48)", 56: "var(--radius-56)", 64: "var(--radius-64)",
+            72: "var(--radius-72)", 80: "var(--radius-80)", full: "var(--radius-full)",
+          },
+          spacing: {
+            0: "var(--spacing-0)", 1: "var(--spacing-1)", 2: "var(--spacing-2)",
+            3: "var(--spacing-3)", 4: "var(--spacing-4)", 5: "var(--spacing-5)",
+            6: "var(--spacing-6)", 8: "var(--spacing-8)", 10: "var(--spacing-10)",
+            12: "var(--spacing-12)", 16: "var(--spacing-16)", 20: "var(--spacing-20)",
+            24: "var(--spacing-24)", 28: "var(--spacing-28)", 32: "var(--spacing-32)",
+            36: "var(--spacing-36)", 40: "var(--spacing-40)", 44: "var(--spacing-44)",
+            48: "var(--spacing-48)",
+          },
+          colors: {
+            ink: "#1e1e1e",
+            "neutral-400": "#444444",
+            "neutral-300": "#6b6b6b",
+            "neutral-100": "#f5f5f5",
+            "approach-green": "#a8e3ad",
+          },
+          fontFamily: {
+            display: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+            body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=26" />
+</head>
+
+<!-- Override the per-page accent so the active folder tab is green on this page. -->
+<body class="bg-white text-black font-body antialiased" style="--selected-tab-color: var(--green-10);">
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="public makers home">
+      <img src="assets/logo-nav.svg" alt="public makers" />
+    </a>
+
+    <nav class="nav__tabs" aria-label="Primary">
+      <a class="tab tab--selected" href="approach.html" aria-current="page">
+        <span class="tab__label">Approach</span>
+      </a>
+      <a class="tab" href="projects.html">
+        <span class="tab__label">Projects</span>
+      </a>
+      <a class="tab" href="partners.html">
+        <span class="tab__label">Partners</span>
+      </a>
+      <a class="tab" href="about.html">
+        <span class="tab__label">About</span>
+      </a>
+      <a class="tab tab--join" href="joinus.html">
+        <span class="tab__pill">Join us</span>
+      </a>
+    </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero panel (green, title + paragraph) ===== -->
+    <section>
+      <div class="container mx-auto">
+        <div class="rounded-40 bg-approach-green px-8 py-16 md:px-16 xl:px-[118px] xl:py-16 pb-10">
+          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+            <!-- Title -->
+            <h1 class="col-span-4 mb-12 font-display font-normal text-[clamp(48px,8vw,91px)] leading-[1] text-ink md:col-span-8 xl:col-span-12">
+              Our approach
+            </h1>
+            <!-- Paragraph -->
+            <p class="col-span-4 font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black md:col-span-7 xl:col-span-10">
+              With our approach for change-making we connect actors across administration, policy, and society to enable collective action.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Educate (heading left; accordion left, image right) ===== -->
+    <section class="py-[100px]">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            Educate
+          </h2>
+
+          <div class="col-span-4 md:col-span-7 md:col-start-2 xl:col-span-5 xl:col-start-2">
+            <ul class="flex flex-col gap-7" role="list">
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Micro Masterclasses</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Mentoring program</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Workshops</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-span-4 mt-12 md:col-span-7 md:col-start-2 md:mt-0 xl:col-span-5 xl:col-start-8 xl:mt-0">
+            <div class="aspect-[510/382] w-full overflow-hidden rounded-3xl">
+              <img src="assets/approach-educate.jpg" alt="" class="h-full w-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Make (heading right; image left, accordion right) ===== -->
+    <section class="py-[100px]">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 md:text-right xl:col-span-10 xl:col-start-2 xl:text-right">
+            Make
+          </h2>
+
+          <div class="col-span-4 md:col-span-7 md:col-start-2 xl:col-span-5 xl:col-start-2">
+            <div class="aspect-[510/383] w-full overflow-hidden rounded-3xl">
+              <img src="assets/approach-make.jpg" alt="" class="h-full w-full object-cover" />
+            </div>
+          </div>
+
+          <div class="col-span-4 mt-12 md:col-span-7 md:col-start-2 md:mt-0 xl:col-span-5 xl:col-start-8 xl:mt-0">
+            <ul class="flex flex-col gap-7" role="list">
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Makeathons</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Bootcamps</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Labs</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Connect (heading left; accordion left, image right) ===== -->
+    <section class="py-[100px]">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            Connect
+          </h2>
+
+          <div class="col-span-4 md:col-span-7 md:col-start-2 xl:col-span-5 xl:col-start-2">
+            <ul class="flex flex-col gap-7" role="list">
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Speaker events</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Partnerships</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+              <li class="approach-accordion">
+                <button type="button" class="approach-accordion__head" aria-expanded="false">
+                  <span class="approach-accordion__title">Community model</span>
+                  <span class="approach-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 6v20M6 16h20" />
+                    </svg>
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-span-4 mt-12 md:col-span-7 md:col-start-2 md:mt-0 xl:col-span-5 xl:col-start-8 xl:mt-0">
+            <div class="aspect-[510/382] w-full overflow-hidden rounded-3xl">
+              <img src="assets/approach-connect.jpg" alt="" class="h-full w-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact (same component as landing) ===== -->
+    <section id="join" class="bg-neutral-100 py-20">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <div class="col-span-4 flex flex-col justify-between gap-20 md:col-span-5 md:col-start-2 xl:col-span-6 xl:col-start-2">
+            <div class="flex flex-col gap-20">
+              <h2 class="font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black">Contact us</h2>
+              <p class="font-body text-[27px] leading-[1.1] text-black">
+                We're open for inquiries of organisations interested in working with us.
+              </p>
+            </div>
+            <p class="font-body text-[clamp(28px,3.5vw,41px)] leading-[1] text-black">
+              <a href="mailto:hello@publicmakers.org" class="hover:underline">hello@publicmakers.org</a>
+            </p>
+          </div>
+
+          <div class="col-span-4 flex flex-col gap-6 md:col-span-3 md:col-start-7 xl:col-span-4 xl:col-start-9">
+            <div class="h-[300px] w-full overflow-hidden rounded-3xl">
+              <img src="assets/johanna.png" alt="Johanna Maria Schmidt" class="h-full w-full object-cover" />
+            </div>
+            <div class="flex flex-col gap-4">
+              <p class="font-body text-[41px] leading-[1] text-black">Johanna Maria Schmidt</p>
+              <p class="font-display text-[21px] leading-[1.4] text-neutral-300">Responsible for partnerships</p>
+            </div>
+            <a href="#" class="inline-flex items-center gap-2 rounded-2xl py-6 font-body text-[18px] text-black hover:underline">
+              <img src="assets/icon-linkedin.svg" alt="" class="h-7 w-7" />
+              <span>Find me on LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <a class="footer__logo" href="index.html" aria-label="public makers home">
+        <img src="assets/logo-footer.svg" alt="public makers" />
+      </a>
+      <div class="footer__right">
+        <div class="footer__social">
+          <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
+          <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+        </div>
+        <nav class="footer__links" aria-label="Legal">
+          <a href="#">Imprint</a>
+          <a href="#">Data privacy</a>
+        </nav>
+        <p class="footer__copy">© 2025 public makers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Motion (motion.dev) — exposed as window.Motion -->
+  <script type="module">
+    import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
+    window.Motion = Motion;
+  </script>
+  <script src="script.js?v=23"></script>
+</body>
+</html>

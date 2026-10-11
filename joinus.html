@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Become a Public Maker — public makers</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Play CDN (runtime) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        screens: { sm: "481px", md: "750px", lg: "941px", xl: "1281px" },
+        container: {
+          center: true,
+          padding: { DEFAULT: "16px", sm: "40px", md: "40px", lg: "40px", xl: "40px" },
+          screens: { xl: "1440px" },
+        },
+        extend: {
+          borderRadius: {
+            0: "var(--radius-0)", 2: "var(--radius-2)", 4: "var(--radius-4)",
+            8: "var(--radius-8)", 12: "var(--radius-12)", 16: "var(--radius-16)",
+            24: "var(--radius-24)", 32: "var(--radius-32)", 40: "var(--radius-40)",
+            48: "var(--radius-48)", 56: "var(--radius-56)", 64: "var(--radius-64)",
+            72: "var(--radius-72)", 80: "var(--radius-80)", full: "var(--radius-full)",
+          },
+          spacing: {
+            0: "var(--spacing-0)", 1: "var(--spacing-1)", 2: "var(--spacing-2)",
+            3: "var(--spacing-3)", 4: "var(--spacing-4)", 5: "var(--spacing-5)",
+            6: "var(--spacing-6)", 8: "var(--spacing-8)", 10: "var(--spacing-10)",
+            12: "var(--spacing-12)", 16: "var(--spacing-16)", 20: "var(--spacing-20)",
+            24: "var(--spacing-24)", 28: "var(--spacing-28)", 32: "var(--spacing-32)",
+            36: "var(--spacing-36)", 40: "var(--spacing-40)", 44: "var(--spacing-44)",
+            48: "var(--spacing-48)",
+          },
+          colors: {
+            ink: "#1e1e1e",
+            "neutral-400": "#444444",
+            "neutral-300": "#6b6b6b",
+            "neutral-200": "#949494",
+            "neutral-100": "#f5f5f5",
+            "card-dark": "#121212",
+            "card-border": "#2b2b2b",
+          },
+          fontFamily: {
+            display: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+            body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=26" />
+</head>
+
+<!-- Per-page accent: Join us tab becomes a BLACK folder tab with white text. -->
+<body
+  class="bg-white text-black font-body antialiased"
+  style="--selected-tab-color: var(--black-500); --selected-tab-text: var(--white);"
+>
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="public makers home">
+      <img src="assets/logo-nav.svg" alt="public makers" />
+    </a>
+
+    <nav class="nav__tabs" aria-label="Primary">
+      <a class="tab" href="approach.html">
+        <span class="tab__label">Approach</span>
+      </a>
+      <a class="tab" href="projects.html">
+        <span class="tab__label">Projects</span>
+      </a>
+      <a class="tab" href="partners.html">
+        <span class="tab__label">Partners</span>
+      </a>
+      <a class="tab" href="about.html">
+        <span class="tab__label">About</span>
+      </a>
+      <a class="tab tab--selected tab--join-selected" href="joinus.html" aria-current="page">
+        <span class="tab__label">Join us</span>
+      </a>
+    </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero (black panel with journey card) ===== -->
+    <section>
+      <div class="container mx-auto">
+        <div class="overflow-hidden rounded-40 bg-black px-8 pb-10 pt-16 md:px-16 xl:px-[118px] xl:pb-10 xl:pt-16">
+          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+            <!-- Title -->
+            <h1 class="col-span-4 mb-16 font-display font-normal text-[clamp(48px,8vw,91px)] leading-[1] text-white md:col-span-8 xl:col-span-12">
+              Become a Public Maker!
+            </h1>
+
+            <!-- Member journey: horizontally scrollable "journey step" cards,
+                 cycled with the dark pagination organism below. The track
+                 bleeds to the folder's right edge (negative margin cancels the
+                 panel's right padding); the panel's overflow-hidden clips the
+                 peeking card at the rounded edge. -->
+            <div class="col-span-4 md:col-span-8 xl:col-span-12">
+              <div class="no-scrollbar overflow-x-auto -mr-[32px] md:-mr-[64px] xl:-mr-[118px]" data-journey-track>
+                <ul class="flex items-stretch gap-10" role="list">
+                  <li class="w-[280px] flex-none md:w-[480px] xl:w-[632px]">
+                    <article class="journey-step">
+                      <h2 class="journey-step__title"><span class="journey-step__num">01</span>Application</h2>
+                      <div class="journey-step__body">
+                        <ul class="journey-step__list" role="list">
+                          <li>Apply in March or October</li>
+                          <li>Stage 1: Written Application</li>
+                          <li>Stage 2: Interview</li>
+                        </ul>
+                      </div>
+                    </article>
+                  </li>
+                  <li class="w-[280px] flex-none md:w-[480px] xl:w-[632px]">
+                    <article class="journey-step">
+                      <h2 class="journey-step__title"><span class="journey-step__num">02</span>Onboarding &amp; Department Selection</h2>
+                      <div class="journey-step__body">
+                        <ul class="journey-step__list" role="list">
+                          <li>Meet your Onboarding-Buddy</li>
+                          <li>Complete the tasks on the checklist</li>
+                          <li>Choose an area you want to contribute to:</li>
+                        </ul>
+                        <ul class="journey-step__tags" role="list">
+                          <li class="journey-step__tag">Board</li>
+                          <li class="journey-step__tag">Brand &amp; Communications</li>
+                          <li class="journey-step__tag">Partnerships</li>
+                          <li class="journey-step__tag">Micro Masterclasses</li>
+                          <li class="journey-step__tag">Hackathons</li>
+                        </ul>
+                      </div>
+                    </article>
+                  </li>
+                  <li class="w-[280px] flex-none md:w-[480px] xl:w-[632px]">
+                    <article class="journey-step">
+                      <h2 class="journey-step__title"><span class="journey-step__num">03</span>Active Member</h2>
+                      <div class="journey-step__body">
+                        <ul class="journey-step__list" role="list">
+                          <li>Become a part of Public Makers worldwide network</li>
+                          <li>Choose the projects you want to work on</li>
+                          <li>Contribute to the projects or drive your own!</li>
+                        </ul>
+                      </div>
+                    </article>
+                  </li>
+                  <li class="w-[280px] flex-none md:w-[480px] xl:w-[632px]">
+                    <article class="journey-step">
+                      <h2 class="journey-step__title"><span class="journey-step__num">04</span>Start Alumni</h2>
+                      <div class="journey-step__body">
+                        <ul class="journey-step__list" role="list">
+                          <li>Become alumni after two active semesters</li>
+                          <li>Give back by mentoring, sharing and supporting new makers</li>
+                          <li>Stay involved as much as you want</li>
+                        </ul>
+                      </div>
+                    </article>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Pagination (dark): cycle through the journey steps. -->
+              <div
+                class="pagination-controls pagination-controls--dark mt-16"
+                data-pagination
+                data-pagination-scroll="[data-journey-track]"
+              >
+                <button class="pagination-controls__btn" data-pagination-prev aria-label="Previous step">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 19.5L11.5575 18.4425L5.8725 12.75H21V11.25H5.8725L11.5575 5.5575L10.5 4.5L3 12L10.5 19.5Z" fill="currentColor"/></svg>
+                </button>
+                <span class="pagination pagination--dark">
+                  <button class="pagination-dot pagination-dot--active" aria-current="true" aria-label="Go to step 1"></button>
+                  <button class="pagination-dot" aria-label="Go to step 2"></button>
+                  <button class="pagination-dot" aria-label="Go to step 3"></button>
+                  <button class="pagination-dot" aria-label="Go to step 4"></button>
+                </span>
+                <button class="pagination-controls__btn" data-pagination-next aria-label="Next step">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13.5 4.5L12.4275 5.54475L18.1125 11.25H3V12.75H18.1125L12.4275 18.4297L13.5 19.5L21 12L13.5 4.5Z" fill="currentColor"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Ready to become a Public Maker? ===== -->
+    <section class="py-20">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <div class="col-span-4 flex flex-col gap-20 md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            <h2 class="font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black">
+              Ready to become a Public Maker?
+            </h2>
+            <div class="flex flex-col gap-6">
+              <p class="font-body text-[clamp(20px,2.2vw,27px)] leading-[1.1] text-black">
+                Send your CV and your motivation to
+              </p>
+              <p class="font-body text-[clamp(28px,3.5vw,41px)] leading-[1] text-black">
+                <a href="mailto:hello@publicmakers.org" class="hover:underline">hello@publicmakers.org</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Member testimonial ===== -->
+    <section class="py-28">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 items-start gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <!-- Quote column -->
+          <div class="col-span-4 flex flex-col gap-12 md:col-span-5 md:col-start-2 xl:col-span-5 xl:col-start-2">
+            <div class="flex flex-col gap-10">
+              <blockquote class="testimonial-quote font-body text-[clamp(28px,3.2vw,41px)] leading-[1.15] text-black">
+                „Being involved in Public Makers enabled me to connect with likeminded people that want to make change happen in the public sector.“
+              </blockquote>
+              <cite class="self-end font-display text-[21px] not-italic leading-[1.4] text-neutral-400">
+                Maria Kamenskaya, Head of Design at Public Makers
+              </cite>
+            </div>
+            <a href="#" class="btn btn--secondary self-start">
+              <span class="btn__label">More about this story</span>
+              <svg viewBox="0 0 24 24" class="btn__icon" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Image column -->
+          <div class="col-span-4 md:col-span-3 md:col-start-7 xl:col-span-4 xl:col-start-9">
+            <div class="h-[300px] w-full max-w-[400px] overflow-hidden rounded-[28px]">
+              <img src="assets/testimonial-maria.jpg" alt="Maria Kamenskaya" class="h-full w-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQs (accordion) ===== -->
+    <section class="py-32">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <h2 class="col-span-4 mb-20 font-display text-[clamp(48px,8vw,91px)] leading-[1] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            FAQs
+          </h2>
+
+          <ul class="col-span-4 flex flex-col gap-8 md:col-span-7 md:col-start-2 xl:col-span-7 xl:col-start-2" role="list">
+            <li class="faq-item">
+              <button type="button" class="faq-item__head" aria-expanded="false">
+                <span class="faq-item__title">Are you a network?</span>
+                <span class="faq-item__icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 40" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 8v24M8 20h24" />
+                  </svg>
+                </span>
+              </button>
+              <div class="faq-item__body">
+                <p>Yes — we connect students, alumni, public-sector partners and supporters in a long-term community.</p>
+              </div>
+            </li>
+            <li class="faq-item">
+              <button type="button" class="faq-item__head" aria-expanded="false">
+                <span class="faq-item__title">Incubator? Accelerator?</span>
+                <span class="faq-item__icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 40" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 8v24M8 20h24" />
+                  </svg>
+                </span>
+              </button>
+              <div class="faq-item__body">
+                <p>Neither — we run educational formats and co-create projects with public administration. We don't take equity or scale ventures.</p>
+              </div>
+            </li>
+            <li class="faq-item">
+              <button type="button" class="faq-item__head" aria-expanded="false">
+                <span class="faq-item__title">Are you political?</span>
+                <span class="faq-item__icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 40" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 8v24M8 20h24" />
+                  </svg>
+                </span>
+              </button>
+              <div class="faq-item__body">
+                <p>We are non-partisan. We work with institutions across the political spectrum and focus on the public good.</p>
+              </div>
+            </li>
+            <li class="faq-item">
+              <button type="button" class="faq-item__head" aria-expanded="false">
+                <span class="faq-item__title">Do I have to pause my studies to join?</span>
+                <span class="faq-item__icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 40" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 8v24M8 20h24" />
+                  </svg>
+                </span>
+              </button>
+              <div class="faq-item__body">
+                <p>No — Public Makers runs alongside your studies. Time commitment varies by role.</p>
+              </div>
+            </li>
+            <li class="faq-item">
+              <button type="button" class="faq-item__head" aria-expanded="false">
+                <span class="faq-item__title">What do I take away?</span>
+                <span class="faq-item__icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 40" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 8v24M8 20h24" />
+                  </svg>
+                </span>
+              </button>
+              <div class="faq-item__body">
+                <p>Real experience with public institutions, a peer network you can lean on for years, and a clearer compass for the change you want to make.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <a class="footer__logo" href="index.html" aria-label="public makers home">
+        <img src="assets/logo-footer.svg" alt="public makers" />
+      </a>
+      <div class="footer__right">
+        <div class="footer__social">
+          <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
+          <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+        </div>
+        <nav class="footer__links" aria-label="Legal">
+          <a href="#">Imprint</a>
+          <a href="#">Data privacy</a>
+        </nav>
+        <p class="footer__copy">© 2025 public makers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Motion (motion.dev) — exposed as window.Motion -->
+  <script type="module">
+    import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
+    window.Motion = Motion;
+  </script>
+  <script src="script.js?v=23"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our partners — public makers</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Play CDN (runtime) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        screens: { sm: "481px", md: "750px", lg: "941px", xl: "1281px" },
+        container: {
+          center: true,
+          padding: { DEFAULT: "16px", sm: "40px", md: "40px", lg: "40px", xl: "40px" },
+          screens: { xl: "1440px" },
+        },
+        extend: {
+          borderRadius: {
+            0: "var(--radius-0)", 2: "var(--radius-2)", 4: "var(--radius-4)",
+            8: "var(--radius-8)", 12: "var(--radius-12)", 16: "var(--radius-16)",
+            24: "var(--radius-24)", 32: "var(--radius-32)", 40: "var(--radius-40)",
+            48: "var(--radius-48)", 56: "var(--radius-56)", 64: "var(--radius-64)",
+            72: "var(--radius-72)", 80: "var(--radius-80)", full: "var(--radius-full)",
+          },
+          spacing: {
+            0: "var(--spacing-0)", 1: "var(--spacing-1)", 2: "var(--spacing-2)",
+            3: "var(--spacing-3)", 4: "var(--spacing-4)", 5: "var(--spacing-5)",
+            6: "var(--spacing-6)", 8: "var(--spacing-8)", 10: "var(--spacing-10)",
+            12: "var(--spacing-12)", 16: "var(--spacing-16)", 20: "var(--spacing-20)",
+            24: "var(--spacing-24)", 28: "var(--spacing-28)", 32: "var(--spacing-32)",
+            36: "var(--spacing-36)", 40: "var(--spacing-40)", 44: "var(--spacing-44)",
+            48: "var(--spacing-48)",
+          },
+          colors: {
+            ink: "#1e1e1e",
+            "neutral-400": "#444444",
+            "neutral-300": "#6b6b6b",
+            "neutral-100": "#f5f5f5",
+            "partners-blue": "#e6e6ff",
+          },
+          fontFamily: {
+            display: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+            body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=26" />
+</head>
+
+<!-- Per-page accent: blue for the active "Partners" tab. -->
+<body class="bg-white text-black font-body antialiased" style="--selected-tab-color: var(--blue-05);">
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="public makers home">
+      <img src="assets/logo-nav.svg" alt="public makers" />
+    </a>
+
+    <nav class="nav__tabs" aria-label="Primary">
+      <a class="tab" href="approach.html">
+        <span class="tab__label">Approach</span>
+      </a>
+      <a class="tab" href="projects.html">
+        <span class="tab__label">Projects</span>
+      </a>
+      <a class="tab tab--selected" href="partners.html" aria-current="page">
+        <span class="tab__label">Partners</span>
+      </a>
+      <a class="tab" href="about.html">
+        <span class="tab__label">About</span>
+      </a>
+      <a class="tab tab--join" href="joinus.html">
+        <span class="tab__pill">Join us</span>
+      </a>
+    </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero (blue panel) ===== -->
+    <section>
+      <div class="container mx-auto">
+        <div class="rounded-40 bg-partners-blue px-8 pb-10 pt-16 md:px-16 xl:px-[118px] xl:pb-10 xl:pt-16">
+          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+            <h1 class="col-span-4 mb-12 font-display font-normal text-[clamp(48px,8vw,91px)] leading-[1] text-ink md:col-span-8 xl:col-span-12">
+              Our partners
+            </h1>
+            <p class="col-span-4 font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black md:col-span-7 xl:col-span-10">
+              We bridge the gap between fresh ideas and institutional constraints. Co-create tested solutions with our network and drive real change from the inside out.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== "We build the people…" statement ===== -->
+    <section class="py-[170px]">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <div class="col-span-4 flex flex-col gap-20 md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            <p class="font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black">
+              We build the people who drive it from the inside.
+            </p>
+            <p class="max-w-[720px] font-body text-[clamp(20px,2.2vw,27px)] leading-[1.3] text-neutral-300">
+              Most programs ask young talent to arrive with a finished idea. We start earlier. We help the next generation build a clear value compass and connect them directly with the realities of public administration. By partnering with us, you aren't just sponsoring an event. You are investing in a self-sustaining network that shifts the system.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== "Why partner with us?" heading + accordion cards ===== -->
+    <section class="pb-[120px]">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <h2 class="col-span-4 mb-10 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            Why partner with us?
+          </h2>
+
+          <ul class="col-span-4 flex flex-col gap-10 md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2" role="list" data-partner-cards>
+            <!-- Card 1: open by default -->
+            <li class="partner-card" data-partner-card aria-expanded="true">
+              <div class="partner-card__countdown" aria-hidden="true"></div>
+              <button type="button" class="partner-card__head" data-partner-card-toggle>
+                <span class="partner-card__title">Gain access to tested solutions and bright minds</span>
+              </button>
+              <div class="partner-card__body">
+                <p class="partner-card__desc">
+                  We provide direct access to young professionals who are oriented, practiced, and connected from day one. Through our collaborative labs and bootcamps, we co-create documented, replicable solutions for your actual administrative challenges.
+                </p>
+                <div class="partner-card__image">
+                  <img src="assets/partners-card.jpg" alt="" />
+                </div>
+              </div>
+            </li>
+
+            <li class="partner-card" data-partner-card aria-expanded="false">
+              <div class="partner-card__countdown" aria-hidden="true"></div>
+              <button type="button" class="partner-card__head" data-partner-card-toggle>
+                <span class="partner-card__title">Startup pace meets public sector reality</span>
+              </button>
+              <div class="partner-card__body">
+                <p class="partner-card__desc">
+                  We combine the speed and creativity of the startup world with the depth and accountability of public administration. The outcomes are practical, deployable, and ready for real-world conditions.
+                </p>
+              </div>
+            </li>
+
+            <li class="partner-card" data-partner-card aria-expanded="false">
+              <div class="partner-card__countdown" aria-hidden="true"></div>
+              <button type="button" class="partner-card__head" data-partner-card-toggle>
+                <span class="partner-card__title">Invest in the state's capacity to act</span>
+              </button>
+              <div class="partner-card__body">
+                <p class="partner-card__desc">
+                  Your support strengthens the next generation's ability to step into public roles with confidence — building long-term capacity for the institutions that shape our common future.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== "What sets us apart" heading + two paragraph rows ===== -->
+    <section class="pb-[120px]">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <h2 class="col-span-4 mb-10 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            What sets us apart
+          </h2>
+
+          <div class="col-span-4 flex flex-col gap-10 md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            <article class="grid grid-cols-1 gap-8 py-10 md:grid-cols-12 md:gap-[131px]">
+              <p class="font-body text-[clamp(24px,3vw,41px)] leading-[1.15] text-black md:col-span-7">
+                Driven by peers. Trusted by institutions.
+              </p>
+              <p class="max-w-[514.9px] font-body text-[clamp(20px,2.2vw,27px)] leading-[1.3] text-neutral-300 md:col-span-5">
+                We hold the patronage of state ministers and partner with federal offices and speak the language of young talent and top-level administration. No other program in Germany holds both at once.
+              </p>
+            </article>
+
+            <article class="grid grid-cols-1 gap-8 py-10 md:grid-cols-12 md:gap-[131px]">
+              <p class="font-body text-[clamp(24px,3vw,41px)] leading-[1.15] text-black md:col-span-7">
+                Real constraints, real impact.
+              </p>
+              <p class="max-w-[514.9px] font-body text-[clamp(20px,2.2vw,27px)] leading-[1.3] text-neutral-300 md:col-span-5">
+                Our formats come from the startup world, but the constraints come directly from public administration. Our network leaves with practical experience from real ministerial projects.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Large statement ===== -->
+    <section class="py-[120px]">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <p class="col-span-4 font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+            Together with our partners we work towards creating meaningful change, fostering innovation, and addressing challenges in the public sector.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Partner logos (auto-marquee) ===== -->
+    <section class="bg-white py-20 xl:px-[111px]">
+      <div class="container mx-auto">
+        <div class="relative overflow-hidden rounded-[28px]">
+          <div class="marquee px-[28px] py-[53px]" data-marquee>
+            <ul class="marquee__track" role="list">
+              <li class="h-16 w-[157px] flex-none"><img src="assets/partner1.png" alt="TUM Think Tank" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[150px] flex-none"><img src="assets/partner2.png" alt="Start Munich" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[129px] flex-none"><img src="assets/partner3.png" alt="EuroTeQ Collider" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[234px] flex-none"><img src="assets/partner4.png" alt="BayKommun" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[164px] flex-none"><img src="assets/partner5.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[105px] flex-none"><img src="assets/partner6.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-16 flex-none"><img src="assets/partner7.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[184px] flex-none"><img src="assets/partner8.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[116px] flex-none"><img src="assets/partner9.png" alt="Partner" class="h-full w-full object-contain" /></li>
+            </ul>
+            <ul class="marquee__track" role="list" aria-hidden="true">
+              <li class="h-16 w-[157px] flex-none"><img src="assets/partner1.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[150px] flex-none"><img src="assets/partner2.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[129px] flex-none"><img src="assets/partner3.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[234px] flex-none"><img src="assets/partner4.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[164px] flex-none"><img src="assets/partner5.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[105px] flex-none"><img src="assets/partner6.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-16 flex-none"><img src="assets/partner7.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[184px] flex-none"><img src="assets/partner8.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-16 w-[116px] flex-none"><img src="assets/partner9.png" alt="" class="h-full w-full object-contain" /></li>
+            </ul>
+          </div>
+          <div class="pointer-events-none absolute inset-y-0 left-0 w-[127px] bg-gradient-to-r from-white to-transparent"></div>
+          <div class="pointer-events-none absolute inset-y-0 right-0 w-[127px] bg-gradient-to-l from-white to-transparent"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section id="join" class="bg-neutral-100 py-20">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <div class="col-span-4 flex flex-col justify-between gap-20 md:col-span-5 md:col-start-2 xl:col-span-6 xl:col-start-2">
+            <div class="flex flex-col gap-20">
+              <h2 class="font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black">Contact us</h2>
+              <p class="font-body text-[27px] leading-[1.1] text-black">
+                We're open for inquiries of organisations interested in working with us.
+              </p>
+            </div>
+            <p class="font-body text-[clamp(28px,3.5vw,41px)] leading-[1] text-black">
+              <a href="mailto:hello@publicmakers.org" class="hover:underline">hello@publicmakers.org</a>
+            </p>
+          </div>
+
+          <div class="col-span-4 flex flex-col gap-6 md:col-span-3 md:col-start-7 xl:col-span-4 xl:col-start-9">
+            <div class="h-[300px] w-full overflow-hidden rounded-3xl">
+              <img src="assets/johanna.png" alt="Johanna Maria Schmidt" class="h-full w-full object-cover" />
+            </div>
+            <div class="flex flex-col gap-4">
+              <p class="font-body text-[41px] leading-[1] text-black">Johanna Maria Schmidt</p>
+              <p class="font-display text-[21px] leading-[1.4] text-neutral-300">Responsible for partnerships</p>
+            </div>
+            <a href="#" class="inline-flex items-center gap-2 rounded-2xl py-6 font-body text-[18px] text-black hover:underline">
+              <img src="assets/icon-linkedin.svg" alt="" class="h-7 w-7" />
+              <span>Find me on LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <a class="footer__logo" href="index.html" aria-label="public makers home">
+        <img src="assets/logo-footer.svg" alt="public makers" />
+      </a>
+      <div class="footer__right">
+        <div class="footer__social">
+          <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
+          <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+        </div>
+        <nav class="footer__links" aria-label="Legal">
+          <a href="#">Imprint</a>
+          <a href="#">Data privacy</a>
+        </nav>
+        <p class="footer__copy">© 2025 public makers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Motion (motion.dev) — exposed as window.Motion -->
+  <script type="module">
+    import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
+    window.Motion = Motion;
+  </script>
+  <script src="script.js?v=23"></script>
+</body>
+</html>

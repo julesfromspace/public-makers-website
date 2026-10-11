@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — public makers</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind Play CDN (runtime) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        screens: { sm: "481px", md: "750px", lg: "941px", xl: "1281px" },
+        container: {
+          center: true,
+          padding: { DEFAULT: "16px", sm: "40px", md: "40px", lg: "40px", xl: "40px" },
+          screens: { xl: "1440px" },
+        },
+        extend: {
+          borderRadius: {
+            0: "var(--radius-0)", 2: "var(--radius-2)", 4: "var(--radius-4)",
+            8: "var(--radius-8)", 12: "var(--radius-12)", 16: "var(--radius-16)",
+            24: "var(--radius-24)", 32: "var(--radius-32)", 40: "var(--radius-40)",
+            48: "var(--radius-48)", 56: "var(--radius-56)", 64: "var(--radius-64)",
+            72: "var(--radius-72)", 80: "var(--radius-80)", full: "var(--radius-full)",
+          },
+          spacing: {
+            0: "var(--spacing-0)", 1: "var(--spacing-1)", 2: "var(--spacing-2)",
+            3: "var(--spacing-3)", 4: "var(--spacing-4)", 5: "var(--spacing-5)",
+            6: "var(--spacing-6)", 8: "var(--spacing-8)", 10: "var(--spacing-10)",
+            12: "var(--spacing-12)", 16: "var(--spacing-16)", 20: "var(--spacing-20)",
+            24: "var(--spacing-24)", 28: "var(--spacing-28)", 32: "var(--spacing-32)",
+            36: "var(--spacing-36)", 40: "var(--spacing-40)", 44: "var(--spacing-44)",
+            48: "var(--spacing-48)",
+          },
+          colors: {
+            ink: "#1e1e1e",
+            "neutral-400": "#444444",
+            "neutral-300": "#6b6b6b",
+            "neutral-100": "#f5f5f5",
+            "projects-yellow": "#fae1aa",
+          },
+          fontFamily: {
+            display: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+            body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+            mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=26" />
+</head>
+
+<!-- Per-page accent: yellow for the active "Projects" tab. -->
+<body class="bg-white text-black font-body antialiased" style="--selected-tab-color: var(--yellow-10);">
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="public makers home">
+      <img src="assets/logo-nav.svg" alt="public makers" />
+    </a>
+
+    <nav class="nav__tabs" aria-label="Primary">
+      <a class="tab" href="approach.html">
+        <span class="tab__label">Approach</span>
+      </a>
+      <a class="tab tab--selected" href="projects.html" aria-current="page">
+        <span class="tab__label">Projects</span>
+      </a>
+      <a class="tab" href="partners.html">
+        <span class="tab__label">Partners</span>
+      </a>
+      <a class="tab" href="about.html">
+        <span class="tab__label">About</span>
+      </a>
+      <a class="tab tab--join" href="joinus.html">
+        <span class="tab__pill">Join us</span>
+      </a>
+    </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero (yellow panel: title + filter chips) ===== -->
+    <section>
+      <div class="container mx-auto">
+        <div class="rounded-40 bg-projects-yellow px-8 pb-10 pt-16 md:px-16 xl:px-[118px] xl:pb-10 xl:pt-16">
+          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+            <!-- Title -->
+            <h1 class="col-span-4 mb-12 font-display font-normal text-[clamp(48px,8vw,91px)] leading-[1] text-ink md:col-span-8 xl:col-span-12">
+              Projects
+            </h1>
+
+            <!-- Filter -->
+            <div class="col-span-4 flex flex-col gap-6 md:col-span-8 xl:col-span-12">
+              <p class="font-display text-[21px] leading-[1.4] text-black">Filter by category:</p>
+              <ul class="flex flex-wrap items-center gap-4" role="list">
+                <li>
+                  <button type="button" class="filter-chip">Micro-Masterclass (MM)</button>
+                </li>
+                <li>
+                  <button type="button" class="filter-chip">Hackathon</button>
+                </li>
+                <li>
+                  <button type="button" class="filter-chip">PM goes …</button>
+                </li>
+                <li>
+                  <button type="button" class="filter-chip">Milestones</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Archive list ===== -->
+    <section class="py-[140px]">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-4 gap-2 items-start md:grid-cols-8 xl:grid-cols-12">
+          <!-- List spans a centered ~800px column on xl (col-start-2, col-span-7) -->
+          <ul
+            class="col-span-4 flex flex-col md:col-span-7 md:col-start-2 xl:col-span-7 xl:col-start-2"
+            role="list"
+            data-project-list
+          >
+            <li class="project-row" data-hover-image="assets/event1.jpg">
+              <span class="project-row__title">MM with Zaim Sari</span>
+              <span class="project-row__date">2026/01/06</span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event2.jpg">
+              <span class="project-row__title">CODE THE STATE</span>
+              <span class="project-row__date">2026/12/06</span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event3.jpg">
+              <span class="project-row__title">MM with Laura Geissler</span>
+              <span class="project-row__date">2026/20/04</span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event4.jpg">
+              <span class="project-row__title">Agora Hacks</span>
+              <span class="project-row__date">2026/10/04</span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event5.jpg">
+              <span class="project-row__title">PM goes LSE German Symposium</span>
+              <span class="project-row__date">2026/02/02</span>
+            </li>
+            <li class="project-row">
+              <span class="project-row__title">MM with Martin Klingst</span>
+              <span class="project-row__date">2026/16/01</span>
+            </li>
+            <li class="project-row">
+              <span class="project-row__title">MM with Christian Pfrang</span>
+              <span class="project-row__date">2025/05/12</span>
+            </li>
+            <li class="project-row">
+              <span class="project-row__title">PM goes GAC</span>
+              <span class="project-row__date">2025/14/11</span>
+            </li>
+            <li class="project-row">
+              <span class="project-row__title">PM is a non-profit association</span>
+              <span class="project-row__date">2025/25/09</span>
+            </li>
+          </ul>
+
+          <!-- Hover-preview image, aligned to the top of the list container.
+               Hidden below xl since there's no horizontal room beside the list. -->
+          <div
+            class="hidden xl:col-span-4 xl:col-start-9 xl:block"
+            aria-hidden="true"
+          >
+            <div
+              class="aspect-[450/338] w-full overflow-hidden rounded-3xl opacity-0 transition-opacity duration-300 ease-out"
+              data-project-preview
+            >
+              <img
+                src=""
+                alt=""
+                class="h-full w-full object-cover"
+                data-project-preview-img
+              />
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <nav
+            aria-label="Pagination"
+            class="col-span-4 mt-10 md:col-span-7 md:col-start-2 xl:col-span-7 xl:col-start-2"
+          >
+            <ol class="flex items-center gap-3 font-mono text-[18px] leading-[1.5]" role="list">
+              <li>
+                <a href="#" aria-current="page" class="text-black">1</a>
+              </li>
+              <li>
+                <a href="#" class="text-neutral-300 hover:text-black">2</a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <a class="footer__logo" href="index.html" aria-label="public makers home">
+        <img src="assets/logo-footer.svg" alt="public makers" />
+      </a>
+      <div class="footer__right">
+        <div class="footer__social">
+          <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
+          <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+        </div>
+        <nav class="footer__links" aria-label="Legal">
+          <a href="#">Imprint</a>
+          <a href="#">Data privacy</a>
+        </nav>
+        <p class="footer__copy">© 2025 public makers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Motion (motion.dev) — exposed as window.Motion -->
+  <script type="module">
+    import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
+    window.Motion = Motion;
+  </script>
+  <script src="script.js?v=23"></script>
+</body>
+</html>
