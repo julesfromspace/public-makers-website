@@ -3,8 +3,8 @@
 - **Figma file:** <https://www.figma.com/design/u0RNcCApVmgzwf2YBPTInV/Public-Makers%E2%80%94website--production-?node-id=0-1&t=RzTb5K1wz6YS9W9i-1>
 
 ## Rules
-
-1. Always search connected libraries before building any component from scratch.
+1. Every visual value must bind to a Style or Variable. Never hardcode colors, font sizes, or spacing.
+2. Always search connected libraries before building any component from scratch.
 3. Never start designing before the Design Brief is confirmed.
 
 

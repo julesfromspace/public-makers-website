@@ -24,6 +24,7 @@
 
   const slides = Array.from(root.querySelectorAll("[data-hero-slide]"));
   const tabs   = Array.from(root.querySelectorAll("[data-hero-tab]"));
+  const titleEl = root.querySelector("[data-hero-title]");
   const toggle = root.querySelector("[data-hero-toggle]");
   const iconPause = toggle && toggle.querySelector('[data-hero-icon="pause"]');
   const iconPlay  = toggle && toggle.querySelector('[data-hero-icon="play"]');
@@ -41,6 +42,11 @@
   function activate(i) {
     current = ((i % slides.length) + slides.length) % slides.length;
     slides.forEach((el, idx) => el.classList.toggle("is-active", idx === current));
+    // Swap the big hero title to the active slide's title.
+    if (titleEl) {
+      const t = tabs[current] && tabs[current].getAttribute("data-slide-title");
+      if (t) titleEl.textContent = t;
+    }
     tabs.forEach((el, idx) => {
       const isActive = idx === current;
       if (isActive) {

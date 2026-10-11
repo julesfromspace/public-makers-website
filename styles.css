@@ -613,7 +613,7 @@ img {
 /* Each bar is a track; an ::after fill scales 0 → 1 over one slide interval. */
 .hero-tab__bar {
   position: relative;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.56); /* default/inactive bar */
   overflow: hidden;
 }
 .hero-tab__bar::after {
