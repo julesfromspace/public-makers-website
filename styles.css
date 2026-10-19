@@ -4,6 +4,7 @@
 
 :root {
   --orange-10: #f7b98f;
+  --orange-05: #ffdbb5;
   --green-10:  #a8e3ad;
   --yellow-10: #fae1aa;
   --blue-05:   #e6e6ff;
@@ -60,10 +61,11 @@
   --radius-80:   80px;
   --radius-full: 9999px;
 
-  --font-display: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  --font-display: "IBM Plex Sans", system-ui, sans-serif;
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
 
   --nav-height: 100px;
+  --bottom-nav-height: 0px;   /* becomes 88px on phone (fixed bottom nav) */
   --page-max: 1440px;
 
   /* Per-page accent for the active folder tab. Override on <body>. */
@@ -71,6 +73,14 @@
   /* Text color inside the active tab. Default to body color; override on
      dark accent pages (e.g. Join us → white on black). */
   --selected-tab-text:  var(--black-500);
+}
+
+/* Hero carousel fills exactly the space between the top and bottom navs.
+   dvh excludes the mobile browser toolbar (vh counts it, pushing the hero
+   bottom under the toolbar / bottom nav); vh is the fallback. */
+[data-hero-root] {
+  height: calc(100vh - var(--nav-height) - var(--bottom-nav-height));
+  height: calc(100dvh - var(--nav-height) - var(--bottom-nav-height));
 }
 
 * {
@@ -124,7 +134,13 @@ img {
   z-index: 100;
   height: var(--nav-height);
   background: var(--white);
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Phone + tablet (< xl): the top bar hides on scroll down, returns on scroll
+   up (.nav--hidden toggled in script.js). Desktop keeps the bar put. */
+@media (max-width: 1280px) {
+  .nav--hidden { transform: translateY(-100%); }
 }
 
 /* Inner row mirrors the Tailwind container: max-w-[1440px] mx-auto with
@@ -162,6 +178,21 @@ img {
   /* Padding must add to the box width (not eat into it), so the 64px right
      inset truly sits between the last tab and the right edge. */
   box-sizing: content-box;
+}
+
+/* ---- Phone nav (< md, 750px) ----
+   The tab bar collapses to the logo + a single "Join us" pill only below
+   md. At md–<xl the bar shows as compact pills (tablet variant, further
+   down); at xl+ it is the folder-tab bar. */
+.nav__cta {
+  align-self: center;
+  text-decoration: none;
+}
+/* .nav scope beats .tab__pill's own display:inline-flex. */
+.nav .nav__cta { display: none; }
+@media (max-width: 749px) {
+  .nav__tabs { display: none; }
+  .nav .nav__cta { display: inline-flex; }
 }
 
 /* ---- Folder tab ---- */
@@ -217,7 +248,7 @@ img {
    same floating-pill shape used by the scrolled+selected state (grey bg
    via the --tab-color above). The transition timing is already defined
    on .tab__label so it animates smoothly in both directions. */
-.tab:not(.tab--selected):not(.tab--join):hover .tab__label {
+.tab:not(.tab--selected):not(.tab--primary):hover .tab__label {
   clip-path: path("M 29 22 C 29 9.85 41.15 0 51 0 L 140 0 C 152.15 0 162 9.85 162 22 L 162 23 C 162 35.15 152.15 45 140 45 L 51 45 C 41.15 45 29 35.15 29 23 Z");
 }
 
@@ -233,7 +264,7 @@ img {
 }
 
 /* ---- Join us (always a pill on non-Join-us pages) ---- */
-.tab--join {
+.tab--primary {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -276,8 +307,110 @@ img {
    (the Join-us nav button), not the wide Default-type pill. Same command
    skeleton as the folder path so it morphs with the same easing/duration;
    this more specific rule overrides only the clip-path end state. */
-.nav.is-scrolled .tab--join-selected .tab__label {
+.nav.is-scrolled .tab--primary-selected .tab__label {
   clip-path: path("M 40 16 C 40 7.16 47.16 0 56 0 L 136 0 C 144.84 0 152 7.16 152 16 L 152 30 C 152 38.84 144.84 46 136 46 L 56 46 C 47.16 46 40 38.84 40 30 Z");
+}
+
+/* ============================================================
+   Nav — tablet variant (md 750 → < xl 1281). Figma "folder tab"
+   tablet variants: compact rounded/16 pills instead of the folder
+   shape. Default = white pill (18px black), selected = grey (#f5f5f5)
+   with rounded top only, primary = black pill (18px white).
+   ============================================================ */
+@media (min-width: 750px) and (max-width: 1280px) {
+  :root { --nav-height: 64px; }      /* tablet nav bar is 64px tall */
+  .nav__inner { align-items: center; }
+  .nav__logo { width: auto; }
+  .nav__logo img { height: 40px; width: auto; }   /* logo 40px tall */
+  .nav__tabs {
+    height: 100%;
+    padding: 0;
+    align-items: flex-end;                 /* 47px tab slots sit at nav bottom */
+    gap: var(--spacing-2);                 /* 8 */
+  }
+  .tab {
+    width: auto;                           /* hug the label */
+    height: 47px;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;           /* every label sits at the slot top */
+  }
+  /* Default tab → flat white pill, no clip-path / folder sizing */
+  .tab__label {
+    position: static;
+    inset: auto;
+    align-items: center;
+    padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 */
+    clip-path: none;
+    background: var(--white);
+    border-radius: var(--radius-16);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--black-500);
+  }
+  .tab:not(.tab--selected):not(.tab--primary):hover .tab__label {
+    clip-path: none;
+    background: var(--grey-10);
+  }
+  /* Selected tab → the page's folder colour. A folder-shaped clip-path gives
+     the rounded cap plus the concave "tail" that flares to the full tab width
+     and sits flush on the folder panel below (no white gap); tab + tail read
+     as one continuous colour, like desktop. Path authored for 107 × 47. */
+  .tab--selected .tab__label,
+  .tab--selected:hover .tab__label {
+    position: relative;
+    height: 47px;                          /* fills the slot down to nav bottom */
+    display: flex;
+    align-items: flex-start;               /* text at the cap top, aligned */
+    justify-content: center;
+    padding: var(--spacing-1) var(--spacing-3) 0;  /* hug text: 4 top, 12 sides */
+    clip-path: none;
+    background: var(--selected-tab-color);
+    color: var(--selected-tab-text);
+    border-radius: var(--radius-16) var(--radius-16) 0 0;
+    transition: border-radius 0.25s ease, background 0.25s ease;
+  }
+  /* Concave flares: the "tail" curves out of the pill's bottom corners into
+     the folder panel below, so the hugging pill blends in seamlessly. */
+  .tab--selected .tab__label::before,
+  .tab--selected .tab__label::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: var(--radius-16);
+    height: var(--radius-16);
+  }
+  .tab--selected .tab__label::before {
+    left: calc(-1 * var(--radius-16));
+    background: radial-gradient(circle at top left, transparent var(--radius-16), var(--selected-tab-color) var(--radius-16));
+  }
+  .tab--selected .tab__label::after {
+    right: calc(-1 * var(--radius-16));
+    background: radial-gradient(circle at top right, transparent var(--radius-16), var(--selected-tab-color) var(--radius-16));
+  }
+  /* selected+scrolled → tail retracts; pill rounds fully and detaches. */
+  .nav.is-scrolled .tab--selected .tab__label {
+    height: auto;
+    padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 all round */
+    border-radius: var(--radius-16);
+  }
+  .nav.is-scrolled .tab--selected .tab__label::before,
+  .nav.is-scrolled .tab--selected .tab__label::after {
+    display: none;
+  }
+  /* Primary (Join us) tab → black pill, 18px, aligned with the other labels */
+  .tab--primary {
+    padding-bottom: 0;
+  }
+  .tab--primary .tab__pill {
+    padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 */
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.5;
+  }
 }
 
 /* ============================================================
@@ -295,8 +428,8 @@ img {
 .hero {
   padding: 0 var(--spacing-4);
 }
-@media (min-width: 481px) {
-  .hero { padding: 0 var(--spacing-10); }
+@media (min-width: 750px) {
+  .hero { padding: 0 var(--spacing-10); }   /* 40px margin from tablet up */
 }
 
 .hero__panel {
@@ -306,7 +439,7 @@ img {
 }
 
 .hero__title {
-  padding: var(--spacing-16) var(--spacing-20);
+  padding: var(--spacing-16) 118px;        /* desktop folder: py-64 px-118 */
 }
 
 .hero__title h1 {
@@ -326,7 +459,7 @@ img {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: var(--radius-40);
+  border-radius: var(--radius-24);
 }
 
 /* ---- Large text blocks ---- */
@@ -341,6 +474,15 @@ img {
   font-weight: 400;
   line-height: 1.1;
   color: var(--black-500);
+}
+/* large text — tablet (md–<xl): px-40 py-64, 27px, full width */
+@media (max-width: 1280px) {
+  .large-text { padding: var(--spacing-16) var(--spacing-10); }  /* 64 / 40 */
+  .large-text p { max-width: none; font-size: 27px; }
+}
+/* large text — phone (< md): px-16 py-40 (font stays 27 from tablet) */
+@media (max-width: 749px) {
+  .large-text { padding: var(--spacing-10) var(--spacing-4); }   /* 40 / 16 */
 }
 
 /* ---- Our board ---- */
@@ -377,7 +519,7 @@ img {
 .member__image {
   width: 100%;
   aspect-ratio: 400 / 300;
-  border-radius: 14px;
+  border-radius: var(--radius-24);          /* radius/24 */
   overflow: hidden;
 }
 
@@ -387,41 +529,50 @@ img {
   object-fit: cover;
 }
 
-.member__info {
+.member__info {                              /* "infos" row: text + icon */
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-4);
+  align-items: flex-start;
+  width: 100%;
 }
 
-.member__row {
+.member__text {                              /* name + role stack */
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-4);
+  flex-direction: column;
+  gap: var(--spacing-0);
+  flex: 1 1 0;
+  min-width: 0;
+  padding-top: var(--spacing-1);             /* spacing/1 */
+  font-family: var(--font-body);
 }
 
 .member__name {
   margin: 0;
-  font-size: 41px;
+  font-size: 27px;
   font-weight: 400;
-  line-height: 1;
+  line-height: normal;
   color: var(--black-500);
-}
-
-.member__social {
-  flex: none;
-}
-
-.member__social img {
-  width: 32px;
-  height: 32px;
 }
 
 .member__role {
   margin: 0;
-  font-size: 18px;
-  line-height: 1.5;
-  color: var(--black-500);
+  font-size: 27px;
+  line-height: normal;
+  color: var(--black-200);                   /* #6b6b6b, black 200 */
+}
+
+.member__social {                            /* 48x48 icon button */
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-16);
+}
+
+.member__social img {
+  width: 24px;
+  height: 24px;
 }
 
 /* ---- Right aligned paragraph ---- */
@@ -535,23 +686,30 @@ img {
   height: 24px;
 }
 
+/* links + copyright: a row (desktop & tablet), stacked on phone. */
+.footer__meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-6);          /* 24 */
+}
+
 .footer__links {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: var(--spacing-6);          /* 24 */
 }
 
 .footer__links a {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--white);
   text-decoration: none;
 }
 
 .footer__copy {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--white);
 }
@@ -566,22 +724,20 @@ img {
     font-size: clamp(48px, 8vw, 91px);
     line-height: 1.05;
   }
-  .large-text { padding-left: var(--spacing-20); }
   .board__heading { padding-left: var(--spacing-20); }
   .text-section { padding-right: var(--spacing-20); }
-  .large-text p,
-  .member__name,
   .apply__email { font-size: clamp(28px, 4vw, 41px); }
 }
 
 @media (max-width: 820px) {
   .nav__tabs { padding-right: var(--spacing-6); }
   .board__grid { flex-direction: column; gap: var(--spacing-12); }
-  .member { width: 100%; }
-  .member__image { aspect-ratio: 16 / 9; }
+  .member { width: 100%; gap: var(--spacing-4); }        /* card gap 16 */
+  .member__text { padding-top: var(--spacing-3); }        /* spacing/3 = 12 */
+  .member__name { font-size: 21px; }
+  .member__role { font-size: 21px; line-height: 1.4; }
   .hero__title { padding: var(--spacing-10); }
   .hero__image { padding: 0 var(--spacing-4); }
-  .large-text { padding: var(--spacing-16) var(--spacing-6); }
   .board__heading { padding: var(--spacing-10) var(--spacing-6); }
   .text-section { padding: var(--spacing-16) var(--spacing-6); }
   .text-section__body { width: 100%; }
@@ -590,6 +746,65 @@ img {
   .footer__inner { grid-template-columns: 1fr; }
   .footer__logo { grid-column: 1 / -1; }
   .footer__right { grid-column: 1 / -1; align-items: flex-start; }
+}
+
+/* Footer — phone + tablet variants (< xl 1281). Figma 1335:10808 (phone) /
+   3247:16610 (tablet): black rounded-top panel; socials + links+copyright
+   above a full-width logo; pt32 px32 pb48, gap 48. Tablet lays links +
+   copyright in one baseline row; phone stacks them. */
+@media (max-width: 1280px) {
+  .footer {
+    padding: var(--spacing-8) var(--spacing-8) var(--spacing-12); /* 32 / 32 / 48 */
+  }
+  .footer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);        /* 48 */
+    padding: 0;
+    align-items: flex-start;
+  }
+  .footer__right {
+    order: -1;                     /* content group sits above the logo */
+    width: 100%;
+    align-items: flex-start;
+    gap: var(--spacing-4);         /* 16 */
+  }
+  .footer__links a { padding: var(--spacing-3) 0; }   /* py-12 */
+  .footer__logo { width: 100%; }
+}
+
+/* Phone (< md): links + copyright stack instead of sitting in a row. */
+@media (max-width: 749px) {
+  .footer__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);         /* 12 */
+  }
+  .footer__links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);         /* 12 */
+  }
+}
+
+/* Hero folder — phone + tablet variant (< xl 1281). Figma nodes 3196:15038
+   (tablet) / 669:9712 (phone): compact folder, 41px title, 16:9 image,
+   radius/24. Identical panel for both; only the outer margin differs (handled
+   on .hero). Placed last so it wins over the ad-hoc 1200/820 rules. */
+@media (max-width: 1280px) {
+  .hero__panel {
+    padding: var(--spacing-4) var(--spacing-4) var(--spacing-6); /* 16 / 16 / 24 */
+  }
+  .hero__title {
+    padding: 0 var(--spacing-2);        /* px-8 grid align */
+    margin-bottom: var(--spacing-6);    /* 24 gap to image */
+  }
+  .hero__title h1 {
+    font-size: 41px;                    /* H4 */
+    line-height: 1.1;
+  }
+  .hero__image { padding: 0; }
+  .hero__image img { border-radius: var(--radius-24); }
 }
 
 /* ============================================================
@@ -692,7 +907,7 @@ img {
   height: 500px;
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 32px);
-  padding: var(--spacing-10) var(--spacing-4) var(--spacing-10) var(--spacing-12); /* 40 / 16 / 40 / 48 */
+  padding: var(--spacing-10) var(--spacing-6) var(--spacing-10) var(--spacing-12); /* 40 / 24 / 40 / 48 */
   border: 0;
   border-radius: var(--radius-40);
   background: var(--white);
@@ -730,7 +945,7 @@ img {
 .manifesto-dialog__header {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-8);              /* 32 title -> subtitle */
+  gap: var(--spacing-4);              /* 16 title -> subtitle (desktop) */
   margin-bottom: var(--spacing-16);   /* 64 to first section */
   max-width: 619px;
 }
@@ -788,6 +1003,59 @@ img {
   transition: background 0.15s ease;
 }
 .manifesto-dialog__close:hover { background: rgba(0, 0, 0, 0.06); }
+
+/* Tablet (md–<xl): narrower modal, tighter padding. */
+@media (max-width: 1280px) {
+  .manifesto-dialog {
+    width: 670px;
+    padding: var(--spacing-6) var(--spacing-4) var(--spacing-6) var(--spacing-6); /* 24 / 16 / 24 / 24 */
+  }
+  .manifesto-dialog__header { gap: var(--spacing-8); }       /* 32 title -> subtitle */
+  .manifesto-dialog__close { top: var(--spacing-6); right: var(--spacing-6); }
+}
+
+/* Phone (< sm, i.e. up to the sm breakpoint): scrollable bottom sheet
+   pinned to the bottom edge. 481px+ uses the centered modal. */
+@media (max-width: 480px) {
+  .manifesto-dialog {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 70vh;        /* fallback for browsers without dvh */
+    max-height: 70dvh;       /* dynamic viewport: excludes the mobile toolbar.
+                                Never taller than 70% so a 30% scrim strip
+                                stays tappable above the sheet. */
+    padding: var(--spacing-4) var(--spacing-4) var(--spacing-10); /* 16 / 16 / 40 */
+    border-radius: var(--radius-24) var(--radius-24) 0 0;        /* top corners only */
+  }
+  /* Only flex-lay-out the sheet when OPEN — otherwise `display:flex` would
+     override the UA `dialog:not([open]){display:none}` and show it on load. */
+  .manifesto-dialog[open] {
+    display: flex;             /* content fills + scrolls within max-height */
+    flex-direction: column;
+  }
+  .manifesto-dialog__content {
+    height: auto;
+    flex: 1 1 auto;
+    min-height: 0;             /* allow the scroll area to shrink below content */
+    padding-right: 0;
+  }
+  .manifesto-dialog__header {
+    gap: var(--spacing-2);                /* 8 title -> subtitle */
+    margin-bottom: var(--spacing-10);     /* 40 to first section */
+  }
+  .manifesto-dialog__title { font-size: 27px; }
+  .manifesto-dialog__subtitle { font-size: 21px; line-height: 1.4; }
+  .manifesto-dialog__section { margin-bottom: var(--spacing-10); } /* 40 between blocks */
+  .manifesto-dialog__section p { font-size: 16px; }
+  .manifesto-dialog__close { display: none; }  /* close via backdrop tap / Esc */
+}
 
 /* ============================================================
    Approach page — accordion list
@@ -1036,7 +1304,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);                    /* 16 */
-  font-family: var(--font-display);         /* Helvetica Neue (web) */
+  font-family: var(--font-display);         /* IBM Plex Sans (web) */
   font-size: 21px;
   line-height: 1.4;
   color: var(--black-100);                  /* #949494 */
@@ -1066,11 +1334,13 @@ img {
     padding: var(--spacing-5);               /* 20 */
     gap: var(--spacing-6);                    /* 24 */
   }
-  .journey-step__title { font-size: 27px; }
+  .journey-step__title { font-size: 21px; }   /* H6 */
+  .journey-step__body { gap: var(--spacing-2); } /* 8 (list -> tags) */
   .journey-step__list {
     font-family: var(--font-body);           /* IBM Plex Sans */
-    font-size: 14px;
+    font-size: 14px;                         /* Body 4 */
     line-height: normal;
+    gap: var(--spacing-2);                    /* 8 */
   }
   .journey-step__tags {
     gap: var(--spacing-2) var(--spacing-4);   /* row 8 / col 16 */
@@ -1298,6 +1568,7 @@ img {
 
 /* ---- Type: icon (square, single icon) ---- */
 .btn--icon {
+  flex: none;            /* fixed square; never shrink in a flex row */
   width: 48px;
   height: 48px;
   max-width: none;
@@ -1333,6 +1604,36 @@ img {
 }
 .btn--dark.btn--icon:focus-visible { background: var(--black-500); color: var(--white); }
 
+/* ---- Type: tertiary icon (square icon button, ghost/tertiary colours) ---- */
+/* Keeps the icon geometry (48/72, radius 16) from .btn--icon but swaps the
+   filled fill for the tertiary ghost behaviour. */
+.btn--tertiary.btn--icon {
+  background: transparent;
+  color: var(--black-500);       /* icon via currentColor */
+}
+.btn--tertiary.btn--icon:hover            { background: var(--grey-10); }  /* black 10 */
+.btn--tertiary.btn--icon:active           { background: var(--black-20); } /* black 20 */
+.btn--tertiary.btn--icon:disabled,
+.btn--tertiary.btn--icon.is-disabled {
+  background: transparent;
+  color: var(--black-200);
+  cursor: default;
+}
+.btn--tertiary.btn--icon:focus-visible { background: transparent; } /* ring only */
+/* tertiary icon — dark theme */
+.btn--dark.btn--tertiary.btn--icon {
+  background: transparent;
+  color: var(--white);
+}
+.btn--dark.btn--tertiary.btn--icon:hover  { background: var(--grey-10); color: var(--black-500); }
+.btn--dark.btn--tertiary.btn--icon:active { background: var(--black-20); color: var(--black-500); }
+.btn--dark.btn--tertiary.btn--icon:disabled,
+.btn--dark.btn--tertiary.btn--icon.is-disabled {
+  background: transparent;
+  color: var(--black-300);
+}
+.btn--dark.btn--tertiary.btn--icon:focus-visible { background: transparent; }
+
 /* ============================================================
    Pagination — dot pagination (atomic design)
    ============================================================ */
@@ -1353,7 +1654,7 @@ img {
   padding: 0;
   border: 0;
   border-radius: 999px;
-  background: var(--pagination-dot-color, #dbdbdb); /* black 20 */
+  background: var(--pagination-dot-color, var(--black-500)); /* light: black */
   cursor: pointer;
   transition: width 0.25s ease, background 0.25s ease;
 }
@@ -1371,7 +1672,7 @@ img {
 }
 /* Dark background variant: swap the dot colour for every dot inside. */
 .pagination--dark {
-  --pagination-dot-color: #6b6b6b; /* black 200 */
+  --pagination-dot-color: var(--white); /* dark: white */
 }
 /* When JS drives the component (.is-interactive, set by script.js) the dot
    width morph is animated by Motion (spring) via inline styles, so drop the
@@ -1387,7 +1688,7 @@ img {
   gap: var(--spacing-10);                  /* spacing/10 */
 }
 .pagination-controls--dark {
-  --pagination-dot-color: #6b6b6b; /* black 200 */
+  --pagination-dot-color: var(--white); /* dark: white */
 }
 
 .pagination-controls__btn {
@@ -1434,4 +1735,56 @@ img {
   .testimonial-quote {
     text-indent: -0.52em;
   }
+}
+
+/* ============================================================
+   Phone bottom nav — fixed (Figma 674:10045, item atom 674:9993).
+   Only < md (750). A centred row of the four section links; the
+   active page is an accent pill, the home/neutral state wraps the
+   row in a grey rounded-full bar.
+   ============================================================ */
+.bottom-nav { display: none; }
+
+@media (max-width: 749px) {
+  :root { --bottom-nav-height: 88px; }   /* pt16 + 48 item + pb24 */
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    background: var(--white);
+    padding: var(--spacing-4) 0 var(--spacing-6);   /* pt 16 / pb 24 */
+  }
+  /* Clear the fixed bar so page content and the footer aren't hidden. */
+  body { padding-bottom: var(--bottom-nav-height); }
+}
+
+.bottom-nav__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);                 /* 16 */
+}
+.bottom-nav--default .bottom-nav__bar {
+  padding: 0 var(--spacing-6);           /* 24 */
+  background: #e5e7eb;                    /* neutral grey pill */
+  border-radius: var(--radius-full);
+}
+.bottom-nav__item {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: normal;
+  color: var(--black-500);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.bottom-nav__item--active {
+  justify-content: center;
+  padding: 0 var(--spacing-6);           /* 24 */
+  border-radius: var(--radius-24);
+  background: var(--bn-accent, var(--selected-tab-color));
 }

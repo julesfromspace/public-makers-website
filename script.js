@@ -7,10 +7,21 @@
   if (!nav) return;
 
   const THRESHOLD = 0; // any scroll at all
+  const HIDE_AFTER = 80; // don't start hiding until scrolled this far
+  let lastY = window.scrollY;
 
   function onScroll() {
-    const scrolled = window.scrollY > THRESHOLD;
-    nav.classList.toggle("is-scrolled", scrolled);
+    const y = window.scrollY;
+    nav.classList.toggle("is-scrolled", y > THRESHOLD);
+
+    // Hide the bar on scroll down, reveal on scroll up. The translate only
+    // applies < xl (see .nav--hidden media rule); desktop ignores it.
+    if (y > lastY && y > HIDE_AFTER) {
+      nav.classList.add("nav--hidden");
+    } else if (y < lastY) {
+      nav.classList.remove("nav--hidden");
+    }
+    lastY = y;
   }
 
   onScroll();
@@ -110,28 +121,35 @@
   }
 })();
 
-// Invoker Commands API fallback — for browsers that don't yet support
-// `command` + `commandfor` (Safari, older Firefox, older Chrome). Emulates
-// the built-in behavior by calling dialog.showModal() / .close() manually.
-// Native support: HTMLButtonElement supports the "command" IDL attribute.
+// Dialog control. We drive <dialog> ourselves instead of the native
+// `command`/`commandfor` invoker: some mobile browsers open it NON-modal,
+// which paints no ::backdrop scrim and lets outside taps fall through to the
+// page, so the manifesto bottom sheet (no close button on phone) got stuck
+// open. showModal() guarantees a modal with a scrim we can tap to close.
 (function () {
-  const supported =
-    typeof HTMLButtonElement !== "undefined" &&
-    "command" in HTMLButtonElement.prototype;
-  if (supported) return;
-
+  // Open: [data-dialog-open="<dialog id>"]
   document.addEventListener("click", (e) => {
-    const btn = e.target.closest("button[command][commandfor]");
-    if (!btn) return;
-    const target = document.getElementById(btn.getAttribute("commandfor"));
-    if (!target) return;
-    const cmd = btn.getAttribute("command");
-    e.preventDefault();
-    if (cmd === "show-modal" && typeof target.showModal === "function") {
-      target.showModal();
-    } else if (cmd === "close" && typeof target.close === "function") {
-      target.close();
+    const openBtn = e.target.closest("[data-dialog-open]");
+    if (openBtn) {
+      const d = document.getElementById(openBtn.getAttribute("data-dialog-open"));
+      if (d && typeof d.showModal === "function" && !d.open) d.showModal();
+      return;
     }
+    // Close: [data-dialog-close] button inside a dialog
+    const closeBtn = e.target.closest("[data-dialog-close]");
+    if (closeBtn) {
+      const d = closeBtn.closest("dialog");
+      if (d) d.close();
+    }
+  });
+
+  // Tap outside the sheet/modal closes it. Works whether the dialog opened
+  // modal (the ::backdrop reports the <dialog> as the target) or, as a
+  // safety net, non-modal (the tap lands on an element outside the dialog).
+  document.addEventListener("pointerdown", (e) => {
+    document.querySelectorAll("dialog[open]").forEach((d) => {
+      if (e.target === d || !d.contains(e.target)) d.close();
+    });
   });
 })();
 

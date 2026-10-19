@@ -46,7 +46,7 @@
             "approach-green": "#a8e3ad",
           },
           fontFamily: {
-            display: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+            display: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
             body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
           },
         },
@@ -54,7 +54,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=27" />
+  <link rel="stylesheet" href="styles.css?v=56" />
 </head>
 
 <!-- Override the per-page accent so the active folder tab is green on this page. -->
@@ -79,25 +79,26 @@
       <a class="tab" href="about.html">
         <span class="tab__label">About</span>
       </a>
-      <a class="tab tab--join" href="joinus.html">
+      <a class="tab tab--primary" href="joinus.html">
         <span class="tab__pill">Join us</span>
       </a>
     </nav>
+    <a class="nav__cta tab__pill" href="joinus.html">Join us</a>
     </div>
   </header>
 
   <main>
     <!-- ===== Hero panel (green, title + paragraph) ===== -->
     <section>
-      <div class="container mx-auto">
-        <div class="rounded-40 bg-approach-green px-8 py-16 md:px-16 xl:px-[118px] xl:py-16 pb-10">
-          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="rounded-40 bg-approach-green px-6 pb-6 pt-4 xl:px-[118px] xl:pb-10 xl:pt-16">
+          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-6 xl:grid-cols-12 xl:gap-2">
             <!-- Title -->
-            <h1 class="col-span-4 mb-12 font-display font-normal text-[clamp(48px,8vw,91px)] leading-[1] text-ink md:col-span-8 xl:col-span-12">
+            <h1 class="col-span-4 mb-6 font-display font-normal text-[41px] leading-[1] text-ink md:col-span-8 xl:col-span-12 xl:mb-16 xl:text-[91px] xl:leading-[91px]">
               Our approach
             </h1>
             <!-- Paragraph -->
-            <p class="col-span-4 font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black md:col-span-7 xl:col-span-10">
+            <p class="col-span-4 font-body text-[21px] leading-[1.15] text-black md:col-span-7 xl:col-span-10 xl:text-[41px]">
               With our approach for change-making we connect actors across administration, policy, and society to enable collective action.
             </p>
           </div>
@@ -106,14 +107,15 @@
     </section>
 
     <!-- ===== Educate (heading left; accordion left, image right) ===== -->
-    <section class="py-[100px]">
+    <section class="py-[100px] md:pb-16 xl:pb-[100px]">
       <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:items-center md:px-6 xl:grid-cols-12 xl:px-0">
+          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-8 md:col-start-1 md:text-[27px] md:leading-[normal] xl:col-span-10 xl:col-start-2 xl:text-[61px] xl:leading-[1.05]">
             Educate
           </h2>
 
-          <div class="col-span-4 md:col-span-7 md:col-start-2 xl:col-span-5 xl:col-start-2">
+          <!-- accordion: desktop left; tablet right (image on left), pl-24 inset -->
+          <div class="col-span-4 md:col-span-4 md:col-start-5 md:row-start-2 md:pl-6 xl:col-span-5 xl:col-start-2 xl:row-start-2 xl:pl-0">
             <ul class="flex flex-col gap-7" role="list">
               <li class="approach-accordion">
                 <button type="button" class="approach-accordion__head" aria-expanded="false">
@@ -148,8 +150,9 @@
             </ul>
           </div>
 
-          <div class="col-span-4 mt-12 md:col-span-7 md:col-start-2 md:mt-0 xl:col-span-5 xl:col-start-8 xl:mt-0">
-            <div class="aspect-[510/382] w-full overflow-hidden rounded-3xl">
+          <!-- image: desktop right; tablet left -->
+          <div class="col-span-4 mt-12 md:col-span-4 md:col-start-1 md:mt-0 md:row-start-2 xl:col-span-5 xl:col-start-8 xl:mt-0 xl:row-start-2">
+            <div class="aspect-[4/3] w-full overflow-hidden rounded-3xl xl:aspect-[510/382]">
               <img src="assets/approach-educate.jpg" alt="" class="h-full w-full object-cover" />
             </div>
           </div>
@@ -158,20 +161,22 @@
     </section>
 
     <!-- ===== Make (heading right; image left, accordion right) ===== -->
-    <section class="py-[100px]">
+    <section class="py-[100px] md:pb-16 xl:pb-[100px]">
       <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 md:text-right xl:col-span-10 xl:col-start-2 xl:text-right">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:items-center md:px-6 xl:grid-cols-12 xl:px-0">
+          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-8 md:col-start-1 md:text-left md:text-[27px] md:leading-[normal] xl:col-span-10 xl:col-start-2 xl:text-right xl:text-[61px] xl:leading-[1.05]">
             Make
           </h2>
 
-          <div class="col-span-4 md:col-span-7 md:col-start-2 xl:col-span-5 xl:col-start-2">
-            <div class="aspect-[510/383] w-full overflow-hidden rounded-3xl">
+          <!-- image: desktop left; tablet right -->
+          <div class="col-span-4 md:col-span-4 md:col-start-5 md:row-start-2 xl:col-span-5 xl:col-start-2 xl:row-start-2">
+            <div class="aspect-[4/3] w-full overflow-hidden rounded-3xl xl:aspect-[510/383]">
               <img src="assets/approach-make.jpg" alt="" class="h-full w-full object-cover" />
             </div>
           </div>
 
-          <div class="col-span-4 mt-12 md:col-span-7 md:col-start-2 md:mt-0 xl:col-span-5 xl:col-start-8 xl:mt-0">
+          <!-- accordion: desktop right; tablet left, pr-24 inset -->
+          <div class="col-span-4 mt-12 md:col-span-4 md:col-start-1 md:mt-0 md:row-start-2 md:pr-6 xl:col-span-5 xl:col-start-8 xl:mt-0 xl:row-start-2 xl:pr-0">
             <ul class="flex flex-col gap-7" role="list">
               <li class="approach-accordion">
                 <button type="button" class="approach-accordion__head" aria-expanded="false">
@@ -210,14 +215,15 @@
     </section>
 
     <!-- ===== Connect (heading left; accordion left, image right) ===== -->
-    <section class="py-[100px]">
+    <section class="py-[100px] md:pb-16 xl:pb-[100px]">
       <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:items-center md:px-6 xl:grid-cols-12 xl:px-0">
+          <h2 class="col-span-4 mb-12 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-8 md:col-start-1 md:text-[27px] md:leading-[normal] xl:col-span-10 xl:col-start-2 xl:text-[61px] xl:leading-[1.05]">
             Connect
           </h2>
 
-          <div class="col-span-4 md:col-span-7 md:col-start-2 xl:col-span-5 xl:col-start-2">
+          <!-- accordion: desktop left; tablet right, pl-24 inset -->
+          <div class="col-span-4 md:col-span-4 md:col-start-5 md:row-start-2 md:pl-6 xl:col-span-5 xl:col-start-2 xl:row-start-2 xl:pl-0">
             <ul class="flex flex-col gap-7" role="list">
               <li class="approach-accordion">
                 <button type="button" class="approach-accordion__head" aria-expanded="false">
@@ -252,8 +258,9 @@
             </ul>
           </div>
 
-          <div class="col-span-4 mt-12 md:col-span-7 md:col-start-2 md:mt-0 xl:col-span-5 xl:col-start-8 xl:mt-0">
-            <div class="aspect-[510/382] w-full overflow-hidden rounded-3xl">
+          <!-- image: desktop right; tablet left -->
+          <div class="col-span-4 mt-12 md:col-span-4 md:col-start-1 md:mt-0 md:row-start-2 xl:col-span-5 xl:col-start-8 xl:mt-0 xl:row-start-2">
+            <div class="aspect-[4/3] w-full overflow-hidden rounded-3xl xl:aspect-[510/382]">
               <img src="assets/approach-connect.jpg" alt="" class="h-full w-full object-cover" />
             </div>
           </div>
@@ -262,33 +269,36 @@
     </section>
 
     <!-- ===== Contact (same component as landing) ===== -->
-    <section id="join" class="bg-neutral-100 py-20">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <div class="col-span-4 flex flex-col justify-between gap-20 md:col-span-5 md:col-start-2 xl:col-span-6 xl:col-start-2">
-            <div class="flex flex-col gap-20">
-              <h2 class="font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black">Contact us</h2>
-              <p class="font-body text-[27px] leading-[1.1] text-black">
+    <section id="join" class="bg-neutral-100 pb-20 pt-6 xl:py-20">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-2 gap-y-20 md:grid-cols-8 md:gap-6 xl:grid-cols-12 xl:gap-2">
+          <!-- Left: title, paragraph, email -->
+          <div class="col-span-4 flex flex-col justify-between gap-8 md:col-span-4 xl:col-span-6 xl:col-start-2 xl:gap-20">
+            <div class="flex flex-col gap-12 xl:gap-20">
+              <h2 class="font-body text-[41px] leading-[normal] text-black xl:text-[61px]">Contact us</h2>
+              <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[normal]">
                 We're open for inquiries of organisations interested in working with us.
               </p>
             </div>
-            <p class="font-body text-[clamp(28px,3.5vw,41px)] leading-[1] text-black">
+            <p class="font-body text-[21px] leading-[normal] text-black xl:text-[27px]">
               <a href="mailto:hello@publicmakers.org" class="hover:underline">hello@publicmakers.org</a>
             </p>
           </div>
 
-          <div class="col-span-4 flex flex-col gap-6 md:col-span-3 md:col-start-7 xl:col-span-4 xl:col-start-9">
-            <div class="h-[300px] w-full overflow-hidden rounded-3xl">
+          <!-- Right: contact person card (molecule/member) -->
+          <div class="col-span-4 flex flex-col gap-4 md:col-span-4 xl:col-span-4 xl:col-start-9 xl:gap-6">
+            <div class="aspect-[4/3] w-full overflow-hidden rounded-24 xl:aspect-auto xl:h-[300px] xl:w-[400px]">
               <img src="assets/johanna.png" alt="Johanna Maria Schmidt" class="h-full w-full object-cover" />
             </div>
-            <div class="flex flex-col gap-4">
-              <p class="font-body text-[41px] leading-[1] text-black">Johanna Maria Schmidt</p>
-              <p class="font-display text-[21px] leading-[1.4] text-neutral-300">Responsible for partnerships</p>
+            <div class="flex w-full items-start">
+              <div class="flex min-w-0 flex-1 flex-col gap-0 pt-3 xl:pt-1">
+                <p class="font-body text-[21px] leading-[normal] text-black xl:text-[27px]">Johanna Maria Schmidt</p>
+                <p class="font-body text-[21px] leading-[1.4] text-neutral-300 xl:text-[27px] xl:leading-[normal]">Responsible for partnerships</p>
+              </div>
+              <a href="#" aria-label="Johanna Maria Schmidt on LinkedIn" class="flex size-12 shrink-0 items-center justify-center rounded-16">
+                <img src="assets/icon-linkedin.svg" alt="" class="h-6 w-6" />
+              </a>
             </div>
-            <a href="#" class="inline-flex items-center gap-2 rounded-2xl py-6 font-body text-[18px] text-black hover:underline">
-              <img src="assets/icon-linkedin.svg" alt="" class="h-7 w-7" />
-              <span>Find me on LinkedIn</span>
-            </a>
           </div>
         </div>
       </div>
@@ -306,11 +316,13 @@
           <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
           <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
         </div>
-        <nav class="footer__links" aria-label="Legal">
-          <a href="#">Imprint</a>
-          <a href="#">Data privacy</a>
-        </nav>
-        <p class="footer__copy">© 2025 public makers</p>
+        <div class="footer__meta">
+          <nav class="footer__links" aria-label="Legal">
+            <a href="#">Imprint</a>
+            <a href="#">Data privacy</a>
+          </nav>
+          <p class="footer__copy">© 2025 public makers</p>
+        </div>
       </div>
     </div>
   </footer>
@@ -320,6 +332,15 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=24"></script>
+  <script src="script.js?v=27"></script>
+  <!-- Phone fixed bottom nav (Figma 674:10045) -->
+  <nav class="bottom-nav" aria-label="Sections">
+    <div class="bottom-nav__bar">
+        <a class="bottom-nav__item bottom-nav__item--active" style="--bn-accent: var(--green-10)" href="approach.html" aria-current="page">Approach</a>
+        <a class="bottom-nav__item" href="projects.html">Projects</a>
+        <a class="bottom-nav__item" href="partners.html">Partners</a>
+        <a class="bottom-nav__item" href="about.html">About</a>
+    </div>
+  </nav>
 </body>
 </html>

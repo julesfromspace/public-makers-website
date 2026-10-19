@@ -34,13 +34,27 @@ self-contained UI component (e.g. button padding, card padding).
 #### Grid tiers
 | Prefix | Columns | Gutter | Margin |
 |---|---|---|---|
-| *(none)* `xs` | 4 | 8px | 16px |
-| `sm` | 4 | 8px | 40px |
-| `md` | 8 | 8px | 40px |
-| `lg` | 8 | 8px | 40px |
-| `xl` | 12 | 8px | 40px |
+| *(none)* `xs` | 4 | 16px | 16px |
+| `sm` | 4 | 16px | 40px |
+| `md` | 8 | 24px | 40px |
+| `lg` | 8 | 32px | 40px |
+| `xl` | 12 | 40px | 40px |
 
 `xl` grid is capped at `max-w-[1440px] mx-auto`.
 
 `md` (750px) is both a grid tier (4→8 columns) and a layout breakpoint.
+
+#### Component viewport variants
+
+Figma components are designed in three viewport variants. Map each to code as:
+
+| Variant | Range | Tailwind |
+|---|---|---|
+| phone | < 750px | base (unprefixed), up to `md` |
+| tablet | 750px – 1280px | `md:` up to `< xl` |
+| desktop | ≥ 1281px | `xl:` |
+
+So a tablet-only value goes on `md:` (and is overridden again at `xl:`),
+and the phone value is the unprefixed base. `sm` (481px) and `lg` (941px)
+are not variant boundaries — only `md` and `xl` separate the three variants.
 

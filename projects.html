@@ -48,7 +48,7 @@
             "projects-yellow": "#fae1aa",
           },
           fontFamily: {
-            display: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+            display: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
             body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
             mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
           },
@@ -57,7 +57,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=27" />
+  <link rel="stylesheet" href="styles.css?v=56" />
 </head>
 
 <!-- Per-page accent: yellow for the active "Projects" tab. -->
@@ -82,21 +82,22 @@
       <a class="tab" href="about.html">
         <span class="tab__label">About</span>
       </a>
-      <a class="tab tab--join" href="joinus.html">
+      <a class="tab tab--primary" href="joinus.html">
         <span class="tab__pill">Join us</span>
       </a>
     </nav>
+    <a class="nav__cta tab__pill" href="joinus.html">Join us</a>
     </div>
   </header>
 
   <main>
     <!-- ===== Hero (yellow panel: title + filter chips) ===== -->
     <section>
-      <div class="container mx-auto">
-        <div class="rounded-40 bg-projects-yellow px-8 pb-10 pt-16 md:px-16 xl:px-[118px] xl:pb-10 xl:pt-16">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="rounded-40 bg-projects-yellow px-6 pb-6 pt-4 md:px-6 xl:px-[118px] xl:pb-10 xl:pt-16">
           <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
             <!-- Title -->
-            <h1 class="col-span-4 mb-12 font-display font-normal text-[clamp(48px,8vw,91px)] leading-[1] text-ink md:col-span-8 xl:col-span-12">
+            <h1 class="col-span-4 mb-6 font-display font-normal text-[41px] leading-[1] text-ink md:col-span-8 xl:col-span-12 xl:mb-16 xl:text-[91px] xl:leading-[91px]">
               Projects
             </h1>
 
@@ -220,11 +221,13 @@
           <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
           <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
         </div>
-        <nav class="footer__links" aria-label="Legal">
-          <a href="#">Imprint</a>
-          <a href="#">Data privacy</a>
-        </nav>
-        <p class="footer__copy">© 2025 public makers</p>
+        <div class="footer__meta">
+          <nav class="footer__links" aria-label="Legal">
+            <a href="#">Imprint</a>
+            <a href="#">Data privacy</a>
+          </nav>
+          <p class="footer__copy">© 2025 public makers</p>
+        </div>
       </div>
     </div>
   </footer>
@@ -234,6 +237,15 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=24"></script>
+  <script src="script.js?v=27"></script>
+  <!-- Phone fixed bottom nav (Figma 674:10045) -->
+  <nav class="bottom-nav" aria-label="Sections">
+    <div class="bottom-nav__bar">
+        <a class="bottom-nav__item" href="approach.html">Approach</a>
+        <a class="bottom-nav__item bottom-nav__item--active" style="--bn-accent: var(--yellow-10)" href="projects.html" aria-current="page">Projects</a>
+        <a class="bottom-nav__item" href="partners.html">Partners</a>
+        <a class="bottom-nav__item" href="about.html">About</a>
+    </div>
+  </nav>
 </body>
 </html>

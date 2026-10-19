@@ -58,7 +58,7 @@
             "neutral-100": "#f5f5f5",
           },
           fontFamily: {
-            display: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+            display: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
             body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
           },
           fontSize: {
@@ -67,7 +67,7 @@
             // Scaled responsively so it fits below xl while keeping the same
             // canonical type identity at the design width (1440+).
             display: [
-              "clamp(44px, 9vw, 108px)",
+              "clamp(41px, 9vw, 108px)",
               { lineHeight: "1.1", letterSpacing: "0em" },
             ],
           },
@@ -77,7 +77,7 @@
   </script>
 
   <!-- Project styles: nav folder-tab clip-path + scroll-morph live here -->
-  <link rel="stylesheet" href="styles.css?v=27" />
+  <link rel="stylesheet" href="styles.css?v=56" />
 </head>
 
 <body class="bg-white text-black font-body antialiased">
@@ -101,10 +101,11 @@
       <a class="tab" href="about.html">
         <span class="tab__label">About</span>
       </a>
-      <a class="tab tab--join" href="joinus.html">
+      <a class="tab tab--primary" href="joinus.html">
         <span class="tab__pill">Join us</span>
       </a>
     </nav>
+    <a class="nav__cta tab__pill" href="joinus.html">Join us</a>
     </div>
   </header>
 
@@ -112,7 +113,7 @@
     <!-- ===== Hero: full-bleed image carousel ===== -->
     <section class="relative w-full overflow-hidden bg-black">
       <!-- Carousel track (first slide visible; others queued to the right) -->
-      <div class="relative h-[calc(100vh-100px)] w-full" data-hero-root>
+      <div class="relative w-full" data-hero-root>
         <!-- Stacked slides; one is .is-active, others fade out via opacity -->
         <div class="absolute inset-0">
           <img src="assets/hero1.jpg" alt="" class="hero-slide is-active" data-hero-slide="0" />
@@ -123,60 +124,69 @@
         <!-- Bottom gradient overlay -->
         <div class="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-b from-transparent to-black"></div>
 
-        <!-- Hero content overlay (uses the 12-col grid at xl) -->
-        <div class="container absolute inset-0 mx-auto flex flex-col justify-end pb-12">
-          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-            <!-- Title -->
-            <h1 data-hero-title class="col-span-4 mb-12 font-body font-normal text-display text-white md:col-span-8 xl:col-span-10">
-              Shaping the future of the public sector.
-            </h1>
+        <!-- Hero content overlay: slide title + tabs in one flex container,
+             sitting at the bottom of the slide. -->
+        <div class="absolute inset-x-0 bottom-0 flex flex-col px-4 py-6 md:px-10 md:py-8 xl:py-12">
+          <!-- text+tabs (gap: phone 24 / tablet 8 / desktop 48) -->
+          <div class="flex flex-col gap-6 md:gap-2 xl:gap-12">
+            <!-- Slide title + pause control (pause bottom-aligned to the title) -->
+            <div class="flex items-end justify-between gap-4">
+              <h1 data-hero-title class="min-w-0 flex-1 font-body font-normal text-[41px] leading-[1.1] text-white md:text-[61px]">
+                Shaping the future of the public sector.
+              </h1>
+              <!-- Pause/play: focusable, toggles the carousel. -->
+              <button
+                type="button"
+                aria-label="Pause carousel"
+                data-hero-toggle
+                class="inline-flex shrink-0 items-center justify-center pb-2 text-white">
+                <!-- Pause icon (visible when playing) -->
+                <svg data-hero-icon="pause" viewBox="0 0 24 24" fill="currentColor" class="h-12 w-12">
+                  <rect x="6"  y="5" width="4" height="14" rx="1"/>
+                  <rect x="14" y="5" width="4" height="14" rx="1"/>
+                </svg>
+                <!-- Play icon (visible when paused) -->
+                <svg data-hero-icon="play" viewBox="0 0 24 24" fill="currentColor" class="hidden h-12 w-12">
+                  <path d="M7 4l13 8-13 8V4z"/>
+                </svg>
+              </button>
+            </div>
 
-            <!-- Pause button (top right of indicators) -->
-            <button
-              type="button"
-              aria-label="Pause carousel"
-              data-hero-toggle
-              class="col-span-4 mb-6 inline-flex h-[70px] w-[70px] items-center justify-center justify-self-end rounded-full text-white md:col-span-8 md:justify-self-end xl:col-span-2 xl:col-start-11">
-              <!-- Pause icon (visible when playing) -->
-              <svg data-hero-icon="pause" viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8">
-                <rect x="6"  y="5" width="4" height="14" rx="1"/>
-                <rect x="14" y="5" width="4" height="14" rx="1"/>
-              </svg>
-              <!-- Play icon (visible when paused) -->
-              <svg data-hero-icon="play" viewBox="0 0 24 24" fill="currentColor" class="hidden h-8 w-8">
-                <path d="M7 4l13 8-13 8V4z"/>
-              </svg>
-            </button>
+            <!-- Phone (<md): single progress bar, no per-slide tabs -->
+            <div class="h-1 w-full overflow-hidden bg-white/[0.56] md:hidden" aria-hidden="true">
+              <div class="h-full w-1/2 bg-white"></div>
+            </div>
 
-            <!-- Carousel indicators -->
-            <div class="col-span-4 grid grid-cols-4 gap-4 md:col-span-8 md:grid-cols-4 xl:col-span-12 xl:grid-cols-4">
-              <button type="button" class="hero-tab is-active flex flex-col gap-3 text-left" data-hero-tab="0" data-slide-title="Shaping the future of the public sector.">
-                <span class="hero-tab__bar h-[2px] w-full"></span>
-                <span class="hero-tab__label font-body text-[18px] leading-[1.5] text-balance md:text-[21px] md:leading-[normal]">Shaping the future</span>
+            <!-- md+: per-slide tabs (bars only at md; bars + 27px labels at xl).
+                 Gutters per CLAUDE.md grid tiers: 24 (md) / 40 (xl). -->
+            <div class="hidden grid-cols-4 gap-6 md:grid xl:gap-10">
+              <button type="button" class="hero-tab is-active flex h-12 flex-col justify-end gap-6 text-left xl:h-auto" data-hero-tab="0" data-slide-title="Shaping the future of the public sector.">
+                <span class="hero-tab__bar h-1 w-full"></span>
+                <span class="hero-tab__label hidden w-full overflow-hidden whitespace-nowrap font-body text-[27px] leading-[normal] text-ellipsis xl:block">Shaping the future</span>
               </button>
-              <button type="button" class="hero-tab flex flex-col gap-3 text-left" data-hero-tab="1" data-slide-title="Visiting PolTech Summit in Berlin">
-                <span class="hero-tab__bar h-[2px] w-full"></span>
-                <span class="hero-tab__label font-body text-[18px] leading-[1.5] text-balance md:text-[21px] md:leading-[normal]">PolTech Summit Berlin</span>
+              <button type="button" class="hero-tab flex h-12 flex-col justify-end gap-6 text-left xl:h-auto" data-hero-tab="1" data-slide-title="Visiting PolTech Summit in Berlin">
+                <span class="hero-tab__bar h-1 w-full"></span>
+                <span class="hero-tab__label hidden w-full overflow-hidden whitespace-nowrap font-body text-[27px] leading-[normal] text-ellipsis xl:block">PolTech Summit Berlin</span>
               </button>
-              <button type="button" class="hero-tab flex flex-col gap-3 text-left" data-hero-tab="2" data-slide-title="Running workshops at Harvard Kennedy School">
-                <span class="hero-tab__bar h-[2px] w-full"></span>
-                <span class="hero-tab__label font-body text-[18px] leading-[1.5] text-balance md:text-[21px] md:leading-[normal]">German American Conference</span>
+              <button type="button" class="hero-tab flex h-12 flex-col justify-end gap-6 text-left xl:h-auto" data-hero-tab="2" data-slide-title="Running workshops at Harvard Kennedy School">
+                <span class="hero-tab__bar h-1 w-full"></span>
+                <span class="hero-tab__label hidden w-full overflow-hidden whitespace-nowrap font-body text-[27px] leading-[normal] text-ellipsis xl:block">German American Conference</span>
               </button>
-              <button type="button" class="hero-tab flex flex-col gap-3 text-left" data-hero-tab="3" data-slide-title="Visiting the London School of Economics and Political Science">
-                <span class="hero-tab__bar h-[2px] w-full"></span>
-                <span class="hero-tab__label font-body text-[18px] leading-[1.5] text-balance md:text-[21px] md:leading-[normal]">German Symposium at LSE in London</span>
+              <button type="button" class="hero-tab flex h-12 flex-col justify-end gap-6 text-left xl:h-auto" data-hero-tab="3" data-slide-title="Visiting the London School of Economics and Political Science">
+                <span class="hero-tab__bar h-1 w-full"></span>
+                <span class="hero-tab__label hidden w-full overflow-hidden whitespace-nowrap font-body text-[27px] leading-[normal] text-ellipsis xl:block">German Symposium at LSE in London</span>
               </button>
             </div>
           </div>
         </div>
-      </div>
+        </div>
     </section>
 
-    <!-- ===== Intro statement ===== -->
-    <section id="approach" class="py-[120px]">
+    <!-- ===== Intro statement (large text component: py 40/64/120) ===== -->
+    <section id="approach" class="py-10 md:py-16 xl:py-[120px]">
       <div class="container mx-auto">
         <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <p class="col-span-4 font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+          <p class="col-span-4 font-body text-[27px] leading-[1.15] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2 xl:text-[41px]">
             Public Makers is a movement that orients, enables, and connects students and trainees with the public sector to co-create its future operating system.
           </p>
         </div>
@@ -184,22 +194,22 @@
     </section>
 
     <!-- ===== Metrics ===== -->
-    <section class="py-[120px]">
+    <section class="py-10 md:pb-16 md:pt-0 xl:py-32">
       <div class="container mx-auto">
         <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
           <div class="col-span-4 md:col-span-8 xl:col-span-12">
-            <div class="mx-auto flex max-w-[920px] flex-col items-center gap-16 md:flex-row md:items-start md:justify-between">
-              <div class="flex w-full max-w-[300px] flex-col items-center gap-10 text-center md:w-[212px]">
-                <p class="font-display text-[91px] leading-[91px] text-black">17+</p>
-                <p class="font-body text-[27px] text-neutral-400">Projects</p>
+            <div class="mx-auto flex max-w-[920px] flex-col items-center gap-16 md:flex-row md:items-start md:justify-center md:gap-6 xl:justify-between xl:gap-0">
+              <div class="flex flex-col items-center gap-2 text-center md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
+                <p class="font-body text-[61px] leading-[normal] text-black xl:font-display xl:text-[91px] xl:leading-[91px]">17+</p>
+                <p class="font-display text-[21px] leading-[1.4] text-neutral-400 xl:font-body xl:text-[27px] xl:leading-[normal]">Projects</p>
               </div>
-              <div class="flex w-full max-w-[300px] flex-col items-center gap-10 text-center md:w-[212px]">
-                <p class="font-display text-[91px] leading-[91px] text-black">31</p>
-                <p class="font-body text-[27px] text-neutral-400">Members</p>
+              <div class="flex flex-col items-center gap-2 text-center md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
+                <p class="font-body text-[61px] leading-[normal] text-black xl:font-display xl:text-[91px] xl:leading-[91px]">31</p>
+                <p class="font-display text-[21px] leading-[1.4] text-neutral-400 xl:font-body xl:text-[27px] xl:leading-[normal]">Members</p>
               </div>
-              <div class="flex w-full max-w-[300px] flex-col items-center gap-10 text-center md:w-[212px]">
-                <p class="font-display text-[91px] leading-[91px] text-black">11</p>
-                <p class="font-body text-[27px] text-neutral-400">Partners</p>
+              <div class="flex flex-col items-center gap-2 text-center md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
+                <p class="font-body text-[61px] leading-[normal] text-black xl:font-display xl:text-[91px] xl:leading-[91px]">11</p>
+                <p class="font-display text-[21px] leading-[1.4] text-neutral-400 xl:font-body xl:text-[27px] xl:leading-[normal]">Partners</p>
               </div>
             </div>
           </div>
@@ -208,37 +218,38 @@
     </section>
 
     <!-- ===== Our Vision (black highlight panel) ===== -->
-    <section class="px-6">
-      <div class="container mx-auto">
-        <div class="rounded-40 bg-black px-8 py-20 md:px-16 xl:px-[138px] xl:py-20">
-          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-            <div class="col-span-4 md:col-span-8 xl:col-span-10">
-              <h2 class="mb-20 font-display text-[clamp(48px,8vw,91px)] leading-[1] text-white">Our Vision</h2>
-              <p class="mb-8 font-body text-[clamp(24px,3vw,41px)] leading-[1.15] text-white">
-                An operating system of the state that is digital, adaptive and genuinely built around the people who live in it, co-created with the generation that inherits it.
-              </p>
-              <!-- Invoker Commands API: `command` + `commandfor` open the
-                   <dialog> as a modal natively. Non-supporting browsers get
-                   a small JS fallback (see script.js) that calls
-                   dialog.showModal() / .close(). -->
-              <button
-                type="button"
-                command="show-modal"
-                commandfor="manifesto-dialog"
-                class="btn btn--secondary btn--dark">
-                <span class="btn__label">Read our manifesto</span>
-              </button>
-            </div>
+    <section class="px-4 py-10 md:px-10 md:py-10 xl:py-0">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <!-- tablet: panel spans 6 of 8 columns, centred (Figma 3187:13999);
+             phone + desktop: full width. -->
+        <div class="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-12">
+        <div class="col-span-4 flex flex-col items-start gap-4 rounded-40 bg-black p-4 md:col-span-6 md:col-start-2 md:px-6 md:py-4 xl:col-span-12 xl:col-start-1 xl:gap-20 xl:py-[120px] xl:pl-[142px] xl:pr-0">
+          <h2 class="font-body text-[41px] leading-[1] text-white xl:font-display xl:text-[91px]">Our Vision</h2>
+          <div class="flex w-full flex-col items-center gap-8 xl:items-start xl:gap-10">
+            <p class="w-full font-body text-[18px] leading-[1.5] text-white md:text-[27px] md:leading-[normal] xl:max-w-[1024px] xl:text-[41px] xl:leading-[normal]">
+              An operating system of the state that is digital, adaptive and genuinely built around the people who live in it, co-created with the generation that inherits it.
+            </p>
+            <!-- Opened via JS (script.js): always dialog.showModal() so the
+                 modal ::backdrop scrim renders and a tap on it closes the
+                 sheet. (Native command/commandfor could open non-modal on
+                 some mobile browsers — no scrim, no outside-tap close.) -->
+            <button
+              type="button"
+              data-dialog-open="manifesto-dialog"
+              class="btn btn--secondary btn--dark w-full xl:w-auto">
+              <span class="btn__label">Read our manifesto</span>
+            </button>
           </div>
+        </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Second statement ===== -->
-    <section class="py-[120px]">
+    <!-- ===== Second statement (large text component: py 40/64/120) ===== -->
+    <section class="py-10 md:py-16 xl:py-[120px]">
       <div class="container mx-auto">
         <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <p class="col-span-4 font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+          <p class="col-span-4 font-body text-[27px] leading-[1.15] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2 xl:text-[41px]">
             We give students the orientation to understand how public systems work, the practice to move them, and a community that carries them forward.
           </p>
         </div>
@@ -246,16 +257,16 @@
     </section>
 
     <!-- ===== Events carousel ===== -->
-    <section id="projects" class="pb-24 pt-12">
-      <div class="container mx-auto">
+    <section id="projects" class="overflow-hidden bg-white pb-24 pt-12">
+      <div class="mx-auto w-full max-w-[1440px]">
         <!-- Wrapper anchors fade overlays so they stop at the container's
              max-width (1440), not at the viewport edges. -->
         <div class="relative">
         <!-- Horizontally scrollable strip -->
-        <div class="no-scrollbar overflow-x-auto" data-events-track>
-          <ul class="flex items-stretch gap-10" role="list">
+        <div class="no-scrollbar overflow-x-auto pl-4 md:pl-10" data-events-track>
+          <ul class="flex items-stretch gap-6 xl:gap-10" role="list">
             <!-- Card -->
-            <li class="w-[280px] flex-none md:w-[420px] xl:w-[600px]">
+            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
               <article class="flex h-full flex-col gap-6">
                 <div class="aspect-video w-full overflow-hidden rounded-3xl">
                   <img src="assets/event1.jpg" alt="" class="h-full w-full object-cover" />
@@ -263,13 +274,13 @@
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
                     <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">Micro Masterclass</span>
-                    <span class="font-body text-[18px] leading-[1.5] text-neutral-300">2026/01/06</span>
+                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/01/06</span>
                   </div>
-                  <p class="font-body text-[27px] leading-[1.15] text-black">Zaim Sari on digital sovereignty in public sector</p>
+                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">Zaim Sari on digital sovereignty in public sector</p>
                 </div>
               </article>
             </li>
-            <li class="w-[280px] flex-none md:w-[420px] xl:w-[600px]">
+            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
               <article class="flex h-full flex-col gap-6">
                 <div class="aspect-video w-full overflow-hidden rounded-3xl">
                   <img src="assets/event2.jpg" alt="" class="h-full w-full object-cover" />
@@ -277,13 +288,13 @@
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
                     <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">Hackathon</span>
-                    <span class="font-body text-[18px] leading-[1.5] text-neutral-300">2026/12/06</span>
+                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/12/06</span>
                   </div>
-                  <p class="font-body text-[27px] leading-[1.15] text-black">CODE THE STATE</p>
+                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">CODE THE STATE</p>
                 </div>
               </article>
             </li>
-            <li class="w-[280px] flex-none md:w-[420px] xl:w-[600px]">
+            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
               <article class="flex h-full flex-col gap-6">
                 <div class="aspect-video w-full overflow-hidden rounded-3xl">
                   <img src="assets/event3.jpg" alt="" class="h-full w-full object-cover" />
@@ -291,13 +302,13 @@
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
                     <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">Micro Masterclass</span>
-                    <span class="font-body text-[18px] leading-[1.5] text-neutral-300">2026/20/04</span>
+                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/20/04</span>
                   </div>
-                  <p class="font-body text-[27px] leading-[1.15] text-black">Laura Geissler on public sector modernisation</p>
+                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">Laura Geissler on public sector modernisation</p>
                 </div>
               </article>
             </li>
-            <li class="w-[280px] flex-none md:w-[420px] xl:w-[600px]">
+            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
               <article class="flex h-full flex-col gap-6">
                 <div class="aspect-video w-full overflow-hidden rounded-3xl">
                   <img src="assets/event4.jpg" alt="" class="h-full w-full object-cover" />
@@ -305,13 +316,13 @@
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
                     <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">Hackathon</span>
-                    <span class="font-body text-[18px] leading-[1.5] text-neutral-300">2026/10/04</span>
+                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/10/04</span>
                   </div>
-                  <p class="font-body text-[27px] leading-[1.15] text-black">Agora Hacks</p>
+                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">Agora Hacks</p>
                 </div>
               </article>
             </li>
-            <li class="w-[280px] flex-none md:w-[420px] xl:w-[600px]">
+            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
               <article class="flex h-full flex-col gap-6">
                 <div class="aspect-video w-full overflow-hidden rounded-3xl">
                   <img src="assets/event5.jpg" alt="" class="h-full w-full object-cover" />
@@ -319,23 +330,27 @@
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
                     <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">PM goes…</span>
-                    <span class="font-body text-[18px] leading-[1.5] text-neutral-300">2026/02/02</span>
+                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/02/02</span>
                   </div>
-                  <p class="font-body text-[27px] leading-[1.15] text-black">LSE German Symposium</p>
+                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">LSE German Symposium</p>
                 </div>
               </article>
             </li>
           </ul>
         </div>
-          <!-- Right fade overlay (127px) — anchored to .relative wrapper so it
-               stops at the grid max-width, not the viewport edge. -->
-          <div class="pointer-events-none absolute inset-y-0 right-0 hidden w-[127px] bg-gradient-to-l from-white to-transparent md:block"></div>
+          <!-- Fade overlays sit in the left/right margins (width = page margin:
+               16 phone / 40 tablet / 40 desktop); the track's matching pl keeps
+               the cards clear of them, so the active + right images never fade —
+               only cards cycling through the margins do. White gradient: 100% at
+               the outer (viewport) edge → 0% at the inner edge. Figma 3236:13978. -->
+          <div class="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent md:w-10"></div>
+          <div class="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent md:w-10"></div>
         </div>
 
         <!-- Carousel pagination: prev/next cycle the strip one card at a time;
              dots track position. Prev is disabled at the start. -->
         <div
-          class="pagination-controls mt-10"
+          class="pagination-controls mt-10 pl-4 md:pl-10"
           data-pagination
           data-pagination-scroll="[data-events-track]"
         >
@@ -406,35 +421,38 @@
     </section>
 
     <!-- ===== Contact ===== -->
-    <section id="join" class="bg-neutral-100 py-20">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+    <!-- Tablet (md–<xl): two equal columns (Figma node 3187:12946).
+         xl: wider left column. < md: stacked. -->
+    <section id="join" class="bg-neutral-100 pb-20 pt-6 xl:py-20">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-2 gap-y-20 md:grid-cols-8 md:gap-6 xl:grid-cols-12 xl:gap-2">
           <!-- Left: title, paragraph, email -->
-          <div class="col-span-4 flex flex-col justify-between gap-20 md:col-span-5 md:col-start-2 xl:col-span-6 xl:col-start-2">
-            <div class="flex flex-col gap-20">
-              <h2 class="font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black">Contact us</h2>
-              <p class="font-body text-[27px] leading-[1.1] text-black">
+          <div class="col-span-4 flex flex-col justify-between gap-8 md:col-span-4 xl:col-span-6 xl:col-start-2 xl:gap-20">
+            <div class="flex flex-col gap-12 xl:gap-20">
+              <h2 class="font-body text-[41px] leading-[normal] text-black xl:text-[61px]">Contact us</h2>
+              <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[normal]">
                 We're open for inquiries of organisations interested in working with us.
               </p>
             </div>
-            <p class="font-body text-[clamp(28px,3.5vw,41px)] leading-[1] text-black">
+            <p class="font-body text-[21px] leading-[normal] text-black xl:text-[27px]">
               <a href="mailto:hello@publicmakers.org" class="hover:underline">hello@publicmakers.org</a>
             </p>
           </div>
 
-          <!-- Right: contact person card -->
-          <div class="col-span-4 flex flex-col gap-6 md:col-span-3 md:col-start-7 xl:col-span-4 xl:col-start-9">
-            <div class="h-[300px] w-full overflow-hidden rounded-3xl">
+          <!-- Right: contact person card (molecule/member) -->
+          <div class="col-span-4 flex flex-col gap-4 md:col-span-4 xl:col-span-4 xl:col-start-9 xl:gap-6">
+            <div class="aspect-[4/3] w-full overflow-hidden rounded-24 xl:aspect-auto xl:h-[300px] xl:w-[400px]">
               <img src="assets/johanna.png" alt="Johanna Maria Schmidt" class="h-full w-full object-cover" />
             </div>
-            <div class="flex flex-col gap-4">
-              <p class="font-body text-[41px] leading-[1] text-black">Johanna Maria Schmidt</p>
-              <p class="font-display text-[21px] leading-[1.4] text-neutral-300">Responsible for partnerships</p>
+            <div class="flex w-full items-start">
+              <div class="flex min-w-0 flex-1 flex-col gap-0 pt-3 xl:pt-1">
+                <p class="font-body text-[21px] leading-[normal] text-black xl:text-[27px]">Johanna Maria Schmidt</p>
+                <p class="font-body text-[21px] leading-[1.4] text-neutral-300 xl:text-[27px] xl:leading-[normal]">Responsible for partnerships</p>
+              </div>
+              <a href="#" aria-label="Johanna Maria Schmidt on LinkedIn" class="flex size-12 shrink-0 items-center justify-center rounded-16">
+                <img src="assets/icon-linkedin.svg" alt="" class="h-6 w-6" />
+              </a>
             </div>
-            <a href="#" class="inline-flex items-center gap-2 rounded-2xl py-6 font-body text-[18px] text-black hover:underline">
-              <img src="assets/icon-linkedin.svg" alt="" class="h-7 w-7" />
-              <span>Find me on LinkedIn</span>
-            </a>
           </div>
         </div>
       </div>
@@ -452,18 +470,20 @@
           <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
           <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
         </div>
-        <nav class="footer__links" aria-label="Legal">
-          <a href="#">Imprint</a>
-          <a href="#">Data privacy</a>
-        </nav>
-        <p class="footer__copy">© 2025 public makers</p>
+        <div class="footer__meta">
+          <nav class="footer__links" aria-label="Legal">
+            <a href="#">Imprint</a>
+            <a href="#">Data privacy</a>
+          </nav>
+          <p class="footer__copy">© 2025 public makers</p>
+        </div>
       </div>
     </div>
   </footer>
 
   <!-- ===== Manifesto modal ===== -->
-  <!-- Native <dialog>. `command` on the trigger button (above) opens this
-       as a modal (Invoker Commands API); ::backdrop styles the scrim. -->
+  <!-- Native <dialog>, opened as a modal via dialog.showModal() in script.js
+       (the trigger carries data-dialog-open); ::backdrop styles the scrim. -->
   <dialog id="manifesto-dialog" class="manifesto-dialog" aria-labelledby="manifesto-title">
     <div class="manifesto-dialog__content">
       <header class="manifesto-dialog__header">
@@ -493,11 +513,10 @@
       </section>
     </div>
 
-    <!-- Close button also uses Invoker Commands (`command="close"`). -->
+    <!-- Close handled in script.js (dialog.close()). -->
     <button
       type="button"
-      command="close"
-      commandfor="manifesto-dialog"
+      data-dialog-close
       class="manifesto-dialog__close"
       aria-label="Close dialog">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6">
@@ -511,6 +530,15 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=24"></script>
+  <script src="script.js?v=27"></script>
+  <!-- Phone fixed bottom nav (Figma 674:10045) -->
+  <nav class="bottom-nav bottom-nav--default" aria-label="Sections">
+    <div class="bottom-nav__bar">
+        <a class="bottom-nav__item" href="approach.html">Approach</a>
+        <a class="bottom-nav__item" href="projects.html">Projects</a>
+        <a class="bottom-nav__item" href="partners.html">Partners</a>
+        <a class="bottom-nav__item" href="about.html">About</a>
+    </div>
+  </nav>
 </body>
 </html>

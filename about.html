@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=27" />
+  <link rel="stylesheet" href="styles.css?v=56" />
 </head>
 <body>
   <!-- Navigation -->
@@ -30,10 +30,11 @@
       <a class="tab tab--selected" href="about.html" aria-current="page">
         <span class="tab__label">About</span>
       </a>
-      <a class="tab tab--join" href="joinus.html">
+      <a class="tab tab--primary" href="joinus.html">
         <span class="tab__pill">Join us</span>
       </a>
     </nav>
+    <a class="nav__cta tab__pill" href="joinus.html">Join us</a>
     </div>
   </header>
 
@@ -64,13 +65,13 @@
             <img src="assets/board1.png" alt="Yannic Plumpe" />
           </div>
           <div class="member__info">
-            <div class="member__row">
+            <div class="member__text">
               <h3 class="member__name">Yannic Plumpe</h3>
-              <a class="member__social" href="#" aria-label="Yannic Plumpe on LinkedIn">
-                <img src="assets/icon-linkedin.svg" alt="" />
-              </a>
+              <p class="member__role">Chairperson</p>
             </div>
-            <p class="member__role">Chairperson</p>
+            <a class="member__social" href="#" aria-label="Yannic Plumpe on LinkedIn">
+              <img src="assets/icon-linkedin.svg" alt="" />
+            </a>
           </div>
         </article>
 
@@ -79,13 +80,13 @@
             <img src="assets/board2.png" alt="Florian Stupp" />
           </div>
           <div class="member__info">
-            <div class="member__row">
+            <div class="member__text">
               <h3 class="member__name">Florian Stupp</h3>
-              <a class="member__social" href="#" aria-label="Florian Stupp on LinkedIn">
-                <img src="assets/icon-linkedin.svg" alt="" />
-              </a>
+              <p class="member__role">Vice chairperson</p>
             </div>
-            <p class="member__role">Vice chairperson</p>
+            <a class="member__social" href="#" aria-label="Florian Stupp on LinkedIn">
+              <img src="assets/icon-linkedin.svg" alt="" />
+            </a>
           </div>
         </article>
 
@@ -94,13 +95,13 @@
             <img src="assets/board3.png" alt="Luise Baranowski" />
           </div>
           <div class="member__info">
-            <div class="member__row">
+            <div class="member__text">
               <h3 class="member__name">Luise Baranowski</h3>
-              <a class="member__social" href="#" aria-label="Luise Baranowski on LinkedIn">
-                <img src="assets/icon-linkedin.svg" alt="" />
-              </a>
+              <p class="member__role">Treasure</p>
             </div>
-            <p class="member__role">Treasure</p>
+            <a class="member__social" href="#" aria-label="Luise Baranowski on LinkedIn">
+              <img src="assets/icon-linkedin.svg" alt="" />
+            </a>
           </div>
         </article>
       </div>
@@ -139,11 +140,13 @@
           <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
           <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
         </div>
-        <nav class="footer__links" aria-label="Legal">
-          <a href="#">Imprint</a>
-          <a href="#">Data privacy</a>
-        </nav>
-        <p class="footer__copy">© 2025 public makers</p>
+        <div class="footer__meta">
+          <nav class="footer__links" aria-label="Legal">
+            <a href="#">Imprint</a>
+            <a href="#">Data privacy</a>
+          </nav>
+          <p class="footer__copy">© 2025 public makers</p>
+        </div>
       </div>
     </div>
   </footer>
@@ -153,6 +156,15 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=24"></script>
+  <script src="script.js?v=27"></script>
+  <!-- Phone fixed bottom nav (Figma 674:10045) -->
+  <nav class="bottom-nav" aria-label="Sections">
+    <div class="bottom-nav__bar">
+        <a class="bottom-nav__item" href="approach.html">Approach</a>
+        <a class="bottom-nav__item" href="projects.html">Projects</a>
+        <a class="bottom-nav__item" href="partners.html">Partners</a>
+        <a class="bottom-nav__item bottom-nav__item--active" style="--bn-accent: var(--orange-05)" href="about.html" aria-current="page">About</a>
+    </div>
+  </nav>
 </body>
 </html>
