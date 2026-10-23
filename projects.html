@@ -57,7 +57,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=56" />
+  <link rel="stylesheet" href="styles.css?v=59" />
 </head>
 
 <!-- Per-page accent: yellow for the active "Projects" tab. -->
@@ -125,57 +125,238 @@
     </section>
 
     <!-- ===== Archive list ===== -->
-    <section class="py-[140px]">
-      <div class="container mx-auto">
+    <!-- template/list "list section" (3259:17774). Vertical padding per
+         viewport (Figma): phone pt40/pb64, tablet pt48/pb96, desktop pt64/pb80.
+         Horizontal margin (16/40/40) comes from .container. -->
+    <section class="pt-10 pb-16 md:pt-12 md:pb-24 xl:pt-16 xl:pb-20">
+      <!-- Horizontal margin 16/40/40 (phone/tablet/desktop), capped at 1440 —
+           same pattern as the hero/contact sections. -->
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="grid grid-cols-4 gap-2 items-start md:grid-cols-8 xl:grid-cols-12">
-          <!-- List spans a centered ~800px column on xl (col-start-2, col-span-7) -->
+          <!-- List spans all columns on phone (4) and tablet (8); on xl it
+               takes 7 of 12, leaving cols 9-12 for the sticky preview image.
+               Up to 30 items per page (page 1 shown). -->
           <ul
-            class="col-span-4 flex flex-col md:col-span-7 md:col-start-2 xl:col-span-7 xl:col-start-2"
+            class="col-span-4 flex flex-col md:col-span-8 xl:col-span-7"
             role="list"
             data-project-list
           >
             <li class="project-row" data-hover-image="assets/event1.jpg">
-              <span class="project-row__title">MM with Zaim Sari</span>
-              <span class="project-row__date">2026/01/06</span>
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Zaim Sari</span>
+                <span class="project-row__date">2026/01/06</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
             <li class="project-row" data-hover-image="assets/event2.jpg">
-              <span class="project-row__title">CODE THE STATE</span>
-              <span class="project-row__date">2026/12/06</span>
+              <div class="project-row__data">
+                <span class="project-row__title">CODE THE STATE</span>
+                <span class="project-row__date">2026/12/06</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
             <li class="project-row" data-hover-image="assets/event3.jpg">
-              <span class="project-row__title">MM with Laura Geissler</span>
-              <span class="project-row__date">2026/20/04</span>
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Laura Geissler</span>
+                <span class="project-row__date">2026/20/04</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
             <li class="project-row" data-hover-image="assets/event4.jpg">
-              <span class="project-row__title">Agora Hacks</span>
-              <span class="project-row__date">2026/10/04</span>
+              <div class="project-row__data">
+                <span class="project-row__title">Agora Hacks</span>
+                <span class="project-row__date">2026/10/04</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
             <li class="project-row" data-hover-image="assets/event5.jpg">
-              <span class="project-row__title">PM goes LSE German Symposium</span>
-              <span class="project-row__date">2026/02/02</span>
+              <div class="project-row__data">
+                <span class="project-row__title">PM goes LSE German Symposium</span>
+                <span class="project-row__date">2026/02/02</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
-            <li class="project-row">
-              <span class="project-row__title">MM with Martin Klingst</span>
-              <span class="project-row__date">2026/16/01</span>
+            <li class="project-row" data-hover-image="assets/hero1.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Martin Klingst</span>
+                <span class="project-row__date">2026/16/01</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
-            <li class="project-row">
-              <span class="project-row__title">MM with Christian Pfrang</span>
-              <span class="project-row__date">2025/05/12</span>
+            <li class="project-row" data-hover-image="assets/hero2.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Christian Pfrang</span>
+                <span class="project-row__date">2025/05/12</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
-            <li class="project-row">
-              <span class="project-row__title">PM goes GAC</span>
-              <span class="project-row__date">2025/14/11</span>
+            <li class="project-row" data-hover-image="assets/hero3.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">PM goes GAC</span>
+                <span class="project-row__date">2025/14/11</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
-            <li class="project-row">
-              <span class="project-row__title">PM is a non-profit association</span>
-              <span class="project-row__date">2025/25/09</span>
+            <li class="project-row" data-hover-image="assets/hero4.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">PM is a non-profit association</span>
+                <span class="project-row__date">2025/25/09</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event1.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Annika Vogel</span>
+                <span class="project-row__date">2025/18/08</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event2.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">Hackathon: OPEN DATA DAYS</span>
+                <span class="project-row__date">2025/27/07</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event3.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">PM goes Berlin Senate</span>
+                <span class="project-row__date">2025/12/07</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event4.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Tobias Lindner</span>
+                <span class="project-row__date">2025/03/06</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event5.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">CIVIC TECH SPRINT</span>
+                <span class="project-row__date">2025/21/05</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/hero1.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Sophie Brandt</span>
+                <span class="project-row__date">2025/09/04</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/hero2.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">PM goes Bundestag</span>
+                <span class="project-row__date">2025/16/03</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/hero3.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Jonas Weber</span>
+                <span class="project-row__date">2025/05/02</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/hero4.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">Milestone: 500 members</span>
+                <span class="project-row__date">2025/14/01</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event1.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Clara Hoffmann</span>
+                <span class="project-row__date">2024/10/12</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event2.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">Hackathon: GOVSTACK JAM</span>
+                <span class="project-row__date">2024/22/11</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event3.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">PM goes Brussels</span>
+                <span class="project-row__date">2024/08/10</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event4.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with David Krause</span>
+                <span class="project-row__date">2024/19/09</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event5.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">POLICY LAB</span>
+                <span class="project-row__date">2024/02/08</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/hero1.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Lena Schulz</span>
+                <span class="project-row__date">2024/13/07</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/hero2.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">PM goes OECD</span>
+                <span class="project-row__date">2024/24/06</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/hero3.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Felix Braun</span>
+                <span class="project-row__date">2024/05/05</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/hero4.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">Milestone: first grant</span>
+                <span class="project-row__date">2024/17/03</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event1.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">MM with Maria Wagner</span>
+                <span class="project-row__date">2024/06/02</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event2.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">Hackathon: STATE OF CODE</span>
+                <span class="project-row__date">2024/11/01</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
+            </li>
+            <li class="project-row" data-hover-image="assets/event3.jpg">
+              <div class="project-row__data">
+                <span class="project-row__title">PM goes Paris</span>
+                <span class="project-row__date">2023/15/12</span>
+              </div>
+              <span class="project-row__divider" aria-hidden="true"></span>
             </li>
           </ul>
 
           <!-- Hover-preview image, aligned to the top of the list container.
                Hidden below xl since there's no horizontal room beside the list. -->
           <div
-            class="hidden xl:col-span-4 xl:col-start-9 xl:block"
+            class="hidden xl:col-span-4 xl:col-start-9 xl:block xl:sticky xl:top-[120px] xl:self-start"
             aria-hidden="true"
           >
             <div
@@ -191,19 +372,28 @@
             </div>
           </div>
 
-          <!-- Pagination -->
+          <!-- Pagination (organism 3318:10416): prev icon button + numbered
+               paginationItems (3318:10413) + next icon button. Static here;
+               page 1 current, prev disabled. -->
           <nav
             aria-label="Pagination"
-            class="col-span-4 mt-10 md:col-span-7 md:col-start-2 xl:col-span-7 xl:col-start-2"
+            class="col-span-4 mt-12 md:col-span-8 xl:col-span-7"
           >
-            <ol class="flex items-center gap-3 font-mono text-[18px] leading-[1.5]" role="list">
-              <li>
-                <a href="#" aria-current="page" class="text-black">1</a>
-              </li>
-              <li>
-                <a href="#" class="text-neutral-300 hover:text-black">2</a>
-              </li>
-            </ol>
+            <div class="pagination-numbers">
+              <button type="button" class="pagination-numbers__btn" aria-label="Previous page" disabled>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M7.5 12L15 4.5L16.05 5.55L9.6 12L16.05 18.45L15 19.5L7.5 12Z"/>
+                </svg>
+              </button>
+              <a href="#" class="pagination-item pagination-item--selected" aria-current="page" aria-label="Page 1">1</a>
+              <span class="pagination-item pagination-item--ellipsis" aria-hidden="true">…</span>
+              <a href="#" class="pagination-item" aria-label="Page 3">3</a>
+              <button type="button" class="pagination-numbers__btn" aria-label="Next page">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M16.5 12L9 19.5L7.95 18.45L14.4 12L7.95 5.55L9 4.5L16.5 12Z"/>
+                </svg>
+              </button>
+            </div>
           </nav>
         </div>
       </div>

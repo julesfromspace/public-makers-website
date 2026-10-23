@@ -87,18 +87,20 @@
   </header>
 
   <main>
-    <!-- ===== Hero (blue panel) ===== -->
+    <!-- ===== Hero folder (Figma 601:10406, content=Default) =====
+         "ordner" blue card. Phone/tablet: px24 pt16 pb24, gap24, 41px title +
+         21px text. Desktop (xl): title row px118 py64 (91px), text row px118
+         (41px, max 1024), card pb40. Card inset padding is intentional
+         (self-contained component), not grid alignment. Outer margin 16/40/40. -->
     <section>
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
-        <div class="rounded-40 bg-partners-blue px-6 pb-6 pt-4 xl:px-[118px] xl:pb-10 xl:pt-16">
-          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-6 xl:grid-cols-12 xl:gap-2">
-            <h1 class="col-span-4 mb-6 font-display font-normal text-[41px] leading-[1] text-ink md:col-span-8 xl:col-span-12 xl:mb-16 xl:text-[91px] xl:leading-[91px]">
-              Our partners
-            </h1>
-            <p class="col-span-4 font-body text-[21px] leading-[1.15] text-black md:col-span-7 xl:col-span-10 xl:text-[41px]">
-              We bridge the gap between fresh ideas and institutional constraints. Co-create tested solutions with our network and drive real change from the inside out.
-            </p>
-          </div>
+        <div class="flex flex-col gap-6 rounded-40 bg-partners-blue px-6 pb-6 pt-4 xl:gap-0 xl:px-0 xl:pb-10 xl:pt-0">
+          <h1 class="font-display font-normal text-balance text-[41px] leading-[1.05] text-ink xl:whitespace-nowrap xl:px-[118px] xl:py-16 xl:text-[91px] xl:leading-[91px]">
+            Our partners
+          </h1>
+          <p class="font-body text-balance text-[21px] leading-[1.2] text-black xl:max-w-[1024px] xl:px-[118px] xl:text-[41px] xl:leading-[1.1]">
+            We bridge the gap between fresh ideas and institutional constraints. Co-create tested solutions with our network and drive real change from the inside out.
+          </p>
         </div>
       </div>
     </section>

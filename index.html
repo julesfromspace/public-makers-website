@@ -382,40 +382,72 @@
       </div>
     </section>
 
-    <!-- ===== Partners logos (auto-marquee) ===== -->
-    <section class="bg-white py-20 xl:px-[111px]">
-      <div class="container mx-auto">
-        <div class="relative overflow-hidden rounded-[28px]">
+    <!-- ===== Partners logos (auto-marquee) — Figma organism/partners 3259:17639
+         (desktop 1406:5608 / tablet 3200:15400 / mobile 838:10239).
+         Vertical rhythm: pt 48 / 64 (md) / 80 (xl); row->button gap 48 / 64 (xl);
+         pb 128 / 80 (xl). Logos 48 tall (phone+tablet) / 64 (xl). ===== -->
+    <section class="bg-white pb-32 pt-12 md:pt-16 xl:pb-20 xl:pt-20">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <!-- Clip box: the marquee overflows it and is cut at the container's
+             max-width (1440), not at the viewport edges. pl = the first logo's
+             start offset in Figma (16 / 40 / 111+28); xl adds the row's 53px
+             vertical padding. -->
+        <div class="relative overflow-hidden pl-4 md:pl-10 xl:py-[53px] xl:pl-[139px]">
           <!-- Marquee: two identical tracks side-by-side; the whole row is
                translated -50% on loop so the second copy replaces the first
-               seamlessly. Pauses on hover and respects reduced-motion. -->
-          <div class="marquee px-[28px] py-[53px]" data-marquee>
+               seamlessly. Pauses on hover, on the toggle button, and respects
+               reduced-motion. -->
+          <div class="marquee" data-marquee>
             <ul class="marquee__track" role="list">
-              <li class="h-16 w-[157px] flex-none"><img src="assets/partner1.png" alt="TUM Think Tank" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[150px] flex-none"><img src="assets/partner2.png" alt="Start Munich" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[129px] flex-none"><img src="assets/partner3.png" alt="EuroTeQ Collider" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[234px] flex-none"><img src="assets/partner4.png" alt="BayKommun" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[164px] flex-none"><img src="assets/partner5.png" alt="Partner" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[105px] flex-none"><img src="assets/partner6.png" alt="Partner" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-16 flex-none"><img src="assets/partner7.png" alt="Partner" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[184px] flex-none"><img src="assets/partner8.png" alt="Partner" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[116px] flex-none"><img src="assets/partner9.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[118px] flex-none xl:h-16 xl:w-[157px]"><img src="assets/partner1.png" alt="TUM Think Tank" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[113px] flex-none xl:h-16 xl:w-[150px]"><img src="assets/partner2.png" alt="Start Munich" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[96px] flex-none xl:h-16 xl:w-[129px]"><img src="assets/partner3.png" alt="EuroTeQ Collider" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[176px] flex-none xl:h-16 xl:w-[234px]"><img src="assets/partner4.png" alt="BayKommun" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[123px] flex-none xl:h-16 xl:w-[164px]"><img src="assets/partner5.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[79px] flex-none xl:h-16 xl:w-[105px]"><img src="assets/partner6.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-12 flex-none xl:h-16 xl:w-16"><img src="assets/partner7.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[138px] flex-none xl:h-16 xl:w-[184px]"><img src="assets/partner8.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[87px] flex-none xl:h-16 xl:w-[116px]"><img src="assets/partner9.png" alt="Partner" class="h-full w-full object-contain" /></li>
             </ul>
             <ul class="marquee__track" role="list" aria-hidden="true">
-              <li class="h-16 w-[157px] flex-none"><img src="assets/partner1.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[150px] flex-none"><img src="assets/partner2.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[129px] flex-none"><img src="assets/partner3.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[234px] flex-none"><img src="assets/partner4.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[164px] flex-none"><img src="assets/partner5.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[105px] flex-none"><img src="assets/partner6.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-16 flex-none"><img src="assets/partner7.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[184px] flex-none"><img src="assets/partner8.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[116px] flex-none"><img src="assets/partner9.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[118px] flex-none xl:h-16 xl:w-[157px]"><img src="assets/partner1.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[113px] flex-none xl:h-16 xl:w-[150px]"><img src="assets/partner2.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[96px] flex-none xl:h-16 xl:w-[129px]"><img src="assets/partner3.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[176px] flex-none xl:h-16 xl:w-[234px]"><img src="assets/partner4.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[123px] flex-none xl:h-16 xl:w-[164px]"><img src="assets/partner5.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[79px] flex-none xl:h-16 xl:w-[105px]"><img src="assets/partner6.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-12 flex-none xl:h-16 xl:w-16"><img src="assets/partner7.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[138px] flex-none xl:h-16 xl:w-[184px]"><img src="assets/partner8.png" alt="" class="h-full w-full object-contain" /></li>
+              <li class="h-12 w-[87px] flex-none xl:h-16 xl:w-[116px]"><img src="assets/partner9.png" alt="" class="h-full w-full object-contain" /></li>
             </ul>
           </div>
-          <!-- fade overlays (127px each) — hide partial logos at both edges -->
-          <div class="pointer-events-none absolute inset-y-0 left-0 w-[127px] bg-gradient-to-r from-white to-transparent"></div>
-          <div class="pointer-events-none absolute inset-y-0 right-0 w-[127px] bg-gradient-to-l from-white to-transparent"></div>
+          <!-- Fade overlays sit in the left/right margins (width = page margin:
+               16 phone / 40 tablet+desktop), same as the events carousel.
+               White gradient: 100% at the outer edge → 0% at the inner edge.
+               Figma 3259:17617 / 3259:17621. -->
+          <div class="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent md:w-10"></div>
+          <div class="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent md:w-10"></div>
+        </div>
+
+        <!-- Pause / play toggle (Figma button 3256:17056, 48x48, radius 16,
+             24px icon). Click pauses the marquee and swaps to the play icon. -->
+        <div class="mt-12 pl-4 md:pl-10 xl:mt-16 xl:pl-[111px]">
+          <button
+            type="button"
+            data-marquee-toggle
+            aria-label="Pause partner logos"
+            class="flex size-12 items-center justify-center rounded-16 text-black">
+            <!-- Pause icon (visible while scrolling) -->
+            <svg data-marquee-icon="pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M9 4.5H7.5C7.10218 4.5 6.72064 4.65804 6.43934 4.93934C6.15804 5.22064 6 5.60218 6 6V18C6 18.3978 6.15804 18.7794 6.43934 19.0607C6.72064 19.342 7.10218 19.5 7.5 19.5H9C9.39782 19.5 9.77936 19.342 10.0607 19.0607C10.342 18.7794 10.5 18.3978 10.5 18V6C10.5 5.60218 10.342 5.22064 10.0607 4.93934C9.77936 4.65804 9.39782 4.5 9 4.5Z"/>
+              <path d="M16.5 4.5H15C14.6022 4.5 14.2206 4.65804 13.9393 4.93934C13.658 5.22064 13.5 5.60218 13.5 6V18C13.5 18.3978 13.658 18.7794 13.9393 19.0607C14.2206 19.342 14.6022 19.5 15 19.5H16.5C16.8978 19.5 17.2794 19.342 17.5607 19.0607C17.842 18.7794 18 18.3978 18 18V6C18 5.60218 17.842 5.22064 17.5607 4.93934C17.2794 4.65804 16.8978 4.5 16.5 4.5Z"/>
+            </svg>
+            <!-- Play icon (visible while paused) — same Carbon family as the
+                 pause glyph above, scaled to the 24px grid. -->
+            <svg data-marquee-icon="play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="hidden" aria-hidden="true">
+              <path d="M5.25 21A.75.75 0 0 1 4.5 20.25V3.75a.75.75 0 0 1 1.1115-.657l15 8.25a.75.75 0 0 1 0 1.314l-15 8.25A.75.75 0 0 1 5.25 21Z"/>
+            </svg>
+          </button>
         </div>
       </div>
     </section>

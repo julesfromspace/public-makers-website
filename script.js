@@ -390,6 +390,37 @@
   });
 })();
 
+// Partners marquee — pause/play toggle. Clicking the button freezes the
+// auto-scrolling logo strip (animation-play-state) and swaps the pause glyph
+// for the play glyph; clicking again resumes. Reduced-motion users start
+// paused, since the marquee animation is disabled for them in CSS.
+(function () {
+  const marquee = document.querySelector("[data-marquee]");
+  const toggle = document.querySelector("[data-marquee-toggle]");
+  if (!marquee || !toggle) return;
+
+  const iconPause = toggle.querySelector('[data-marquee-icon="pause"]');
+  const iconPlay = toggle.querySelector('[data-marquee-icon="play"]');
+
+  function render(paused) {
+    marquee.classList.toggle("is-paused", paused);
+    if (iconPause) iconPause.classList.toggle("hidden", paused);
+    if (iconPlay) iconPlay.classList.toggle("hidden", !paused);
+    toggle.setAttribute(
+      "aria-label",
+      paused ? "Play partner logos" : "Pause partner logos"
+    );
+  }
+
+  let paused = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  render(paused);
+
+  toggle.addEventListener("click", () => {
+    paused = !paused;
+    render(paused);
+  });
+})();
+
 // FAQ accordion — toggle one item at a time.
 (function () {
   document.querySelectorAll(".faq-item__head").forEach((btn) => {
