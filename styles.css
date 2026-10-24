@@ -480,41 +480,43 @@ img {
   .large-text { padding: var(--spacing-16) var(--spacing-10); }  /* 64 / 40 */
   .large-text p { max-width: none; font-size: 27px; }
 }
-/* large text — phone (< md): px-16 py-40 (font stays 27 from tablet) */
+/* large text — phone (< md): px-16 py-40, 21px */
 @media (max-width: 749px) {
   .large-text { padding: var(--spacing-10) var(--spacing-4); }   /* 40 / 16 */
+  .large-text p { font-size: 21px; }
 }
 
-/* ---- Our board (Figma organism 712:9639) ----
-   Mobile-first. phone (<md 750): single column, 27px left title.
-   tablet (md–<xl): 323px cards wrapping 2-up. desktop (xl): 3 equal
-   columns, 61px title inset 157. Member = molecule/member. */
-.board {
+/* ---- Members (Figma organism "members" 712:9639) ----
+   Mobile-first. Grid of molecule/member cards, each spanning 4 columns
+   (4/8/12-col tiers → 1/2/3 across). Title: 27 phone / 41 tablet / 61 desktop
+   (inset 157 on desktop). */
+.members {
   padding: var(--spacing-10) var(--spacing-4);   /* 40 / 16 */
 }
 
-.board__heading {
-  margin: 0 0 var(--spacing-10);                 /* 40 gap -> images */
+.members__heading {
+  margin: 0 0 var(--spacing-10);                 /* 40 gap -> grid */
   padding: var(--spacing-6) 0;                    /* py 24 */
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 27px;                                /* H5 */
+  font-size: 27px;                                /* H5 (phone) */
   line-height: normal;
   color: var(--ink);                              /* #1e1e1e */
 }
 
-.board__grid {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-16);                         /* 64 (phone stack) */
+.members__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);         /* phone: 4-col tier */
+  column-gap: var(--spacing-4);                   /* 16 gutter */
+  row-gap: var(--spacing-16);                     /* 64 */
+  align-items: start;
 }
 
 .member {
+  grid-column: span 4;                            /* span 4 cols (1 across) */
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);                          /* 16 */
-  width: 100%;
   min-width: 0;
 }
 
@@ -577,36 +579,35 @@ img {
   height: 24px;
 }
 
-/* Tablet (md 750 – <xl): 323px fixed cards, wrap (2-up at 750). */
+/* Tablet (md 750 – <xl): 8-col tier → member span 4 = 2 across. */
 @media (min-width: 750px) {
-  .board { padding: var(--spacing-10); }         /* 40 */
-  .board__grid {
-    flex-direction: row;
-    flex-wrap: wrap;
-    row-gap: var(--spacing-16);                   /* 64 */
-    column-gap: var(--spacing-6);                 /* 24 */
+  .members { padding: var(--spacing-10); }         /* 40 */
+  .members__heading { font-size: 41px; line-height: 1.2; }   /* H4 */
+  .members__grid {
+    grid-template-columns: repeat(8, 1fr);
+    column-gap: var(--spacing-6);                   /* 24 */
+    row-gap: var(--spacing-16);                     /* 64 */
   }
-  .member { width: 323px; }
 }
 
-/* Desktop (xl >=1281): 3 equal columns, large inset title. */
+/* Desktop (xl >=1281): 12-col tier → member span 4 = 3 across, inset title. */
 @media (min-width: 1281px) {
-  .board { padding: var(--spacing-20) 0; }        /* 80 0 */
-  .board__heading {
-    margin-bottom: var(--spacing-24);             /* 96 */
-    padding: 0 var(--spacing-10) 0 157px;         /* pl 157 / pr 40 */
-    font-size: 61px;                              /* H3 */
+  .members { padding: var(--spacing-20) 0; }        /* 80 0 */
+  .members__heading {
+    margin-bottom: var(--spacing-24);               /* 96 */
+    padding: 0 var(--spacing-10) 0 157px;           /* pl 157 / pr 40 */
+    font-size: 61px;                                /* H3 */
+    line-height: 1.05;
     color: var(--black-500);
   }
-  .board__grid {
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: var(--spacing-10);                        /* 40 */
-    padding: 0 var(--spacing-10);                  /* px 40 */
+  .members__grid {
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--spacing-10);                   /* 40 */
+    padding: 0 var(--spacing-10);                    /* px 40 */
   }
-  .member { width: auto; flex: 1 1 0; gap: var(--spacing-6); } /* 24 */
-  .member__text { padding-top: var(--spacing-1); }  /* 4 */
-  .member__name { font-size: 27px; }                /* H5 */
+  .member { gap: var(--spacing-6); }                 /* 24 */
+  .member__text { padding-top: var(--spacing-1); }   /* 4 */
+  .member__name { font-size: 27px; }                 /* H5 */
   .member__role { font-size: 27px; line-height: normal; }
 }
 
@@ -1094,39 +1095,68 @@ img {
 }
 
 /* ============================================================
-   Approach page — accordion list
+   Approach page — tab+image (Figma 3347:17636)
    ============================================================ */
-.approach-accordion {
-  background: var(--white);
-  border-bottom: 2px solid #dbdbdb;
+/* Each row is a size-M "tab" (card 1422:6783): black-10 fill, radius 16.
+   One tab per group auto-opens (script.js, shared with the partner cards):
+   open = green-10 accent + description, with a 4px vertical countdown bar.
+   No border, no +/- icon. Title 21 (phone/tablet) / 27 (desktop);
+   description 16 / 18. Tab padding 16 / 24. */
+.vtab {
+  position: relative;
+  overflow: hidden;                          /* clips the countdown bar */
+  border-radius: var(--radius-16);
+  background: var(--grey-10);                 /* Default: black 10 #f5f5f5 */
+  transition: background 0.3s ease;
 }
-.approach-accordion__head {
+.vtab[aria-expanded="true"] { background: var(--green-10); }   /* open/active */
+@media (hover: hover) {
+  .vtab:not([aria-expanded="true"]):hover { background: var(--black-20); }
+}
+.vtab__countdown {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--black-500);
+  transform: scaleY(0);
+  transform-origin: top center;
+  pointer-events: none;
+  z-index: 1;
+}
+.vtab.is-counting .vtab__countdown {
+  animation: card-countdown var(--card-duration, 7s) linear forwards;
+}
+.vtab__btn {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-6);
+  flex-direction: column;
+  gap: var(--spacing-4);                      /* title -> description: 16 */
   width: 100%;
-  padding: var(--spacing-4) 0;
+  padding: var(--spacing-4);                  /* 16 (phone/tablet) */
   background: transparent;
   border: 0;
-  text-align: left;
   cursor: pointer;
+  text-align: left;
   font-family: var(--font-body);
 }
-.approach-accordion__title {
-  flex: 1 1 auto;
-  font-size: 27px;
-  line-height: 1.1;
+.vtab__title {
+  font-size: 21px;                            /* H6 (phone/tablet) */
+  line-height: normal;
   color: var(--black-500);
 }
-.approach-accordion__icon {
-  flex: none;
+.vtab__desc {
+  margin: 0;
+  font-size: 16px;                            /* Body 3 (phone/tablet) */
+  line-height: 1.4;
   color: var(--black-500);
-  transition: transform 0.25s ease;
+  display: none;                              /* only the open tab shows it */
 }
-.approach-accordion[aria-expanded="true"] .approach-accordion__icon,
-.approach-accordion__head[aria-expanded="true"] .approach-accordion__icon {
-  transform: rotate(45deg);
+.vtab[aria-expanded="true"] .vtab__desc { display: block; }
+@media (min-width: 1281px) {
+  .vtab__btn { padding: var(--spacing-6); }   /* 24 */
+  .vtab__title { font-size: 27px; }           /* H5 */
+  .vtab__desc { font-size: 18px; }            /* Body 2 */
 }
 
 /* ============================================================
@@ -1226,24 +1256,33 @@ img {
 }
 
 /* ============================================================
-   Partners page — "Why partner with us?" expandable cards
+   Partners page — "card" (expandable benefit, Figma 1422:6783)
    ============================================================ */
-
-.partner-card {
-  position: relative; /* anchors the countdown indicator */
-  border-radius: var(--radius-24);
-  background: transparent;
-  transition: background 0.3s ease, padding 0.3s ease;
-  overflow: hidden; /* clips the growing countdown bar to the rounded corners */
+/* Collapsed = title only (transparent, narrow). Open = blue-05 card, full
+   width. Left column = title + description; image sits in a horizontal
+   layout beside it on tablet + desktop, below it on phone. One card
+   auto-opens at a time (script.js); a 4px countdown bar grows down the left
+   edge while counting. Paddings per Figma: title px24 py16, description px24,
+   image p16 (phone/tablet) or pr24 py24 (desktop); title+desc gap 8;
+   content gap 24 (phone/tablet) / 40 (desktop). */
+.card {
+  position: relative;                       /* anchors the countdown bar */
+  width: 100%;                              /* phone: always full width */
+  border-radius: var(--radius-16);          /* radius/16 for every state */
+  background: var(--grey-10);               /* Default: black 10 #f5f5f5 */
+  overflow: hidden;
+  transition: background 0.3s ease, width 0.3s ease;
 }
-.partner-card[aria-expanded="true"] {
-  background: var(--blue-05);
+.card[aria-expanded="true"] { background: var(--blue-05); }   /* open: blue 05 */
+/* Hover (collapsed cards, pointer devices only): black 20 #dbdbdb. */
+@media (hover: hover) {
+  .card:not([aria-expanded="true"]):hover {
+    background: var(--black-20);             /* black 20 #dbdbdb */
+  }
 }
 
-/* Countdown indicator: 4px-wide black bar on the left edge that grows
-   vertically from 0 → 100% over the open-state duration. Animation is
-   only active while .is-counting; otherwise the bar collapses to 0. */
-.partner-card__countdown {
+/* Countdown indicator: 4px black bar growing 0 -> 100% while counting. */
+.card__countdown {
   position: absolute;
   left: 0;
   top: 0;
@@ -1255,15 +1294,28 @@ img {
   pointer-events: none;
   z-index: 1;
 }
-.partner-card.is-counting .partner-card__countdown {
-  animation: partner-countdown var(--partner-card-duration, 7s) linear forwards;
+.card.is-counting .card__countdown {
+  animation: card-countdown var(--card-duration, 7s) linear forwards;
 }
-@keyframes partner-countdown {
+@keyframes card-countdown {
   from { transform: scaleY(0); }
   to   { transform: scaleY(1); }
 }
 
-.partner-card__head {
+/* content = title+description column (card__main) + image (card__media). */
+.card__content {
+  display: flex;
+  flex-direction: column;                   /* phone: text over image */
+  gap: var(--spacing-6);                     /* 24 */
+}
+.card__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);                     /* title -> desc: 8 */
+}
+
+/* Title (always visible): px24 py16. */
+.card__head {
   display: flex;
   align-items: center;
   width: 100%;
@@ -1274,61 +1326,70 @@ img {
   text-align: left;
   font-family: var(--font-body);
 }
-.partner-card__title {
+.card__title {
   display: block;
-  max-width: 544px;
+  width: 100%;
   font-family: var(--font-body);
-  font-size: clamp(24px, 3vw, 41px);
-  line-height: 1.1;
+  font-size: 21px;                          /* H6 (phone/tablet) */
+  line-height: normal;
   color: var(--black-500);
 }
 
-/* Body collapses via max-height + opacity; description and image lay
-   out side-by-side on xl, stacked otherwise. */
-.partner-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-6);
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  padding: 0 var(--spacing-6);
-  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
-}
-.partner-card[aria-expanded="true"] .partner-card__body {
-  max-height: 1200px;
-  opacity: 1;
-  padding-bottom: var(--spacing-6);
-}
-
-.partner-card__desc {
+/* Description + image reveal only when the card is open. */
+.card__desc {
   margin: 0;
-  max-width: 544px;
+  width: 100%;
+  padding: 0 var(--spacing-6);              /* px24 */
   font-family: var(--font-body);
-  font-size: clamp(20px, 2.2vw, 27px);
-  line-height: 1.3;
-  color: #444;
+  font-size: 16px;                          /* Body 3 (phone/tablet) */
+  line-height: normal;
+  color: var(--black-500);
 }
-
-.partner-card__image {
-  flex: none;
-  max-width: 546px;
+.card__image {
+  width: 100%;
+  padding: var(--spacing-4);                /* p16 (phone/tablet) */
 }
-.partner-card__image img {
+.card__image img {
   width: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
-  border-radius: var(--radius-24);
+  border-radius: var(--radius-16);
+}
+.card__desc,
+.card__media { display: none; }
+.card[aria-expanded="true"] .card__desc { display: block; }
+.card[aria-expanded="true"] .card__media { display: block; }
+
+/* Tablet (>= md 750): image beside the text; collapsed card narrow (328).
+   Only cards WITH an image size the text column to share the row; text-only
+   cards let the title + description hug their content. */
+@media (min-width: 750px) {
+  .card { width: 328px; }
+  .card[aria-expanded="true"] { width: 100%; }
+  .card__content { flex-direction: row; align-items: flex-start; gap: var(--spacing-6); }
+  .card__main { min-width: 0; align-items: flex-start; }
+  .card__head { width: auto; }                             /* hug the title */
+  .card__desc { width: fit-content; max-width: 544px; }    /* hug the text */
+  /* Text-only cards: the whole text column hugs its content (max 592 = 544
+     text + px24) instead of filling the open card's full width. */
+  .card__content:not(:has(.card__media)) .card__main { width: fit-content; max-width: 592px; }
+  .card__content:has(.card__media) .card__main { flex: 1 1 0; padding-bottom: var(--spacing-4); } /* pb16 */
+  .card__media { flex: 1 1 0; min-width: 0; }
+  .card[aria-expanded="true"] .card__media { display: block; }
 }
 
+/* Desktop (>= xl 1281): 41px title, 21px desc, content gap 40, image pr24 py24,
+   collapsed card 543. */
 @media (min-width: 1281px) {
-  .partner-card__body {
-    flex-direction: row;
-    align-items: stretch;
-    gap: var(--spacing-2);
-  }
-  .partner-card__desc { flex: 1 1 0; max-width: 544px; }
-  .partner-card__image { width: 546px; }
+  .card { width: 543px; }
+  .card[aria-expanded="true"] { width: 100%; }
+  .card__content { gap: var(--spacing-10); align-items: flex-start; }   /* 40 */
+  .card__title { font-size: 41px; line-height: 1.2; max-width: 544px; }
+  .card__desc { font-size: 21px; max-width: 544px; }
+  /* Only image cards fix the text column to 592 (544 + px24); text-only
+     cards hug their content below the headline. */
+  .card[aria-expanded="true"] .card__content:has(.card__media) .card__main { flex: none; width: 592px; }
+  .card__image { padding: var(--spacing-6) var(--spacing-6) var(--spacing-6) 0; } /* pr24 py24 */
 }
 
 /* ============================================================

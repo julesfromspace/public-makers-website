@@ -127,20 +127,40 @@
 // page, so the manifesto bottom sheet (no close button on phone) got stuck
 // open. showModal() guarantees a modal with a scrim we can tap to close.
 (function () {
+  // Lock page scroll while any modal dialog is open — showModal() alone does
+  // not stop the page behind the scrim from scrolling. Released once no dialog
+  // remains open (covers close button, Esc, and tap-outside).
+  function syncScrollLock() {
+    const anyOpen = document.querySelector("dialog[open]");
+    document.documentElement.style.overflow = anyOpen ? "hidden" : "";
+  }
+
+  function openDialog(d) {
+    if (!d || typeof d.showModal !== "function" || d.open) return;
+    d.showModal();
+    syncScrollLock();
+    // Backup: Esc / native close also releases the lock. `cancel` fires while
+    // the dialog is still open, so defer a tick until after it has closed.
+    d.addEventListener("close", syncScrollLock);
+    d.addEventListener("cancel", () => setTimeout(syncScrollLock, 0));
+  }
+
+  function closeDialog(d) {
+    if (!d || !d.open) return;
+    d.close();
+    syncScrollLock(); // release immediately; don't rely on the close event
+  }
+
   // Open: [data-dialog-open="<dialog id>"]
   document.addEventListener("click", (e) => {
     const openBtn = e.target.closest("[data-dialog-open]");
     if (openBtn) {
-      const d = document.getElementById(openBtn.getAttribute("data-dialog-open"));
-      if (d && typeof d.showModal === "function" && !d.open) d.showModal();
+      openDialog(document.getElementById(openBtn.getAttribute("data-dialog-open")));
       return;
     }
     // Close: [data-dialog-close] button inside a dialog
     const closeBtn = e.target.closest("[data-dialog-close]");
-    if (closeBtn) {
-      const d = closeBtn.closest("dialog");
-      if (d) d.close();
-    }
+    if (closeBtn) closeDialog(closeBtn.closest("dialog"));
   });
 
   // Tap outside the sheet/modal closes it. Works whether the dialog opened
@@ -148,7 +168,7 @@
   // safety net, non-modal (the tap lands on an element outside the dialog).
   document.addEventListener("pointerdown", (e) => {
     document.querySelectorAll("dialog[open]").forEach((d) => {
-      if (e.target === d || !d.contains(e.target)) d.close();
+      if (e.target === d || !d.contains(e.target)) closeDialog(d);
     });
   });
 })();
@@ -165,52 +185,167 @@
 
 // Partners — "Why partner with us?" auto-rotating cards. Each card stays
 // open for DURATION_MS while a 4px left-edge bar fills vertically (CSS
-// animation in sync via --partner-card-duration). When the timer expires
+// animation in sync via --card-duration). When the timer expires
 // the next card opens; clicking a card jumps the cycle to it.
 (function () {
-  const list = document.querySelector("[data-partner-cards]");
-  if (!list) return;
-  const cards = Array.from(list.querySelectorAll("[data-partner-card]"));
-  if (cards.length === 0) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const DURATION_MS = 7000;
-  list.style.setProperty("--partner-card-duration", DURATION_MS + "ms");
+  // Each [data-cards] group auto-rotates its own [data-card] items.
+  document.querySelectorAll("[data-cards]").forEach((list) => {
+    const cards = Array.from(list.querySelectorAll("[data-card]"));
+    if (cards.length === 0) return;
+
+    const DURATION_MS = 7000;
+    list.style.setProperty("--card-duration", DURATION_MS + "ms");
+
+    let current = 0;
+    let timer = null;
+
+    function openCard(i) {
+      if (timer) { clearTimeout(timer); timer = null; }
+      current = ((i % cards.length) + cards.length) % cards.length;
+
+      cards.forEach((c, idx) => {
+        const active = idx === current;
+        // Reset the counting class first so the bar's CSS animation restarts
+        // cleanly even if the same card is re-activated.
+        c.classList.remove("is-counting");
+        c.setAttribute("aria-expanded", active ? "true" : "false");
+      });
+      // Force reflow so the animation re-triggers on the now-active card.
+      void cards[current].offsetWidth;
+      cards[current].classList.add("is-counting");
+
+      timer = setTimeout(() => openCard(current + 1), DURATION_MS);
+    }
+
+    cards.forEach((card, idx) => {
+      const toggle = card.querySelector("[data-card-toggle]");
+      if (!toggle) return;
+      toggle.addEventListener("click", () => openCard(idx));
+    });
+
+    // Respect reduced-motion: keep the first card open, no auto-rotate, no bar.
+    if (reduce) {
+      cards.forEach((c, idx) =>
+        c.setAttribute("aria-expanded", idx === 0 ? "true" : "false")
+      );
+    } else {
+      openCard(0);
+    }
+  });
+})();
+
+// Approach — tab+image sections. A SINGLE tab is open across ALL [data-vtabs]
+// groups at once; it auto-advances through every tab in DOM order. Opening a
+// tab swaps its section's image to that tab's data-tab-image.
+(function () {
+  const tabs = Array.from(document.querySelectorAll("[data-vtabs] .vtab"));
+  if (tabs.length === 0) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const DURATION_MS = 5000;
+  document.querySelectorAll("[data-vtabs]").forEach((g) =>
+    g.style.setProperty("--card-duration", DURATION_MS + "ms")
+  );
+
+  // Cross-fade an image to a new src using Motion (motion.dev, window.Motion):
+  // fade out, swap once the new image is decoded, fade back in. Falls back to
+  // an instant swap when Motion is unavailable or reduced-motion is on.
+  const FADE_MS = 200;
+  function setImg(img, src) {
+    if (!img || !src || img.getAttribute("src") === src) return;
+    const M = window.Motion;
+    if (reduce || !M || !M.animate) { img.setAttribute("src", src); return; }
+
+    new Image().src = src; // start decoding during the fade-out
+    M.animate(img, { opacity: [1, 0] }, { duration: FADE_MS / 1000, ease: "easeIn" });
+    // Swap + fade back in on a timer (fires even when Motion/rAF is paused in a
+    // hidden tab, so the image always updates); opacity is forced to 1 as a
+    // safety end-state in case the fade-in animation doesn't run.
+    setTimeout(() => {
+      img.setAttribute("src", src);
+      img.style.opacity = "1";
+      M.animate(img, { opacity: [0, 1] }, { duration: FADE_MS / 1000, ease: "easeOut" });
+    }, FADE_MS);
+  }
+
+  // Ease-out scroll to a section, clearing the sticky nav.
+  function scrollToSection(section) {
+    const navH = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue("--nav-height"),
+      10
+    ) || 100;
+    const targetY = Math.max(
+      0,
+      section.getBoundingClientRect().top + window.scrollY - navH - 24
+    );
+    if (reduce) { window.scrollTo(0, targetY); return; }
+    const startY = window.scrollY;
+    const dist = targetY - startY;
+    if (Math.abs(dist) < 2) return;
+    const dur = 400;
+    let t0 = null;
+    const easeOut = (p) => 1 - Math.pow(1 - p, 3);
+    function step(ts) {
+      if (t0 === null) t0 = ts;
+      const p = Math.min(1, (ts - t0) / dur);
+      window.scrollTo(0, startY + dist * easeOut(p));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Seed each section's image with its first tab's image.
+  document.querySelectorAll("[data-vtabs]").forEach((g) => {
+    const first = g.querySelector(".vtab[data-tab-image]");
+    const img = g.closest("section").querySelector("[data-section-img]");
+    if (first && img) {
+      const src = first.getAttribute("data-tab-image");
+      if (src) img.setAttribute("src", src);
+    }
+  });
 
   let current = 0;
   let timer = null;
 
-  function openCard(i) {
+  function open(i, auto) {
     if (timer) { clearTimeout(timer); timer = null; }
-    current = ((i % cards.length) + cards.length) % cards.length;
+    const prevSection = tabs[current] && tabs[current].closest("section");
+    current = ((i % tabs.length) + tabs.length) % tabs.length;
 
-    cards.forEach((c, idx) => {
+    tabs.forEach((t, idx) => {
       const active = idx === current;
-      // Reset the counting class first so the bar's CSS animation restarts
-      // cleanly even if the same card is re-activated.
-      c.classList.remove("is-counting");
-      c.setAttribute("aria-expanded", active ? "true" : "false");
+      t.classList.remove("is-counting");
+      t.setAttribute("aria-expanded", active ? "true" : "false");
     });
-    // Force reflow so the animation re-triggers on the now-active card.
-    void cards[current].offsetWidth;
-    cards[current].classList.add("is-counting");
 
-    timer = setTimeout(() => openCard(current + 1), DURATION_MS);
+    const tab = tabs[current];
+    const section = tab.closest("section");
+    // Fade the section image to the active tab's image.
+    setImg(section.querySelector("[data-section-img]"), tab.getAttribute("data-tab-image"));
+
+    // Auto-advancing into a new section (last tab of one → first tab of the
+    // next): ease-out scroll the page to that section.
+    if (auto && prevSection && section !== prevSection) scrollToSection(section);
+
+    void tab.offsetWidth; // reflow so the countdown bar restarts
+    tab.classList.add("is-counting");
+
+    timer = setTimeout(() => open(current + 1, true), DURATION_MS);
   }
 
-  cards.forEach((card, idx) => {
-    const toggle = card.querySelector("[data-partner-card-toggle]");
-    if (!toggle) return;
-    toggle.addEventListener("click", () => openCard(idx));
+  tabs.forEach((tab, idx) => {
+    const toggle = tab.querySelector("[data-card-toggle]") || tab;
+    toggle.addEventListener("click", () => open(idx, false));
   });
 
-  // Respect reduced-motion: keep the first card open, no auto-rotate, no bar.
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce) {
-    cards.forEach((c, idx) =>
-      c.setAttribute("aria-expanded", idx === 0 ? "true" : "false")
+    tabs.forEach((t, idx) =>
+      t.setAttribute("aria-expanded", idx === 0 ? "true" : "false")
     );
   } else {
-    openCard(0);
+    open(0, false);
   }
 })();
 

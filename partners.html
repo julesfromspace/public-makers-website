@@ -53,7 +53,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=56" />
+  <link rel="stylesheet" href="styles.css?v=72" />
 </head>
 
 <!-- Per-page accent: blue for the active "Partners" tab. -->
@@ -121,52 +121,73 @@
       </div>
     </section>
 
-    <!-- ===== "Why partner with us?" heading + accordion cards ===== -->
-    <section class="pb-[120px]">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <h2 class="col-span-4 mb-10 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+    <!-- ===== "partner benefits" section (Figma 3358:20493): heading +
+         expandable "card" components. Heading 41/61 (left-aligned); cards gap 24; section pt48 pb96, gap96. ===== -->
+    <section class="pt-12 pb-24">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-2 gap-y-0 md:grid-cols-8 xl:grid-cols-12">
+          <!-- Heading: 41 left +24 inset (phone/tablet) → 61 left-aligned
+               (desktop). Gap to tabs 48 (phone/tablet) → 96 (desktop). -->
+          <h2 class="col-span-4 mb-12 px-6 font-body text-balance text-[41px] leading-[1.2] text-black md:col-span-8 xl:col-span-10 xl:col-start-2 xl:mb-24 xl:px-0 xl:text-left xl:text-[61px] xl:leading-[normal]">
             Why partner with us?
           </h2>
 
-          <ul class="col-span-4 flex flex-col gap-10 md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2" role="list" data-partner-cards>
+          <ul class="col-span-4 flex flex-col gap-4 md:col-span-8 xl:col-span-10 xl:col-start-2 xl:gap-6" role="list" data-cards>
             <!-- Card 1: open by default -->
-            <li class="partner-card" data-partner-card aria-expanded="true">
-              <div class="partner-card__countdown" aria-hidden="true"></div>
-              <button type="button" class="partner-card__head" data-partner-card-toggle>
-                <span class="partner-card__title">Gain access to tested solutions and bright minds</span>
-              </button>
-              <div class="partner-card__body">
-                <p class="partner-card__desc">
-                  We provide direct access to young professionals who are oriented, practiced, and connected from day one. Through our collaborative labs and bootcamps, we co-create documented, replicable solutions for your actual administrative challenges.
-                </p>
-                <div class="partner-card__image">
-                  <img src="assets/partners-card.jpg" alt="" />
+            <li class="card" data-card aria-expanded="true">
+              <div class="card__countdown" aria-hidden="true"></div>
+              <div class="card__content">
+                <div class="card__main">
+                  <button type="button" class="card__head" data-card-toggle>
+                    <span class="card__title">Gain access to tested solutions and bright minds</span>
+                  </button>
+                  <p class="card__desc">
+                    We provide direct access to young professionals who are oriented, practiced, and connected from day one. Through our collaborative labs and bootcamps, we co-create documented, replicable solutions for your actual administrative challenges.
+                  </p>
+                </div>
+                <div class="card__media">
+                  <div class="card__image">
+                    <img src="assets/partners-card.jpg" alt="" />
+                  </div>
                 </div>
               </div>
             </li>
 
-            <li class="partner-card" data-partner-card aria-expanded="false">
-              <div class="partner-card__countdown" aria-hidden="true"></div>
-              <button type="button" class="partner-card__head" data-partner-card-toggle>
-                <span class="partner-card__title">Startup pace meets public sector reality</span>
-              </button>
-              <div class="partner-card__body">
-                <p class="partner-card__desc">
-                  We combine the speed and creativity of the startup world with the depth and accountability of public administration. The outcomes are practical, deployable, and ready for real-world conditions.
-                </p>
+            <li class="card" data-card aria-expanded="false">
+              <div class="card__countdown" aria-hidden="true"></div>
+              <div class="card__content">
+                <div class="card__main">
+                  <button type="button" class="card__head" data-card-toggle>
+                    <span class="card__title">Startup pace meets public sector reality</span>
+                  </button>
+                  <p class="card__desc">
+                    We combine the speed and creativity of the startup world with the depth and accountability of public administration. The outcomes are practical, deployable, and ready for real-world conditions.
+                  </p>
+                </div>
+                <div class="card__media">
+                  <div class="card__image">
+                    <img src="assets/event4.jpg" alt="" />
+                  </div>
+                </div>
               </div>
             </li>
 
-            <li class="partner-card" data-partner-card aria-expanded="false">
-              <div class="partner-card__countdown" aria-hidden="true"></div>
-              <button type="button" class="partner-card__head" data-partner-card-toggle>
-                <span class="partner-card__title">Invest in the state's capacity to act</span>
-              </button>
-              <div class="partner-card__body">
-                <p class="partner-card__desc">
-                  Your support strengthens the next generation's ability to step into public roles with confidence — building long-term capacity for the institutions that shape our common future.
-                </p>
+            <li class="card" data-card aria-expanded="false">
+              <div class="card__countdown" aria-hidden="true"></div>
+              <div class="card__content">
+                <div class="card__main">
+                  <button type="button" class="card__head" data-card-toggle>
+                    <span class="card__title">Invest in the state's capacity to act</span>
+                  </button>
+                  <p class="card__desc">
+                    Your support strengthens the next generation's ability to step into public roles with confidence — building long-term capacity for the institutions that shape our common future.
+                  </p>
+                </div>
+                <div class="card__media">
+                  <div class="card__image">
+                    <img src="assets/hero3.jpg" alt="" />
+                  </div>
+                </div>
               </div>
             </li>
           </ul>
@@ -251,13 +272,13 @@
     </section>
 
     <!-- ===== Contact ===== -->
-    <section id="join" class="bg-neutral-100 pb-20 pt-6 xl:py-20">
-      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
-        <div class="grid grid-cols-4 gap-x-2 gap-y-20 md:grid-cols-8 md:gap-6 xl:grid-cols-12 xl:gap-2">
-          <!-- Left: title, paragraph, email -->
-          <div class="col-span-4 flex flex-col justify-between gap-8 md:col-span-4 xl:col-span-6 xl:col-start-2 xl:gap-20">
-            <div class="flex flex-col gap-12 xl:gap-20">
-              <h2 class="font-body text-[41px] leading-[normal] text-black xl:text-[61px]">Contact us</h2>
+    <section id="join" class="bg-neutral-100 pt-4 pb-20 md:pt-10 xl:py-16">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10 xl:grid xl:grid-cols-12 xl:gap-10">
+        <div class="flex flex-col gap-12 md:flex-row md:items-stretch md:gap-6 xl:col-span-10 xl:col-start-2 xl:gap-0 xl:justify-between">
+          <!-- Left column: title + paragraph (top), email (bottom) -->
+          <div class="flex flex-col gap-8 md:flex-1 md:justify-between xl:w-[542px] xl:flex-none">
+            <div class="flex flex-col gap-6 md:gap-8 xl:gap-10">
+              <h2 class="font-body text-balance text-[41px] leading-[normal] text-black xl:text-[61px]">Contact us</h2>
               <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[normal]">
                 We're open for inquiries of organisations interested in working with us.
               </p>
@@ -267,9 +288,9 @@
             </p>
           </div>
 
-          <!-- Right: contact person card (molecule/member) -->
-          <div class="col-span-4 flex flex-col gap-4 md:col-span-4 xl:col-span-4 xl:col-start-9 xl:gap-6">
-            <div class="aspect-[4/3] w-full overflow-hidden rounded-24 xl:aspect-auto xl:h-[300px] xl:w-[400px]">
+          <!-- Right column: contact person card (molecule/member) -->
+          <div class="flex flex-col gap-4 md:flex-1 xl:w-[426px] xl:flex-none xl:gap-6">
+            <div class="aspect-[4/3] w-full overflow-hidden rounded-24">
               <img src="assets/johanna.png" alt="Johanna Maria Schmidt" class="h-full w-full object-cover" />
             </div>
             <div class="flex w-full items-start">
@@ -314,7 +335,7 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=27"></script>
+  <script src="script.js?v=28"></script>
   <!-- Phone fixed bottom nav (Figma 674:10045) -->
   <nav class="bottom-nav" aria-label="Sections">
     <div class="bottom-nav__bar">

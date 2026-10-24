@@ -453,15 +453,17 @@
     </section>
 
     <!-- ===== Contact ===== -->
-    <!-- Tablet (md–<xl): two equal columns (Figma node 3187:12946).
-         xl: wider left column. < md: stacked. -->
-    <section id="join" class="bg-neutral-100 pb-20 pt-6 xl:py-20">
-      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
-        <div class="grid grid-cols-4 gap-x-2 gap-y-20 md:grid-cols-8 md:gap-6 xl:grid-cols-12 xl:gap-2">
-          <!-- Left: title, paragraph, email -->
-          <div class="col-span-4 flex flex-col justify-between gap-8 md:col-span-4 xl:col-span-6 xl:col-start-2 xl:gap-20">
-            <div class="flex flex-col gap-12 xl:gap-20">
-              <h2 class="font-body text-[41px] leading-[normal] text-black xl:text-[61px]">Contact us</h2>
+    <!-- ===== Contact section (Figma 1529:7070) =====
+         Phone: stacked, px16 pt16 pb80, gap48. Tablet: two equal columns,
+         px40 pt40 pb80, gap24. Desktop (xl): content in grid cols 2-11
+         (left 542 / gap 158 / right 426), bg black-10, py64. -->
+    <section id="join" class="bg-neutral-100 pt-4 pb-20 md:pt-10 xl:py-16">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10 xl:grid xl:grid-cols-12 xl:gap-10">
+        <div class="flex flex-col gap-12 md:flex-row md:items-stretch md:gap-6 xl:col-span-10 xl:col-start-2 xl:gap-0 xl:justify-between">
+          <!-- Left column: title + paragraph (top), email (bottom) -->
+          <div class="flex flex-col gap-8 md:flex-1 md:justify-between xl:w-[542px] xl:flex-none">
+            <div class="flex flex-col gap-6 md:gap-8 xl:gap-10">
+              <h2 class="font-body text-balance text-[41px] leading-[normal] text-black xl:text-[61px]">Contact us</h2>
               <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[normal]">
                 We're open for inquiries of organisations interested in working with us.
               </p>
@@ -471,9 +473,9 @@
             </p>
           </div>
 
-          <!-- Right: contact person card (molecule/member) -->
-          <div class="col-span-4 flex flex-col gap-4 md:col-span-4 xl:col-span-4 xl:col-start-9 xl:gap-6">
-            <div class="aspect-[4/3] w-full overflow-hidden rounded-24 xl:aspect-auto xl:h-[300px] xl:w-[400px]">
+          <!-- Right column: contact person card (molecule/member) -->
+          <div class="flex flex-col gap-4 md:flex-1 xl:w-[426px] xl:flex-none xl:gap-6">
+            <div class="aspect-[4/3] w-full overflow-hidden rounded-24">
               <img src="assets/johanna.png" alt="Johanna Maria Schmidt" class="h-full w-full object-cover" />
             </div>
             <div class="flex w-full items-start">
@@ -562,7 +564,7 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=27"></script>
+  <script src="script.js?v=31"></script>
   <!-- Phone fixed bottom nav (Figma 674:10045) -->
   <nav class="bottom-nav bottom-nav--default" aria-label="Sections">
     <div class="bottom-nav__bar">
