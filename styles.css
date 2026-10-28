@@ -739,6 +739,71 @@ img {
 }
 
 /* ============================================================
+   Link — text link component (atomic), Figma 981:12152
+   ============================================================ */
+/* Variants: size S (16px, default) / M -> .link--m (18px).
+   States: Default, hovered + pressed (underline), focused (3px ring),
+   disabled (black 200, no underline).
+   The label takes its colour from the surrounding context — black on a
+   light background, white inside the footer panel — so the component can
+   be reused on either. Optional 20px leading/trailing icons sit in the
+   component's 8px gap; .link--inline drops the block padding for links
+   that sit inside running text. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);              /* 8 */
+  max-width: 300px;
+  max-height: 46px;
+  padding: var(--spacing-3) 0;        /* 12 */
+  border-radius: var(--radius-16);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;                    /* size S */
+  line-height: normal;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link--m { font-size: 18px; }         /* size M */
+
+.link:hover,
+.link:active {
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-underline-position: from-font;
+}
+
+.link:focus-visible {
+  outline: 3px solid #ff00d9;
+  outline-offset: 0;
+}
+
+.link[aria-disabled="true"] {
+  color: var(--black-200);            /* #6b6b6b */
+  text-decoration: none;
+  pointer-events: none;
+}
+
+.link__icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+
+/* Inside running text: no block padding, no centring, wraps with the copy. */
+.link--inline {
+  display: inline;
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  white-space: inherit;
+}
+
+/* ============================================================
    Footer
    ============================================================ */
 
@@ -814,13 +879,9 @@ img {
   gap: var(--spacing-1);          /* 4 */
 }
 
+/* The footer's links are .link instances; only the colour is contextual. */
 .footer__links a {
-  padding: var(--spacing-3) 0;    /* 12 — the link component's own inset */
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 16px;
   color: var(--white);
-  text-decoration: none;
 }
 
 .footer__copy {
