@@ -796,20 +796,26 @@ img {
   height: 24px;
 }
 
-/* links + copyright: a row (desktop & tablet), stacked on phone. */
+/* links + copyright. Desktop stacks them right-aligned (Figma 1335:8897 with
+   the "imprint+data privacy" group 3464:21882): links 4 apart, then 16 down
+   to the copyright. Tablet puts them back on one baseline row; phone stacks
+   them left-aligned. */
 .footer__meta {
   display: flex;
-  align-items: baseline;
-  gap: var(--spacing-6);          /* 24 */
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-4);          /* 16 */
 }
 
 .footer__links {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-6);          /* 24 */
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-1);          /* 4 */
 }
 
 .footer__links a {
+  padding: var(--spacing-3) 0;    /* 12 — the link component's own inset */
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 16px;
@@ -903,8 +909,18 @@ img {
     gap: var(--spacing-4);         /* 16 */
     align-self: auto;
   }
-  .footer__links a { padding: var(--spacing-3) 0; }   /* py-12 */
   .footer__logo { width: 100%; }
+  /* Tablet puts the links and the copyright back on one baseline row. */
+  .footer__meta {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--spacing-6);         /* 24 */
+  }
+  .footer__links {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-6);         /* 24 */
+  }
   /* Tablet runs the credits as a single row. */
   .footer__credits {
     margin-top: 0;

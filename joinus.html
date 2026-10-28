@@ -55,7 +55,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=80" />
+  <link rel="stylesheet" href="styles.css?v=81" />
 </head>
 
 <!-- Per-page accent: Join us tab becomes a BLACK folder tab with white text. -->
@@ -193,18 +193,15 @@
       </div>
     </section>
 
-    <!-- ===== "What sets us apart" — 4x4 section (Figma 3409:17541) =====
-         Same component as partners.html: heading + two "text+image"
-         (Figma 707:9325). Dev-annotated col-spans: paragraph 5 (desktop) /
-         4 (tablet+phone), image 4 (all). Desktop uses cols 2-11 with col 7
-         left empty as the gutter the design draws as a 157px gap. ===== -->
+    <!-- ===== 4x4 section (Figma 3409:17541), title=off =====
+         Same component as partners.html but without the heading: just the two
+         "text+image" blocks (Figma 707:9325). Dev-annotated col-spans:
+         paragraph 5 (desktop) / 4 (tablet+phone), image 4 (all). Desktop uses
+         cols 2-11 with col 7 left empty as the gutter the design draws as a
+         157px gap. The grid's row gap now only separates the two rows. ===== -->
     <section class="pb-20 md:pb-24 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="grid grid-cols-4 gap-x-4 gap-y-20 md:grid-cols-8 md:gap-x-6 md:gap-y-24 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10 xl:gap-y-32">
-          <h2 class="col-span-4 font-body text-balance text-[27px] leading-[normal] text-black md:col-span-8 md:text-[41px] md:leading-[1.2] xl:col-span-10 xl:col-start-2 xl:text-[61px] xl:leading-[normal]">
-            What sets us apart
-          </h2>
-
           <!-- text+image — text-left (desktop/tablet). DOM is image-then-text
                so phone stacks the image on top; md+ pulls the text left via
                col-start + row-start-1. -->
@@ -401,7 +398,7 @@
           <p class="footer__copy">© 2025 public makers</p>
         </div>
         <p class="footer__credits">
-          <span class="footer__credits-made">Design &amp; Code with <span class="footer__heart">❤️</span></span>
+          <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
           <span>by Maria Kamenskaya &amp; Julien Stoll</span>
         </p>
       </div>
