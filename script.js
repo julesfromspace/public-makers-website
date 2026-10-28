@@ -249,25 +249,39 @@
     g.style.setProperty("--card-duration", DURATION_MS + "ms")
   );
 
-  // Cross-fade an image to a new src using Motion (motion.dev, window.Motion):
-  // fade out, swap once the new image is decoded, fade back in. Falls back to
-  // an instant swap when Motion is unavailable or reduced-motion is on.
-  const FADE_MS = 200;
-  function setImg(img, src) {
-    if (!img || !src || img.getAttribute("src") === src) return;
+  // Dissolve (true cross-fade) between two stacked <img> layers inside a
+  // [data-section-img] box: the incoming image fades IN on top of the current
+  // one — no dip through the background. Motion (motion.dev, window.Motion)
+  // animates it; falls back to an instant swap when Motion/reduced-motion.
+  const FADE_MS = 400;
+  function layers(box) { return box.querySelectorAll("[data-img-layer]"); }
+  function frontLayer(box) {
+    const ls = layers(box);
+    // Front = the fully-opaque layer with a src (or the first on init).
+    return [...ls].find((l) => l.style.opacity !== "0" && l.getAttribute("src")) || ls[0];
+  }
+  function setImg(box, src) {
+    if (!box || !src) return;
+    const ls = layers(box);
+    if (ls.length < 2) { if (ls[0]) ls[0].setAttribute("src", src); return; }
+    const front = frontLayer(box);
+    if (front.getAttribute("src") === src) return;
+    const back = ls[0] === front ? ls[1] : ls[0];
     const M = window.Motion;
-    if (reduce || !M || !M.animate) { img.setAttribute("src", src); return; }
 
-    new Image().src = src; // start decoding during the fade-out
-    M.animate(img, { opacity: [1, 0] }, { duration: FADE_MS / 1000, ease: "easeIn" });
-    // Swap + fade back in on a timer (fires even when Motion/rAF is paused in a
-    // hidden tab, so the image always updates); opacity is forced to 1 as a
-    // safety end-state in case the fade-in animation doesn't run.
-    setTimeout(() => {
-      img.setAttribute("src", src);
-      img.style.opacity = "1";
-      M.animate(img, { opacity: [0, 1] }, { duration: FADE_MS / 1000, ease: "easeOut" });
-    }, FADE_MS);
+    const finish = () => { back.style.opacity = "1"; front.style.opacity = "0"; };
+    const show = () => {
+      if (reduce || !M || !M.animate) { finish(); return; }
+      // Cross-fade: raise the incoming (back) layer over the current (front).
+      M.animate(back, { opacity: [0, 1] }, { duration: FADE_MS / 1000, ease: "easeInOut" });
+      // Timer fallback commits the end-state even if Motion/rAF is paused.
+      setTimeout(finish, FADE_MS);
+    };
+
+    back.style.opacity = "0";
+    back.setAttribute("src", src);
+    if (back.complete) show();
+    else { back.onload = show; back.onerror = show; }
   }
 
   // Ease-out scroll to a section, clearing the sticky nav.
@@ -296,13 +310,14 @@
     requestAnimationFrame(step);
   }
 
-  // Seed each section's image with its first tab's image.
+  // Seed each section's front image layer with its first tab's image.
   document.querySelectorAll("[data-vtabs]").forEach((g) => {
     const first = g.querySelector(".vtab[data-tab-image]");
-    const img = g.closest("section").querySelector("[data-section-img]");
-    if (first && img) {
+    const box = g.closest("section").querySelector("[data-section-img]");
+    if (first && box) {
       const src = first.getAttribute("data-tab-image");
-      if (src) img.setAttribute("src", src);
+      const layer = box.querySelector("[data-img-layer]");
+      if (src && layer) layer.setAttribute("src", src);
     }
   });
 
