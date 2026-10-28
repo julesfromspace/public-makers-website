@@ -53,7 +53,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=72" />
+  <link rel="stylesheet" href="styles.css?v=80" />
 </head>
 
 <!-- Per-page accent: blue for the active "Partners" tab. -->
@@ -93,7 +93,7 @@
          (41px, max 1024), card pb40. Card inset padding is intentional
          (self-contained component), not grid alignment. Outer margin 16/40/40. -->
     <section>
-      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+      <div class="mx-auto w-full max-w-[1440px] px-4 pb-16 md:px-10 md:pb-24 xl:pb-32">
         <div class="flex flex-col gap-6 rounded-40 bg-partners-blue px-6 pb-6 pt-4 xl:gap-0 xl:px-0 xl:pb-10 xl:pt-0">
           <h1 class="font-display font-normal text-balance text-[41px] leading-[1.05] text-ink xl:whitespace-nowrap xl:px-[118px] xl:py-16 xl:text-[91px] xl:leading-[91px]">
             Our partners
@@ -105,25 +105,9 @@
       </div>
     </section>
 
-    <!-- ===== "We build the people…" statement ===== -->
-    <section class="py-[170px]">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <div class="col-span-4 flex flex-col gap-20 md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
-            <p class="font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black">
-              We build the people who drive it from the inside.
-            </p>
-            <p class="max-w-[720px] font-body text-[clamp(20px,2.2vw,27px)] leading-[1.3] text-neutral-300">
-              Most programs ask young talent to arrive with a finished idea. We start earlier. We help the next generation build a clear value compass and connect them directly with the realities of public administration. By partnering with us, you aren't just sponsoring an event. You are investing in a self-sustaining network that shifts the system.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== "partner benefits" section (Figma 3358:20493): heading +
          expandable "card" components. Heading 41/61 (left-aligned); cards gap 24; section pt48 pb96, gap96. ===== -->
-    <section class="pt-12 pb-24">
+    <section class="pt-12 pb-20 md:pb-24 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="grid grid-cols-4 gap-x-2 gap-y-0 md:grid-cols-8 xl:grid-cols-12">
           <!-- Heading: 41 left +24 inset (phone/tablet) → 61 left-aligned
@@ -132,7 +116,7 @@
             Why partner with us?
           </h2>
 
-          <ul class="col-span-4 flex flex-col gap-4 md:col-span-8 xl:col-span-10 xl:col-start-2 xl:gap-6" role="list" data-cards>
+          <ul class="col-span-4 flex flex-col gap-2 md:col-span-8 xl:col-span-10 xl:col-start-2 xl:gap-4" role="list" data-cards>
             <!-- Card 1: open by default -->
             <li class="card" data-card aria-expanded="true">
               <div class="card__countdown" aria-hidden="true"></div>
@@ -195,78 +179,138 @@
       </div>
     </section>
 
-    <!-- ===== "What sets us apart" heading + two paragraph rows ===== -->
-    <section class="pb-[120px]">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <h2 class="col-span-4 mb-10 font-body text-[clamp(40px,5vw,61px)] leading-[1.05] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+    <!-- ===== "What sets us apart" — 4x4 section (Figma 3409:17541) =====
+         Heading + two "text+image" components (Figma 707:9325). Dev-annotated
+         col-spans: paragraph 5 (desktop) / 4 (tablet+phone), image 4 (all).
+         Desktop places the pair in cols 2-11, leaving col 7 as the visual
+         gutter the design shows as a 157px gap. Images are 4:3 at every
+         viewport (426x319 desktop, 323x242 tablet), so aspect-[4/3] + the
+         column width reproduces them without fixed heights.
+         Section gap 80/96/128, pb 80/96/192. ===== -->
+    <section class="pb-20 md:pb-24 xl:pb-48">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 gap-y-20 md:grid-cols-8 md:gap-x-6 md:gap-y-24 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10 xl:gap-y-32">
+          <h2 class="col-span-4 font-body text-balance text-[27px] leading-[normal] text-black md:col-span-8 md:text-[41px] md:leading-[1.2] xl:col-span-10 xl:col-start-2 xl:text-[61px] xl:leading-[normal]">
             What sets us apart
           </h2>
 
-          <div class="col-span-4 flex flex-col gap-10 md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
-            <article class="grid grid-cols-1 gap-8 py-10 md:grid-cols-12 md:gap-2">
-              <p class="font-body text-[clamp(24px,3vw,41px)] leading-[1.15] text-black md:col-span-6">
-               Driven by peers. Trusted by institutions.
+          <!-- text+image — text-left (desktop/tablet). DOM is image-then-text
+               so phone stacks the image on top; md+ pulls the text left via
+               col-start + row-start-1. -->
+          <div class="col-span-4 grid grid-cols-4 gap-x-4 gap-y-10 md:col-span-8 md:grid-cols-8 md:items-center md:gap-x-6 md:gap-y-0 lg:gap-x-8 xl:col-span-12 xl:grid-cols-12 xl:gap-x-10">
+            <div class="col-span-4 aspect-[4/3] overflow-hidden rounded-24 md:col-start-5 xl:col-start-8">
+              <img src="assets/hero3.jpg" alt="Public Makers at the German American Conference, Harvard Kennedy School" class="h-full w-full object-cover" />
+            </div>
+            <div class="col-span-4 flex flex-col justify-center gap-4 md:col-start-1 md:row-start-1 xl:col-span-5 xl:col-start-2">
+              <p class="font-body text-[21px] leading-[1.4] text-black md:leading-[normal] xl:text-pretty xl:text-[27px]">
+                We build the people who drive it from the inside.
               </p>
-              <p class="max-w-[514.9px] font-body text-[clamp(20px,2.2vw,27px)] leading-[1.3] text-neutral-300 md:col-span-5 md:col-start-8">
-                We hold the patronage of state ministers and partner with federal offices and speak the language of young talent and top-level administration. No other program in Germany holds both at once.
+              <p class="font-body text-[16px] leading-[normal] text-neutral-300 md:text-[18px] md:leading-[1.4] xl:text-[21px]">
+                Change in public policy comes from people who understand the system and have the skills to move it. We invest in those people first: mentoring, real responsibility, and room to grow faster than any job would allow.
               </p>
-            </article>
+            </div>
+          </div>
 
-            <article class="grid grid-cols-1 gap-8 py-10 md:grid-cols-12 md:gap-2">
-              <p class="font-body text-[clamp(24px,3vw,41px)] leading-[1.15] text-black md:col-span-6">
-               Real constraints, real impact.
+          <!-- text+image — text-right (desktop/tablet): image leads, so DOM
+               order already matches and phone stacking needs no reorder. -->
+          <div class="col-span-4 grid grid-cols-4 gap-x-4 gap-y-10 md:col-span-8 md:grid-cols-8 md:items-center md:gap-x-6 md:gap-y-0 lg:gap-x-8 xl:col-span-12 xl:grid-cols-12 xl:gap-x-10">
+            <div class="col-span-4 aspect-[4/3] overflow-hidden rounded-24 md:col-start-1 xl:col-start-2">
+              <img src="assets/sets-apart-drive.jpg" alt="Public Makers members together at a project event" class="h-full w-full object-cover" />
+            </div>
+            <div class="col-span-4 flex flex-col justify-center gap-4 md:col-start-5 xl:col-span-5 xl:col-start-7">
+              <p class="font-body text-[21px] leading-[1.4] text-black md:leading-[normal] xl:text-pretty xl:text-[27px]">
+                Drive projects and your personal growth in public policy making!
               </p>
-              <p class="max-w-[514.9px] font-body text-[clamp(20px,2.2vw,27px)] leading-[1.3] text-neutral-300 md:col-span-5 md:col-start-8">
-                Our formats come from the startup world, but the constraints come directly from public administration. Our network leaves with practical experience from real ministerial projects.
+              <p class="font-body text-[16px] leading-[normal] text-neutral-300 md:text-[18px] md:leading-[1.4] xl:text-[21px]">
+                From day one you’ll make decisions that matter, lead projects that shape real policy and grow every skill you touch along the way. We back you with a team that wants you to outgrow us.
               </p>
-            </article>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Large statement ===== -->
-    <section class="py-[120px]">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <p class="col-span-4 font-body text-[clamp(24px,3.2vw,41px)] leading-[1.15] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2">
+    <!-- ===== Partners organism — "Large text" variant (Figma 3450:20487
+         desktop / 3450:20508 tablet / 3450:20550 phone). Same component as the
+         "Title" variant on index.html, except the large statement takes the
+         place of the "Partners" heading. The statement's Figma widths are grid
+         spans: 893 = col-span-8 from col 2 (desktop), 583 = col-span-7
+         (tablet), full width (phone) — the frame's pl-157 is just col 2.
+         Vertical rhythm: statement->carousel 96 / 48 / 48, carousel->button
+         64 / 48 / 48, pb 192 / 96 / 128. ===== -->
+    <section class="bg-white pb-32 md:pb-24 xl:pb-48">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <div class="grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+          <p class="col-span-4 font-body text-[21px] leading-[normal] text-black md:col-span-7 md:text-pretty md:text-[27px] xl:col-span-8 xl:col-start-2 xl:text-[41px] xl:leading-[1.2]">
             Together with our partners we work towards creating meaningful change, fostering innovation, and addressing challenges in the public sector.
           </p>
         </div>
-      </div>
-    </section>
 
-    <!-- ===== Partner logos (auto-marquee) ===== -->
-    <section class="bg-white py-20 xl:px-[111px]">
-      <div class="container mx-auto">
-        <div class="relative overflow-hidden rounded-[28px]">
-          <div class="marquee px-[28px] py-[53px]" data-marquee>
-            <ul class="marquee__track" role="list">
-              <li class="h-16 w-[157px] flex-none"><img src="assets/partner1.png" alt="TUM Think Tank" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[150px] flex-none"><img src="assets/partner2.png" alt="Start Munich" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[129px] flex-none"><img src="assets/partner3.png" alt="EuroTeQ Collider" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[234px] flex-none"><img src="assets/partner4.png" alt="BayKommun" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[164px] flex-none"><img src="assets/partner5.png" alt="Partner" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[105px] flex-none"><img src="assets/partner6.png" alt="Partner" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-16 flex-none"><img src="assets/partner7.png" alt="Partner" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[184px] flex-none"><img src="assets/partner8.png" alt="Partner" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[116px] flex-none"><img src="assets/partner9.png" alt="Partner" class="h-full w-full object-contain" /></li>
-            </ul>
-            <ul class="marquee__track" role="list" aria-hidden="true">
-              <li class="h-16 w-[157px] flex-none"><img src="assets/partner1.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[150px] flex-none"><img src="assets/partner2.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[129px] flex-none"><img src="assets/partner3.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[234px] flex-none"><img src="assets/partner4.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[164px] flex-none"><img src="assets/partner5.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[105px] flex-none"><img src="assets/partner6.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-16 flex-none"><img src="assets/partner7.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[184px] flex-none"><img src="assets/partner8.png" alt="" class="h-full w-full object-contain" /></li>
-              <li class="h-16 w-[116px] flex-none"><img src="assets/partner9.png" alt="" class="h-full w-full object-contain" /></li>
-            </ul>
+        <div class="mt-12 xl:mt-24">
+          <!-- Clip box: the marquee overflows it and is cut at the container's
+               max-width (1440), not at the viewport edges. pl = the first
+               logo's start offset — page margin (16 / 40) on phone+tablet, and
+               on desktop col 2 (157) plus the carousel's own 28px inset, so
+               185; xl also adds the row's 53px vertical padding. -->
+          <div class="relative overflow-hidden pl-4 md:pl-10 xl:py-[53px] xl:pl-[185px]">
+            <!-- Marquee: two identical tracks side-by-side; the whole row is
+                 translated -50% on loop so the second copy replaces the first
+                 seamlessly. Pauses on hover, on the toggle button, and respects
+                 reduced-motion. -->
+            <div class="marquee" data-marquee>
+              <ul class="marquee__track" role="list">
+                <li class="h-12 w-[118px] flex-none xl:h-16 xl:w-[157px]"><img src="assets/partner1.png" alt="TUM Think Tank" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[113px] flex-none xl:h-16 xl:w-[150px]"><img src="assets/partner2.png" alt="Start Munich" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[96px] flex-none xl:h-16 xl:w-[129px]"><img src="assets/partner3.png" alt="EuroTeQ Collider" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[176px] flex-none xl:h-16 xl:w-[234px]"><img src="assets/partner4.png" alt="BayKommun" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[123px] flex-none xl:h-16 xl:w-[164px]"><img src="assets/partner5.png" alt="Partner" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[79px] flex-none xl:h-16 xl:w-[105px]"><img src="assets/partner6.png" alt="Partner" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-12 flex-none xl:h-16 xl:w-16"><img src="assets/partner7.png" alt="Partner" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[138px] flex-none xl:h-16 xl:w-[184px]"><img src="assets/partner8.png" alt="Partner" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[87px] flex-none xl:h-16 xl:w-[116px]"><img src="assets/partner9.png" alt="Partner" class="h-full w-full object-contain" /></li>
+              </ul>
+              <ul class="marquee__track" role="list" aria-hidden="true">
+                <li class="h-12 w-[118px] flex-none xl:h-16 xl:w-[157px]"><img src="assets/partner1.png" alt="" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[113px] flex-none xl:h-16 xl:w-[150px]"><img src="assets/partner2.png" alt="" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[96px] flex-none xl:h-16 xl:w-[129px]"><img src="assets/partner3.png" alt="" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[176px] flex-none xl:h-16 xl:w-[234px]"><img src="assets/partner4.png" alt="" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[123px] flex-none xl:h-16 xl:w-[164px]"><img src="assets/partner5.png" alt="" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[79px] flex-none xl:h-16 xl:w-[105px]"><img src="assets/partner6.png" alt="" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-12 flex-none xl:h-16 xl:w-16"><img src="assets/partner7.png" alt="" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[138px] flex-none xl:h-16 xl:w-[184px]"><img src="assets/partner8.png" alt="" class="h-full w-full object-contain" /></li>
+                <li class="h-12 w-[87px] flex-none xl:h-16 xl:w-[116px]"><img src="assets/partner9.png" alt="" class="h-full w-full object-contain" /></li>
+              </ul>
+            </div>
+            <!-- Fade overlays sit in the left/right margins (width = page
+                 margin: 16 phone / 40 tablet+desktop). White gradient: 100% at
+                 the outer edge -> 0% at the inner edge. Figma 3450:20488 /
+                 3450:20489. -->
+            <div class="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent md:w-10"></div>
+            <div class="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent md:w-10"></div>
           </div>
-          <div class="pointer-events-none absolute inset-y-0 left-0 w-[127px] bg-gradient-to-r from-white to-transparent"></div>
-          <div class="pointer-events-none absolute inset-y-0 right-0 w-[127px] bg-gradient-to-l from-white to-transparent"></div>
+
+          <!-- Pause / play toggle (Figma button 3450:20503, 48x48, radius 16,
+               24px icon). Click pauses the marquee and swaps to the play icon. -->
+          <div class="mt-12 grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:mt-16 xl:grid-cols-12 xl:gap-x-10">
+            <div class="col-span-4 md:col-span-8 xl:col-span-10 xl:col-start-2">
+              <button
+                type="button"
+                data-marquee-toggle
+                aria-label="Pause partner logos"
+                class="flex size-12 items-center justify-center rounded-16 text-black">
+                <!-- Pause icon (visible while scrolling) -->
+                <svg data-marquee-icon="pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M9 4.5H7.5C7.10218 4.5 6.72064 4.65804 6.43934 4.93934C6.15804 5.22064 6 5.60218 6 6V18C6 18.3978 6.15804 18.7794 6.43934 19.0607C6.72064 19.342 7.10218 19.5 7.5 19.5H9C9.39782 19.5 9.77936 19.342 10.0607 19.0607C10.342 18.7794 10.5 18.3978 10.5 18V6C10.5 5.60218 10.342 5.22064 10.0607 4.93934C9.77936 4.65804 9.39782 4.5 9 4.5Z"/>
+                  <path d="M16.5 4.5H15C14.6022 4.5 14.2206 4.65804 13.9393 4.93934C13.658 5.22064 13.5 5.60218 13.5 6V18C13.5 18.3978 13.658 18.7794 13.9393 19.0607C14.2206 19.342 14.6022 19.5 15 19.5H16.5C16.8978 19.5 17.2794 19.342 17.5607 19.0607C17.842 18.7794 18 18.3978 18 18V6C18 5.60218 17.842 5.22064 17.5607 4.93934C17.2794 4.65804 16.8978 4.5 16.5 4.5Z"/>
+                </svg>
+                <!-- Play icon (visible while paused) — same Carbon family as the
+                     pause glyph above, scaled to the 24px grid. -->
+                <svg data-marquee-icon="play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="hidden" aria-hidden="true">
+                  <path d="M5.25 21A.75.75 0 0 1 4.5 20.25V3.75a.75.75 0 0 1 1.1115-.657l15 8.25a.75.75 0 0 1 0 1.314l-15 8.25A.75.75 0 0 1 5.25 21Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -326,6 +370,10 @@
           </nav>
           <p class="footer__copy">© 2025 public makers</p>
         </div>
+        <p class="footer__credits">
+          <span class="footer__credits-made">Design &amp; Code with <span class="footer__heart">❤️</span></span>
+          <span>by Maria Kamenskaya &amp; Julien Stoll</span>
+        </p>
       </div>
     </div>
   </footer>

@@ -54,7 +54,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=74" />
+  <link rel="stylesheet" href="styles.css?v=80" />
 </head>
 
 <!-- Override the per-page accent so the active folder tab is green on this page. -->
@@ -90,7 +90,7 @@
   <main>
     <!-- ===== Hero panel (green, title + paragraph) ===== -->
     <section>
-      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+      <div class="mx-auto w-full max-w-[1440px] px-4 pb-16 md:px-10 md:pb-24 xl:pb-32">
         <div class="rounded-40 bg-approach-green px-6 pb-6 pt-4 xl:px-[118px] xl:pb-10 xl:pt-16">
           <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-6 xl:grid-cols-12 xl:gap-2">
             <!-- Title -->
@@ -115,12 +115,13 @@
          image-then-column so phone stacks image first for every section. -->
 
     <!-- Educate — desktop: tabs left, image right -->
-    <section class="py-10 md:py-16 xl:py-24">
+    <section class="pt-10 pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="flex flex-col gap-10 md:grid md:grid-cols-8 md:items-start md:gap-6 xl:grid-cols-12">
           <div class="md:col-span-4 md:col-start-5 xl:col-span-5 xl:col-start-7">
-            <div class="aspect-[4/3] w-full overflow-hidden rounded-24">
-              <img src="assets/approach-educate.jpg" alt="" class="h-full w-full object-cover" data-section-img />
+            <div class="relative aspect-[4/3] w-full overflow-hidden rounded-24" data-section-img>
+              <img src="assets/approach-educate.jpg" alt="" class="absolute inset-0 h-full w-full object-cover" data-img-layer />
+              <img src="" alt="" class="absolute inset-0 h-full w-full object-cover opacity-0" data-img-layer aria-hidden="true" />
             </div>
           </div>
           <div class="flex flex-col gap-10 md:col-span-3 md:col-start-1 md:row-start-1 xl:col-span-4 xl:col-start-2">
@@ -154,12 +155,13 @@
     </section>
 
     <!-- Make — desktop: image left, tabs right -->
-    <section class="py-10 md:py-16 xl:py-24">
+    <section class="pt-10 pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="flex flex-col gap-10 md:grid md:grid-cols-8 md:items-start md:gap-6 xl:grid-cols-12">
           <div class="md:col-span-4 md:col-start-1 xl:col-span-5 xl:col-start-2">
-            <div class="aspect-[4/3] w-full overflow-hidden rounded-24">
-              <img src="assets/approach-make.jpg" alt="" class="h-full w-full object-cover" data-section-img />
+            <div class="relative aspect-[4/3] w-full overflow-hidden rounded-24" data-section-img>
+              <img src="assets/approach-make.jpg" alt="" class="absolute inset-0 h-full w-full object-cover" data-img-layer />
+              <img src="" alt="" class="absolute inset-0 h-full w-full object-cover opacity-0" data-img-layer aria-hidden="true" />
             </div>
           </div>
           <div class="flex flex-col gap-10 md:col-span-3 md:col-start-6 md:row-start-1 xl:col-span-4 xl:col-start-8">
@@ -193,12 +195,13 @@
     </section>
 
     <!-- Connect — desktop: tabs left, image right -->
-    <section class="py-10 md:py-16 xl:py-24">
+    <section class="pt-10 pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="flex flex-col gap-10 md:grid md:grid-cols-8 md:items-start md:gap-6 xl:grid-cols-12">
           <div class="md:col-span-4 md:col-start-5 xl:col-span-5 xl:col-start-7">
-            <div class="aspect-[4/3] w-full overflow-hidden rounded-24">
-              <img src="assets/approach-connect.jpg" alt="" class="h-full w-full object-cover" data-section-img />
+            <div class="relative aspect-[4/3] w-full overflow-hidden rounded-24" data-section-img>
+              <img src="assets/approach-connect.jpg" alt="" class="absolute inset-0 h-full w-full object-cover" data-img-layer />
+              <img src="" alt="" class="absolute inset-0 h-full w-full object-cover opacity-0" data-img-layer aria-hidden="true" />
             </div>
           </div>
           <div class="flex flex-col gap-10 md:col-span-3 md:col-start-1 md:row-start-1 xl:col-span-4 xl:col-start-2">
@@ -287,6 +290,10 @@
           </nav>
           <p class="footer__copy">© 2025 public makers</p>
         </div>
+        <p class="footer__credits">
+          <span class="footer__credits-made">Design &amp; Code with <span class="footer__heart">❤️</span></span>
+          <span>by Maria Kamenskaya &amp; Julien Stoll</span>
+        </p>
       </div>
     </div>
   </footer>
@@ -296,7 +303,7 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=35"></script>
+  <script src="script.js?v=36"></script>
   <!-- Phone fixed bottom nav (Figma 674:10045) -->
   <nav class="bottom-nav" aria-label="Sections">
     <div class="bottom-nav__bar">

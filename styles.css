@@ -426,16 +426,19 @@ img {
 /* Mirrors the Tailwind container's horizontal padding (16px <481px, 40px
    >=481px) so the hero panel sits in the same grid columns as the nav. */
 .hero {
-  padding: 0 var(--spacing-4);
+  padding: 0 var(--spacing-4) var(--spacing-16);   /* phone: x16, below-folder 64 */
 }
 @media (min-width: 750px) {
-  .hero { padding: 0 var(--spacing-10); }   /* 40px margin from tablet up */
+  .hero { padding: 0 var(--spacing-10) var(--spacing-24); }   /* tablet: x40, below-folder 96 */
+}
+@media (min-width: 1281px) {
+  .hero { padding-bottom: var(--spacing-32); }   /* desktop: below-folder 128 */
 }
 
 .hero__panel {
   background: var(--orange-10);
   border-radius: var(--radius-40);
-  padding-bottom: var(--spacing-10);
+  padding-bottom: var(--spacing-10);   /* ordner inset 40 */
 }
 
 .hero__title {
@@ -462,28 +465,91 @@ img {
   border-radius: var(--radius-24);
 }
 
-/* ---- Large text blocks ---- */
+/* ---- Large text (Figma "large text" 712:9585 desktop / 3187:13324 tablet /
+   1429:5718 phone) ----
+   A lead paragraph over a smaller body paragraph, both placed on the page
+   grid. The Figma widths are column spans, not fixed sizes: 893 = 8 cols
+   starting at col 2 and 543 = 5 cols (desktop — the frame's pl-157 is col 2);
+   583 = 7 cols and 410 = 5 cols (tablet); full width (phone).
+   Stack gap 40 / 24 / 16, pb 192 / 96 / 80, no padding-top. */
 .large-text {
-  padding: 120px 0 120px 142px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: var(--spacing-4);                    /* 16 gutter */
+  row-gap: var(--spacing-4);                       /* 16 */
+  padding: 0 var(--spacing-4) var(--spacing-20);   /* px 16, pb 80 */
 }
 
-.large-text p {
+.large-text__lead,
+.large-text__body {
   margin: 0;
-  max-width: 1024px;
-  font-size: 41px;
+  grid-column: span 4;
+  font-family: var(--font-body);
   font-weight: 400;
-  line-height: 1.1;
+}
+
+.large-text__lead {
+  font-size: 21px;
+  line-height: normal;
   color: var(--black-500);
 }
-/* large text — tablet (md–<xl): px-40 py-64, 27px, full width */
-@media (max-width: 1280px) {
-  .large-text { padding: var(--spacing-16) var(--spacing-10); }  /* 64 / 40 */
-  .large-text p { max-width: none; font-size: 27px; }
+
+.large-text__body {
+  font-size: 16px;
+  line-height: normal;
+  color: var(--black-200);                         /* #6b6b6b, black 200 */
 }
-/* large text — phone (< md): px-16 py-40, 21px */
-@media (max-width: 749px) {
-  .large-text { padding: var(--spacing-10) var(--spacing-4); }   /* 40 / 16 */
-  .large-text p { font-size: 21px; }
+
+.large-text__body a {
+  color: inherit;
+}
+.large-text__body a:hover {
+  text-decoration: underline;
+}
+
+/* Tablet (md 750 – <xl): 8-col tier, lead 7 cols / body 5 cols. */
+@media (min-width: 750px) {
+  .large-text {
+    grid-template-columns: repeat(8, 1fr);
+    column-gap: var(--spacing-6);                     /* 24 */
+    row-gap: var(--spacing-6);                        /* 24 */
+    padding: 0 var(--spacing-10) var(--spacing-24);   /* px 40, pb 96 */
+  }
+  .large-text__lead {
+    grid-column: span 7;
+    font-size: 27px;
+    text-wrap: pretty;
+  }
+  .large-text__body {
+    grid-column: span 5;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+}
+
+/* lg tier (941+): same 8 columns, wider gutter. */
+@media (min-width: 941px) {
+  .large-text { column-gap: var(--spacing-8); }       /* 32 */
+}
+
+/* Desktop (xl >=1281): 12-col tier, both blocks start at col 2. */
+@media (min-width: 1281px) {
+  .large-text {
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--spacing-10);                    /* 40 */
+    row-gap: var(--spacing-10);                       /* 40 */
+    padding: 0 var(--spacing-10) var(--spacing-48);   /* px 40, pb 192 */
+  }
+  .large-text__lead {
+    grid-column: 2 / span 8;
+    font-size: 41px;
+    line-height: 1.2;
+  }
+  .large-text__body {
+    grid-column: 2 / span 5;
+    font-size: 21px;
+    line-height: 1.4;
+  }
 }
 
 /* ---- Members (Figma organism "members" 712:9639) ----
@@ -491,17 +557,16 @@ img {
    (4/8/12-col tiers → 1/2/3 across). Title: 27 phone / 41 tablet / 61 desktop
    (inset 157 on desktop). */
 .members {
-  padding: var(--spacing-10) var(--spacing-4);   /* 40 / 16 */
+  padding: 0 var(--spacing-4) var(--spacing-20);  /* px 16, pb 80 */
 }
 
 .members__heading {
-  margin: 0 0 var(--spacing-10);                 /* 40 gap -> grid */
-  padding: var(--spacing-6) 0;                    /* py 24 */
+  margin: 0 0 var(--spacing-16);                  /* 64 gap -> grid */
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 27px;                                /* H5 (phone) */
   line-height: normal;
-  color: var(--ink);                              /* #1e1e1e */
+  color: var(--black-500);
 }
 
 .members__grid {
@@ -581,7 +646,7 @@ img {
 
 /* Tablet (md 750 – <xl): 8-col tier → member span 4 = 2 across. */
 @media (min-width: 750px) {
-  .members { padding: var(--spacing-10); }         /* 40 */
+  .members { padding: 0 var(--spacing-10) var(--spacing-24); }  /* px 40, pb 96 */
   .members__heading { font-size: 41px; line-height: 1.2; }   /* H4 */
   .members__grid {
     grid-template-columns: repeat(8, 1fr);
@@ -592,12 +657,20 @@ img {
 
 /* Desktop (xl >=1281): 12-col tier → member span 4 = 3 across, inset title. */
 @media (min-width: 1281px) {
-  .members { padding: var(--spacing-20) 0; }        /* 80 0 */
+  .members { padding: 0 0 var(--spacing-48); }      /* pb 192 */
   .members__heading {
     margin-bottom: var(--spacing-24);               /* 96 */
-    padding: 0 var(--spacing-10) 0 157px;           /* pl 157 / pr 40 */
+    /* Figma shows pl-157: that is grid col 2, not an inset. Derive it so it
+       stays on the column below 1440 — margin + one column + one gutter,
+       where a column is (width - 2 margins - 11 gutters) / 12. */
+    padding-right: var(--spacing-10);
+    padding-left: calc(
+      var(--spacing-10)
+      + (100% - 2 * var(--spacing-10) - 11 * var(--spacing-10)) / 12
+      + var(--spacing-10)
+    );
     font-size: 61px;                                /* H3 */
-    line-height: 1.05;
+    line-height: normal;
     color: var(--black-500);
   }
   .members__grid {
@@ -678,7 +751,7 @@ img {
   background: var(--black-500);
   border-top-left-radius: var(--radius-40);
   border-top-right-radius: var(--radius-40);
-  padding: var(--spacing-20) 0;
+  padding: var(--spacing-10) 0;                 /* desktop: py 40 */
 }
 
 /* Content wrapper: same grid as the nav/container (max-w 1440, mx-auto,
@@ -708,7 +781,8 @@ img {
   min-width: 0;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--spacing-6);
+  gap: var(--spacing-4);     /* 16 — socials -> links+copyright */
+  align-self: stretch;       /* so the credits can sit at the bottom */
 }
 
 .footer__social {
@@ -748,6 +822,37 @@ img {
   font-size: 16px;
   line-height: 1.5;
   color: var(--white);
+}
+
+/* Credits (Figma 3450:20705 desktop / 3450:21010 tablet / 3450:21417 phone).
+   16px "black 300" on the black panel; the "Design & Code with" row carries
+   the design's 90% opacity and the heart keeps its 12.77px size. Desktop pins
+   the block to the bottom of the right-hand column — the design's
+   justify-between — so it needs the column stretched to the logo's height. */
+.footer__credits {
+  margin: 0;
+  margin-top: auto;               /* desktop: push to the column's bottom */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-1);          /* 4 */
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: normal;
+  text-align: right;
+  color: var(--black-300);        /* #444444, black 300 */
+}
+
+.footer__credits-made {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);          /* 4 */
+  opacity: 0.9;
+}
+
+.footer__heart {
+  font-size: 12.77px;
+  line-height: 1;
 }
 
 /* ============================================================
@@ -796,13 +901,22 @@ img {
     width: 100%;
     align-items: flex-start;
     gap: var(--spacing-4);         /* 16 */
+    align-self: auto;
   }
   .footer__links a { padding: var(--spacing-3) 0; }   /* py-12 */
   .footer__logo { width: 100%; }
+  /* Tablet runs the credits as a single row. */
+  .footer__credits {
+    margin-top: 0;
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 
 /* Phone (< md): links + copyright stack instead of sitting in a row. */
 @media (max-width: 749px) {
+  .footer { padding: var(--spacing-8); }   /* 32 all sides */
   .footer__meta {
     flex-direction: column;
     align-items: flex-start;
@@ -812,6 +926,13 @@ img {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-3);         /* 12 */
+  }
+  /* Phone stacks the credits again. The design puts 24 between the
+     links+copyright group and the credits; the column's own 16 gap plus
+     this 8 makes that 24. */
+  .footer__credits {
+    flex-direction: column;
+    margin-top: var(--spacing-2);  /* 8 */
   }
 }
 
@@ -1485,18 +1606,30 @@ img {
 }
 
 /* ============================================================
-   Join us page — FAQ accordion
+   Accordion (Figma 133:449) — Join us FAQ section
    ============================================================ */
+/* Size M (phone + tablet): pt/gap 24, title 18/1.4.
+   Size L (desktop xl):     pt/gap 32, title 27/normal.
+   The item's own pt plus the head's pb give the 24/32 gap the Figma
+   frame leaves between the content row and the 2px rule. The rule is
+   "black 10" at rest and black on hover or while expanded (Figma lines
+   eed87 / 7260e). Figma also defines a dark theme (white/black-400
+   rules); no section uses it yet, so it is not implemented here. */
 .faq-item {
   background: transparent;
-  border-bottom: 2px solid #dbdbdb;
+  border-bottom: 2px solid var(--grey-10);   /* black 10 — #f5f5f5 */
+  transition: border-color 0.25s ease;
+}
+.faq-item:hover,
+.faq-item:has(.faq-item__head[aria-expanded="true"]) {
+  border-bottom-color: var(--black-500);
 }
 .faq-item__head {
   display: flex;
   align-items: center;
-  gap: var(--spacing-6);
+  gap: var(--spacing-6);          /* 24 */
   width: 100%;
-  padding: var(--spacing-6) 0;
+  padding: var(--spacing-6) 0;    /* 24 above, 24 down to the rule */
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -1507,8 +1640,8 @@ img {
   flex: 1 1 auto;
   min-width: 0;
   font-family: var(--font-body);
-  font-size: clamp(28px, 3.2vw, 41px);
-  line-height: 1.1;
+  font-size: 18px;
+  line-height: 1.4;
   color: var(--black-500);
 }
 .faq-item__icon {
@@ -1516,12 +1649,15 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 24px;
+  height: 24px;
   color: var(--black-500);
-  transition: transform 0.25s ease;
 }
-.faq-item__head[aria-expanded="true"] .faq-item__icon {
-  transform: rotate(45deg);
-}
+/* Plus at rest, minus while expanded (Figma icons d165b / 52a60) — the
+   design swaps the glyph rather than rotating the plus. */
+.faq-item__icon-minus { display: none; }
+.faq-item__head[aria-expanded="true"] .faq-item__icon-plus  { display: none; }
+.faq-item__head[aria-expanded="true"] .faq-item__icon-minus { display: block; }
 
 .faq-item__body {
   max-height: 0;
@@ -1532,7 +1668,6 @@ img {
 }
 .faq-item__body p {
   margin: 0;
-  max-width: 720px;
   font-family: var(--font-body);
   font-size: 18px;
   line-height: 1.5;
@@ -1541,7 +1676,20 @@ img {
 .faq-item__head[aria-expanded="true"] + .faq-item__body {
   max-height: 600px;
   opacity: 1;
-  padding-bottom: var(--spacing-6);
+  padding-bottom: var(--spacing-6);   /* 24 down to the rule */
+}
+
+/* Size L — desktop (xl 1281+). */
+@media (min-width: 1281px) {
+  .faq-item__head { padding: var(--spacing-8) 0; }   /* 32 */
+  .faq-item__title {
+    font-size: 27px;
+    line-height: normal;
+    text-wrap: pretty;
+  }
+  .faq-item__head[aria-expanded="true"] + .faq-item__body {
+    padding-bottom: var(--spacing-8);                /* 32 */
+  }
 }
 
 /* ============================================================
@@ -1957,9 +2105,13 @@ img {
 .testimonial-quote {
   hanging-punctuation: first last;
 }
+/* Chrome/Firefox have no hanging-punctuation yet, so pull the opening quote
+   into the margin by hand. Figma uses -0.45 x the font size (indent
+   calc(0px - 0.45 * 27px) desktop / 21px tablet+phone) — as an em that is one
+   value for every viewport. */
 @supports not (hanging-punctuation: first) {
   .testimonial-quote {
-    text-indent: -0.52em;
+    text-indent: -0.45em;
   }
 }
 
