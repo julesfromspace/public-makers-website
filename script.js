@@ -284,32 +284,6 @@
     else { back.onload = show; back.onerror = show; }
   }
 
-  // Ease-out scroll to a section, clearing the sticky nav.
-  function scrollToSection(section) {
-    const navH = parseInt(
-      getComputedStyle(document.documentElement).getPropertyValue("--nav-height"),
-      10
-    ) || 100;
-    const targetY = Math.max(
-      0,
-      section.getBoundingClientRect().top + window.scrollY - navH - 24
-    );
-    if (reduce) { window.scrollTo(0, targetY); return; }
-    const startY = window.scrollY;
-    const dist = targetY - startY;
-    if (Math.abs(dist) < 2) return;
-    const dur = 400;
-    let t0 = null;
-    const easeOut = (p) => 1 - Math.pow(1 - p, 3);
-    function step(ts) {
-      if (t0 === null) t0 = ts;
-      const p = Math.min(1, (ts - t0) / dur);
-      window.scrollTo(0, startY + dist * easeOut(p));
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
   // Seed each section's front image layer with its first tab's image.
   document.querySelectorAll("[data-vtabs]").forEach((g) => {
     const first = g.querySelector(".vtab[data-tab-image]");
@@ -324,9 +298,8 @@
   let current = 0;
   let timer = null;
 
-  function open(i, auto) {
+  function open(i) {
     if (timer) { clearTimeout(timer); timer = null; }
-    const prevSection = tabs[current] && tabs[current].closest("section");
     current = ((i % tabs.length) + tabs.length) % tabs.length;
 
     tabs.forEach((t, idx) => {
@@ -340,19 +313,15 @@
     // Fade the section image to the active tab's image.
     setImg(section.querySelector("[data-section-img]"), tab.getAttribute("data-tab-image"));
 
-    // Auto-advancing into a new section (last tab of one → first tab of the
-    // next): ease-out scroll the page to that section.
-    if (auto && prevSection && section !== prevSection) scrollToSection(section);
-
     void tab.offsetWidth; // reflow so the countdown bar restarts
     tab.classList.add("is-counting");
 
-    timer = setTimeout(() => open(current + 1, true), DURATION_MS);
+    timer = setTimeout(() => open(current + 1), DURATION_MS);
   }
 
   tabs.forEach((tab, idx) => {
     const toggle = tab.querySelector("[data-card-toggle]") || tab;
-    toggle.addEventListener("click", () => open(idx, false));
+    toggle.addEventListener("click", () => open(idx));
   });
 
   if (reduce) {
@@ -360,7 +329,7 @@
       t.setAttribute("aria-expanded", idx === 0 ? "true" : "false")
     );
   } else {
-    open(0, false);
+    open(0);
   }
 })();
 

@@ -55,7 +55,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=82" />
+  <link rel="stylesheet" href="styles.css?v=84" />
 </head>
 
 <!-- Per-page accent: Join us tab becomes a BLACK folder tab with white text. -->
@@ -96,7 +96,7 @@
     <section>
       <div class="mx-auto w-full max-w-[1440px] px-4 pb-16 md:px-10 md:pb-24 xl:pb-32">
         <div class="overflow-hidden rounded-40 bg-black px-6 pb-6 pt-4 xl:px-[118px] xl:pb-10 xl:pt-16">
-          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-y-0 xl:grid-cols-12 xl:gap-y-2">
             <!-- Title -->
             <h1 class="col-span-4 mb-6 font-body font-normal text-balance text-[41px] leading-[1.1] text-white md:col-span-8 xl:col-span-12 xl:mb-16 xl:text-[91px]">
               Become a Public Maker!
@@ -107,7 +107,7 @@
                  bleeds to the folder's right edge (negative margin cancels the
                  panel's right padding); the panel's overflow-hidden clips the
                  peeking card at the rounded edge. -->
-            <div class="col-span-4 md:col-span-8 xl:col-span-12">
+            <div class="col-span-4 md:col-span-8 xl:col-span-12 xl:pb-6">
               <div class="no-scrollbar overflow-x-auto -mr-[24px] xl:-mr-[118px]" data-journey-track>
                 <ul class="flex items-start gap-4 md:items-stretch md:gap-10" role="list">
                   <li class="w-[280px] flex-none md:w-[480px] xl:w-[632px]">
@@ -132,11 +132,11 @@
                           <li>Choose an area you want to contribute to:</li>
                         </ul>
                         <ul class="journey-step__tags" role="list">
-                          <li class="journey-step__tag">Board</li>
-                          <li class="journey-step__tag">Brand &amp; Communications</li>
-                          <li class="journey-step__tag">Partnerships</li>
-                          <li class="journey-step__tag">Micro Masterclasses</li>
-                          <li class="journey-step__tag">Hackathons</li>
+                          <li class="chip chip--xs chip--dark">Board</li>
+                          <li class="chip chip--xs chip--dark">Brand &amp; Communications</li>
+                          <li class="chip chip--xs chip--dark">Partnerships</li>
+                          <li class="chip chip--xs chip--dark">Micro Masterclasses</li>
+                          <li class="chip chip--xs chip--dark">Hackathons</li>
                         </ul>
                       </div>
                     </article>
@@ -410,7 +410,7 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=27"></script>
+  <script src="script.js?v=37"></script>
   <!-- Phone fixed bottom nav (Figma 674:10045) -->
   <nav class="bottom-nav bottom-nav--default" aria-label="Sections">
     <div class="bottom-nav__bar">

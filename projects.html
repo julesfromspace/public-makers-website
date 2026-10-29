@@ -57,7 +57,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=82" />
+  <link rel="stylesheet" href="styles.css?v=84" />
 </head>
 
 <!-- Per-page accent: yellow for the active "Projects" tab. -->
@@ -94,28 +94,28 @@
     <!-- ===== Hero (yellow panel: title + filter chips) ===== -->
     <section>
       <div class="mx-auto w-full max-w-[1440px] px-4 pb-16 md:px-10 md:pb-24 xl:pb-32">
-        <div class="rounded-40 bg-projects-yellow px-6 pb-6 pt-4 md:px-6 xl:px-[118px] xl:pb-10 xl:pt-16">
-          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
+        <div class="rounded-40 bg-projects-yellow px-6 pb-6 pt-4 md:px-6 xl:px-0 xl:pb-10 xl:pt-16">
+          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-y-0 xl:grid-cols-12 xl:gap-y-2">
             <!-- Title -->
-            <h1 class="col-span-4 mb-6 font-display font-normal text-[41px] leading-[1] text-ink md:col-span-8 xl:col-span-12 xl:mb-16 xl:text-[91px] xl:leading-[91px]">
+            <h1 class="col-span-4 mb-6 font-display font-normal text-[41px] leading-[1] text-ink md:col-span-8 xl:col-span-12 xl:mb-16 xl:px-[118px] xl:text-[91px] xl:leading-[91px]">
               Projects
             </h1>
 
             <!-- Filter -->
-            <div class="col-span-4 flex flex-col gap-6 md:col-span-8 xl:col-span-12">
-              <p class="font-display text-[21px] leading-[1.4] text-black">Filter by category:</p>
-              <ul class="flex flex-wrap items-center gap-4" role="list">
+            <div class="col-span-4 flex flex-col gap-4 md:col-span-8 xl:col-span-12 xl:pb-6 xl:pl-[118px]">
+              <p class="font-body text-[14px] leading-[normal] text-black md:text-[18px] md:leading-[1.4]">Filter by category:</p>
+              <ul class="flex flex-wrap items-center gap-2 md:gap-4 xl:flex-nowrap" role="list">
                 <li>
-                  <button type="button" class="filter-chip">Micro-Masterclass (MM)</button>
+                  <button type="button" class="chip chip--scale">Micro-Masterclass (MM)</button>
                 </li>
                 <li>
-                  <button type="button" class="filter-chip">Hackathon</button>
+                  <button type="button" class="chip chip--scale">Hackathon</button>
                 </li>
                 <li>
-                  <button type="button" class="filter-chip">PM goes …</button>
+                  <button type="button" class="chip chip--scale">PM goes …</button>
                 </li>
                 <li>
-                  <button type="button" class="filter-chip">Milestones</button>
+                  <button type="button" class="chip chip--scale">Milestones</button>
                 </li>
               </ul>
             </div>
@@ -132,12 +132,14 @@
       <!-- Horizontal margin 16/40/40 (phone/tablet/desktop), capped at 1440 —
            same pattern as the hero/contact sections. -->
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
-        <div class="grid grid-cols-4 gap-2 items-start md:grid-cols-8 xl:grid-cols-12">
-          <!-- List spans all columns on phone (4) and tablet (8); on xl it
-               takes 7 of 12, leaving cols 9-12 for the sticky preview image.
-               Up to 30 items per page (page 1 shown). -->
+        <div class="grid grid-cols-4 gap-2 items-start md:grid-cols-8 xl:grid-cols-12 xl:gap-x-10">
+          <!-- List spans all columns on phone (4) and tablet (8). On xl the
+               Figma widths are column spans (3259:17987): the list is 543 =
+               col-span-5 from col 2 and the preview image 426 = col-span-4
+               from col 8, leaving col 7 empty as the 157px gap the frame
+               draws as px-157. Up to 30 items per page (page 1 shown). -->
           <ul
-            class="col-span-4 flex flex-col md:col-span-8 xl:col-span-7"
+            class="col-span-4 flex flex-col md:col-span-8 xl:col-span-5 xl:col-start-2"
             role="list"
             data-project-list
           >
@@ -356,11 +358,11 @@
           <!-- Hover-preview image, aligned to the top of the list container.
                Hidden below xl since there's no horizontal room beside the list. -->
           <div
-            class="hidden xl:col-span-4 xl:col-start-9 xl:block xl:sticky xl:top-[120px] xl:self-start"
+            class="hidden xl:col-span-4 xl:col-start-8 xl:block xl:sticky xl:top-[120px] xl:self-start"
             aria-hidden="true"
           >
             <div
-              class="aspect-[450/338] w-full overflow-hidden rounded-3xl opacity-0 transition-opacity duration-300 ease-out"
+              class="aspect-[4/3] w-full overflow-hidden rounded-24 opacity-0 transition-opacity duration-300 ease-out"
               data-project-preview
             >
               <img
@@ -377,7 +379,7 @@
                page 1 current, prev disabled. -->
           <nav
             aria-label="Pagination"
-            class="col-span-4 mt-12 md:col-span-8 xl:col-span-7"
+            class="col-span-4 mt-12 md:col-span-8 xl:col-span-5 xl:col-start-2"
           >
             <div class="pagination-numbers">
               <button type="button" class="pagination-numbers__btn" aria-label="Previous page" disabled>
@@ -431,7 +433,7 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=27"></script>
+  <script src="script.js?v=37"></script>
   <!-- Phone fixed bottom nav (Figma 674:10045) -->
   <nav class="bottom-nav" aria-label="Sections">
     <div class="bottom-nav__bar">

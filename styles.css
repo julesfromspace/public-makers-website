@@ -5,6 +5,7 @@
 :root {
   --orange-10: #f7b98f;
   --orange-05: #ffdbb5;
+  --chip-tint: rgba(235, 100, 25, 0.16);  /* chips hover + active fill */
   --green-10:  #a8e3ad;
   --yellow-10: #fae1aa;
   --blue-05:   #e6e6ff;
@@ -1361,29 +1362,83 @@ img {
    Projects page — filter chips + archive rows
    ============================================================ */
 
-.filter-chip {
+/* ============================================================
+   Chips — pill component (atomic), Figma 599:9590
+   ============================================================ */
+/* Sizes: L (default) / M / S / XS via .chip--m, .chip--s, .chip--xs.
+   Themes: light (default, black border + black label) / .chip--dark
+   (black 300 border + white label) for use on dark panels.
+   States: Default is transparent; hover and active (aria-pressed="true")
+   both take the orange tint — the border and label colour never change,
+   so the chip does not invert the way the old filter chip did. */
+.chip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-4) var(--spacing-10);
+  padding: var(--spacing-3) var(--spacing-6);   /* L: 12 / 24 */
   border: 1px solid var(--black-500);
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   background: transparent;
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 21px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 21px;                              /* Body 1 */
   line-height: 1.4;
   color: var(--black-500);
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease;
 }
-.filter-chip:hover {
-  background: var(--black-500);
+
+.chip--m {
+  padding: var(--spacing-3) var(--spacing-6);   /* 12 / 24 */
+  font-size: 18px;                              /* Body 2 */
+  line-height: 1.4;
+}
+
+.chip--s {
+  padding: var(--spacing-2) var(--spacing-4);   /* 8 / 16 */
+  font-size: 16px;                              /* Body 3 */
+  line-height: normal;
+}
+
+.chip--xs {
+  padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 */
+  font-size: 14px;                              /* Body 4 */
+  line-height: normal;
+}
+
+.chip--dark {
+  border-color: var(--black-300);               /* #444, black 300 */
   color: var(--white);
 }
-.filter-chip[aria-pressed="true"] {
-  background: var(--black-500);
-  color: var(--white);
+
+/* Viewport-scaled chip: the filter chips step S -> M -> L with the
+   breakpoint (Figma 1485:6797 phone / 3259:17345 tablet / 3500:16005
+   desktop), so the size is a media query rather than a fixed modifier. */
+.chip--scale {                                  /* S */
+  padding: var(--spacing-2) var(--spacing-4);   /* 8 / 16 */
+  font-size: 16px;
+  line-height: normal;
+}
+@media (min-width: 750px) {
+  .chip--scale {                                /* M */
+    padding: var(--spacing-3) var(--spacing-6); /* 12 / 24 */
+    font-size: 18px;
+    line-height: 1.4;
+  }
+}
+@media (min-width: 1281px) {
+  .chip--scale { font-size: 21px; }             /* L */
+}
+
+/* Only the interactive chips carry the hover/active tint. */
+button.chip,
+a.chip {
+  cursor: pointer;
+}
+button.chip:hover,
+a.chip:hover,
+.chip[aria-pressed="true"] {
+  background: var(--chip-tint);
 }
 
 /* Molecule "list item" (Figma 1032:13332). A row is its own column:
@@ -1651,17 +1706,8 @@ img {
   margin: 0;
   list-style: none;
 }
-.journey-step__tag {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--spacing-1) var(--spacing-4); /* 4 / 16 */
-  border: 1px solid var(--black-300);         /* #444 */
-  border-radius: var(--radius-full);
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 1;
-  color: var(--white);
-}
+/* The journey tags are chips: size XS, dark theme, Default state —
+   see .chip. Only the list layout lives here. */
 /* Mobile variant (< md 750px): compact. */
 @media (max-width: 749px) {
   .journey-step {
