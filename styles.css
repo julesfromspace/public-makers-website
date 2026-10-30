@@ -66,7 +66,7 @@
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
 
   --nav-height: 100px;
-  --bottom-nav-height: 0px;   /* becomes 88px on phone (fixed bottom nav) */
+  --nav-mobile-height: 0px;   /* becomes 80px on phone (nav-mobile) */
   --page-max: 1440px;
 
   /* Per-page accent for the active folder tab. Override on <body>. */
@@ -80,8 +80,8 @@
    dvh excludes the mobile browser toolbar (vh counts it, pushing the hero
    bottom under the toolbar / bottom nav); vh is the fallback. */
 [data-hero-root] {
-  height: calc(100vh - var(--nav-height) - var(--bottom-nav-height));
-  height: calc(100dvh - var(--nav-height) - var(--bottom-nav-height));
+  height: calc(100vh - var(--nav-height) - var(--nav-mobile-height));
+  height: calc(100dvh - var(--nav-height) - var(--nav-mobile-height));
 }
 
 * {
@@ -754,41 +754,39 @@ img {
    Footer
    ============================================================ */
 
-/* Full-viewport-wide black footer with rounded top corners. The grey of
-   the contact section above shows through where the corners carve away
-   from the viewport edges. All padding (incl. the 118px gutter) lives
-   here; the inner only constrains content width. */
+/* The wrapper spans 100vw; the black panel is capped at the 1440 container
+   (dev annotation on Figma 3005:5090). Above 1440 the contact section's grey
+   carries on beside the panel's carved top corners. */
 .footer {
   width: 100%;
+  background: var(--grey-10);
+}
+
+/* The black panel carries all the padding: the design's 118px desktop gutter
+   leaves exactly 1204px of content (logo 710 + information 494). */
+.footer__panel {
+  max-width: var(--page-max);
+  margin: 0 auto;
   background: var(--black-500);
   border-top-left-radius: var(--radius-40);
   border-top-right-radius: var(--radius-40);
-  padding: var(--spacing-10) 0;                 /* desktop: py 40 */
+  padding: var(--spacing-10) 118px;             /* desktop: py 40 / px 118 */
 }
 
-/* Content wrapper: same grid as the nav/container (max-w 1440, mx-auto,
-   16/40px gutters) so the footer logo aligns with the header logo. */
+/* Logo and information sit side by side with no gutter between them, in the
+   design's 710 : 494 proportion. */
 .footer__inner {
-  max-width: var(--page-max);
-  margin: 0 auto;
-  padding: 0 var(--spacing-4);
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--spacing-2);
+  grid-template-columns: 710fr 494fr;
   align-items: end;
-}
-@media (min-width: 481px) {
-  .footer__inner { padding: 0 var(--spacing-10); }
 }
 
 .footer__logo {
-  grid-column: span 6;
   display: block;
   width: 100%;
 }
 
 .footer__right {
-  grid-column: span 6;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -834,7 +832,7 @@ img {
 .footer__copy {
   margin: 0;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: normal;
   color: var(--white);
 }
 
@@ -884,10 +882,6 @@ img {
   .nav__tabs { padding-right: var(--spacing-6); }
   .hero__title { padding: var(--spacing-10); }
   .hero__image { padding: 0 var(--spacing-4); }
-  .footer { padding: var(--spacing-12) 0; }
-  .footer__inner { grid-template-columns: 1fr; }
-  .footer__logo { grid-column: 1 / -1; }
-  .footer__right { grid-column: 1 / -1; align-items: flex-start; }
 }
 
 /* Footer — phone + tablet variants (< xl 1281). Figma 1335:10808 (phone) /
@@ -895,8 +889,9 @@ img {
    above a full-width logo; pt32 px32 pb48, gap 48. Tablet lays links +
    copyright in one baseline row; phone stacks them. */
 @media (max-width: 1280px) {
-  .footer {
-    padding: var(--spacing-8) var(--spacing-8) var(--spacing-12); /* 32 / 32 / 48 */
+  .footer__panel {
+    max-width: none;                                             /* full bleed */
+    padding: var(--spacing-8) var(--spacing-8) var(--spacing-10); /* 32 / 32 / 40 */
   }
   .footer__inner {
     display: flex;
@@ -935,16 +930,20 @@ img {
 
 /* Phone (< md): links + copyright stack instead of sitting in a row. */
 @media (max-width: 749px) {
-  .footer { padding: var(--spacing-8); }   /* 32 all sides */
+  .footer__panel {
+    padding: var(--spacing-8) var(--spacing-4);  /* py 32 / px 16 */
+  }
   .footer__meta {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-3);         /* 12 */
   }
+  /* The design's phone links carry no gap — each link's own 12px vertical
+     padding is what separates them. */
   .footer__links {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--spacing-3);         /* 12 */
+    gap: 0;
   }
   /* Phone stacks the credits again. The design puts 24 between the
      links+copyright group and the credits; the column's own 16 gap plus
@@ -2059,9 +2058,18 @@ a.chip:hover,
   background: var(--white);
   color: var(--black-500);
 }
+/* Disabled = Figma's inactive button: "black 10" pad, "black 50" arrow
+   (organism 3095:6862). The dark variant has no designed disabled state, so
+   it keeps the old dimmed treatment. */
 .pagination-controls__btn:disabled {
-  opacity: 0.4;
+  background: var(--grey-10);   /* black 10 */
+  color: var(--black-50);       /* black 50 */
   cursor: default;
+}
+.pagination-controls--dark .pagination-controls__btn:disabled {
+  background: var(--white);
+  color: var(--black-500);
+  opacity: 0.4;
 }
 .pagination-controls__btn svg {
   display: block;
@@ -2180,53 +2188,164 @@ a.chip:hover,
 }
 
 /* ============================================================
-   Phone bottom nav — fixed (Figma 674:10045, item atom 674:9993).
-   Only < md (750). A centred row of the four section links; the
-   active page is an accent pill, the home/neutral state wraps the
-   row in a grey rounded-full bar.
+   nav-mobile — phone bottom nav
+   Figma organism "nav-mobile" 674:10045, item "nav item-mobile" 674:9993.
+   Only < md (750). The bar floats over the page as a white pill with a
+   drop shadow; the current page is an accent pill with double the inline
+   padding of a default item (8 -> 16).
    ============================================================ */
-.bottom-nav { display: none; }
+.nav-mobile { display: none; }
 
 @media (max-width: 749px) {
-  :root { --bottom-nav-height: 88px; }   /* pt16 + 48 item + pb24 */
-  .bottom-nav {
+  :root { --nav-mobile-height: 80px; }   /* bar 56 (48 + 2x4) + pb 24 */
+  .nav-mobile {
     display: flex;
     position: fixed;
     inset: auto 0 0 0;
     z-index: 100;
     justify-content: center;
     align-items: center;
-    background: var(--white);
-    padding: var(--spacing-4) 0 var(--spacing-6);   /* pt 16 / pb 24 */
+    gap: var(--spacing-4);               /* 16 */
+    padding-bottom: var(--spacing-6);    /* 24 */
+    /* The frame itself is transparent in the design, so only the bar may
+       take taps — the rest of the strip lets the page through. */
+    pointer-events: none;
   }
   /* Clear the fixed bar so page content and the footer aren't hidden. */
-  body { padding-bottom: var(--bottom-nav-height); }
+  body { padding-bottom: var(--nav-mobile-height); }
 }
 
-.bottom-nav__bar {
+.nav-mobile__bar {
   display: flex;
   align-items: center;
-  gap: var(--spacing-4);                 /* 16 */
-}
-.bottom-nav--default .bottom-nav__bar {
-  padding: 0 var(--spacing-6);           /* 24 */
-  background: #e5e7eb;                    /* neutral grey pill */
+  gap: var(--spacing-3);                 /* 12 */
+  padding: var(--spacing-1);             /* 4 */
+  background: var(--white);
   border-radius: var(--radius-full);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.16));
+  pointer-events: auto;
 }
-.bottom-nav__item {
+
+.nav-item-mobile {
+  position: relative;
+  isolation: isolate;                    /* keeps the ::before fill inside */
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 48px;
+  padding: 0 var(--spacing-2);           /* 8 */
+  border-radius: var(--radius-24);
   font-family: var(--font-body);
   font-size: 16px;
+  font-weight: 500;                      /* IBM Plex Sans Medium */
   line-height: normal;
   color: var(--black-500);
   text-decoration: none;
   white-space: nowrap;
 }
-.bottom-nav__item--active {
-  justify-content: center;
-  padding: 0 var(--spacing-6);           /* 24 */
-  border-radius: var(--radius-24);
-  background: var(--bn-accent, var(--selected-tab-color));
+
+.nav-item-mobile--selected {
+  padding: 0 var(--spacing-4);           /* 16 — double the default */
+  /* Spreading the padding is what pushes the other items apart, so this one
+     animation gives the siblings their ease-out slide for free. */
+  animation: nav-item-mobile-spread 320ms ease-out both;
+}
+
+/* The accent fill is its own layer so it can move independently of the
+   label, which stays put. */
+.nav-item-mobile--selected::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--nav-mobile-accent, var(--selected-tab-color));
+  transform-origin: center;
+  /* TEMPORARILY OFF — scale-from-centre entrance, replaced by the rail below.
+     animation: nav-item-mobile-grow 320ms ease-out both; */
+}
+
+/* Rail: the pill travels horizontally from the item that was selected on the
+   page you came from to the one you tapped. script.js measures the distance,
+   sets --nav-rail-x on the selected item and adds .has-rail; with no origin
+   (first load, a direct hit, reduced motion) the pill simply appears. */
+.nav-mobile__bar.has-rail .nav-item-mobile--selected::before {
+  animation: nav-item-mobile-rail 420ms ease-out both;
+}
+
+@keyframes nav-item-mobile-rail {
+  from { transform: translateX(var(--nav-rail-x, 0px)); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes nav-item-mobile-spread {
+  from { padding-left: var(--spacing-2); padding-right: var(--spacing-2); }
+  to   { padding-left: var(--spacing-4); padding-right: var(--spacing-4); }
+}
+
+/* TEMPORARILY UNUSED — the scale-from-centre entrance, kept for switching back.
+@keyframes nav-item-mobile-grow {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-item-mobile--selected,
+  .nav-item-mobile--selected::before,
+  .nav-mobile__bar.has-rail .nav-item-mobile--selected::before { animation: none; }
+}
+
+/* ============================================================
+   Events carousel item — Figma "carousel item" 1207:7396
+   ============================================================ */
+
+/* The card frame carries the "Col-span: 5" dev annotation, so the CARD edge
+   (not the image) sits on a column edge. On desktop the card's own 16px inset
+   holds the hover plate, so the plate aligns with the grid and the image is
+   inset by 16. Tablet and phone have no hover plate and therefore no inset —
+   the image fills the card edge to edge.
+   The strip scrolls horizontally, so the column width can't come from a grid
+   container — it is computed from the same formula the grid tiers use, against
+   the 1440-capped wrapper (container query unit, so the scrollbar is excluded).
+      col = (content - (cols - 1) * gutter) / cols , content = 100cqw - 2 * 40
+      width = 5 * col + 4 * gutter
+   Phone has only 4 columns, so it keeps the mobile variant's fixed 296px. */
+.events-carousel {
+  container-type: inline-size;
+}
+
+.carousel-card {
+  width: 296px;
+}
+
+/* md tier — 8 cols, 24 gutter, 40 margin */
+@media (min-width: 750px) {
+  .carousel-card { width: calc((100cqw - 248px) / 8 * 5 + 96px); }
+}
+
+/* lg tier — 8 cols, 32 gutter, 40 margin */
+@media (min-width: 941px) {
+  .carousel-card { width: calc((100cqw - 304px) / 8 * 5 + 128px); }
+}
+
+/* xl tier — 12 cols, 40 gutter, 40 margin (1440 cap) */
+@media (min-width: 1281px) {
+  .carousel-card { width: calc((100cqw - 520px) / 12 * 5 + 160px); }
+}
+
+/* Hover plate (desktop only) — "black 10" behind the whole card, sitting in
+   the card's 16px inset (xl:p-4). Figma variant viewport4. Tablet and phone
+   stay flat: no pressed state, and so no inset either. */
+.carousel-card__plate {
+  background: transparent;
+  transition: background-color 150ms ease;
+}
+
+@media (min-width: 1281px) {
+  .carousel-card__plate:hover { background: var(--grey-10); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-card__plate { transition: none; }
 }

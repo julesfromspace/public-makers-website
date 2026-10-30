@@ -8,17 +8,44 @@
 
   const THRESHOLD = 0; // any scroll at all
   const HIDE_AFTER = 80; // don't start hiding until scrolled this far
+  const MIN_DELTA = 8; // ignore jitter; smaller moves accumulate instead
+  const SETTLE_MS = 400; // window in which scrolls are not the user's doing
   let lastY = window.scrollY;
+  let lastH = window.innerHeight;
+  let settleUntil = 0;
+
+  // Mobile browsers slide their own toolbar in or out when you tap near the
+  // bottom edge (e.g. the nav-mobile bar). That resizes the viewport and
+  // fires a scroll event nobody made, which used to read as a downward swipe
+  // and hide the bar. Re-baseline on those instead of acting on them.
+  function settle() {
+    lastY = window.scrollY;
+    lastH = window.innerHeight;
+    settleUntil = performance.now() + SETTLE_MS;
+  }
 
   function onScroll() {
     const y = window.scrollY;
     nav.classList.toggle("is-scrolled", y > THRESHOLD);
 
+    // A viewport resize landing in the same frame as the scroll — same cause,
+    // same treatment, whichever event the browser delivers first.
+    if (window.innerHeight !== lastH) {
+      settle();
+      return;
+    }
+    if (performance.now() < settleUntil) {
+      lastY = y;
+      return;
+    }
+
     // Hide the bar on scroll down, reveal on scroll up. The translate only
     // applies < xl (see .nav--hidden media rule); desktop ignores it.
-    if (y > lastY && y > HIDE_AFTER) {
+    const delta = y - lastY;
+    if (Math.abs(delta) < MIN_DELTA) return; // keep lastY: let slow drags add up
+    if (delta > 0 && y > HIDE_AFTER) {
       nav.classList.add("nav--hidden");
-    } else if (y < lastY) {
+    } else if (delta < 0) {
       nav.classList.remove("nav--hidden");
     }
     lastY = y;
@@ -26,6 +53,17 @@
 
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", settle);
+  if (window.visualViewport) {
+    // iOS moves the visual viewport without changing innerHeight.
+    window.visualViewport.addEventListener("resize", settle);
+  }
+  // A tap on the phone bar is always followed by a navigation, so suppressing
+  // the toggle for its settle window costs nothing and covers the case where
+  // the scroll event beats the resize event.
+  document.addEventListener("pointerdown", (e) => {
+    if (e.target.closest && e.target.closest(".nav-mobile")) settle();
+  }, { passive: true });
 })();
 
 // Hero carousel — auto-rotate slides with synced indicator + play/pause.
@@ -570,4 +608,51 @@
   list.addEventListener("mouseleave", () => {
     frame.style.opacity = "0";
   });
+})();
+
+// nav-mobile rail — the accent pill slides from the item that was selected on
+// the page you came from to the item you tapped. Each tap is a full page load,
+// so the origin is handed over in sessionStorage.
+(function () {
+  // The bar is markup-last on every page, after this script tag, so wait for
+  // the parser before looking for it.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run, { once: true });
+  } else {
+    run();
+  }
+
+  function run() {
+  const bar = document.querySelector(".nav-mobile__bar");
+  if (!bar) return;
+
+  const KEY = "navMobileSelected";
+  const selected = bar.querySelector(".nav-item-mobile--selected");
+  const here = selected ? selected.getAttribute("href") : "";
+
+  // Read where we came from, then leave this page's answer for the next one.
+  let from = null;
+  try {
+    from = sessionStorage.getItem(KEY);
+    sessionStorage.setItem(KEY, here);
+  } catch (e) {
+    /* private mode: no rail, the pill just appears */
+  }
+
+  if (!selected || !from || from === here) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const origin = bar.querySelector('.nav-item-mobile[href="' + from + '"]');
+  if (!origin) return;
+
+  // Measured now, while the spread animation is still on its first frame, so
+  // every item is at its default width — the layout the old pill sat in.
+  const o = origin.getBoundingClientRect();
+  const s = selected.getBoundingClientRect();
+  const dx = o.left + o.width / 2 - (s.left + s.width / 2);
+  if (!dx) return;
+
+  selected.style.setProperty("--nav-rail-x", dx + "px");
+  bar.classList.add("has-rail");
+  }
 })();

@@ -77,7 +77,7 @@
   </script>
 
   <!-- Project styles: nav folder-tab clip-path + scroll-morph live here -->
-  <link rel="stylesheet" href="styles.css?v=86" />
+  <link rel="stylesheet" href="styles.css?v=95" />
 </head>
 
 <body class="bg-white text-black font-body antialiased">
@@ -259,100 +259,104 @@
     </section>
 
     <!-- ===== Events carousel ===== -->
-    <section id="projects" class="overflow-hidden bg-white pb-24 pt-12">
-      <div class="mx-auto w-full max-w-[1440px]">
+    <section id="projects" class="overflow-hidden bg-white pb-20 md:pb-24 xl:pb-48">
+      <div class="events-carousel mx-auto w-full max-w-[1440px]">
         <!-- Wrapper anchors fade overlays so they stop at the container's
              max-width (1440), not at the viewport edges. -->
         <div class="relative">
         <!-- Horizontally scrollable strip -->
         <div class="no-scrollbar overflow-x-auto pl-4 md:pl-10" data-events-track>
-          <ul class="flex items-stretch gap-6 xl:gap-10" role="list">
+          <!-- Each card is one link to its event subpage; href="#" is a
+               placeholder until the subpages exist. The <a> is the hover /
+               pressed plate, so the state is keyboard-reachable too. -->
+          <ul class="flex items-stretch gap-6" role="list">
             <!-- Card -->
-            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
-              <article class="flex h-full flex-col gap-6">
-                <div class="aspect-video w-full overflow-hidden rounded-3xl">
+            <li class="carousel-card flex-none">
+              <a href="#" class="carousel-card__plate flex h-full flex-col gap-6 xl:rounded-32 xl:p-4">
+                <div class="aspect-video w-full overflow-hidden rounded-24">
                   <img src="assets/event1.jpg" alt="" class="h-full w-full object-cover" />
                 </div>
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
-                    <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">Micro Masterclass</span>
-                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/01/06</span>
+                    <span class="rounded-full border border-black px-3 py-1 font-body text-[14px] text-black">Micro Masterclass</span>
+                    <span class="font-body text-[14px] leading-[normal] text-neutral-300 xl:text-[18px] xl:leading-[1.4]">2026/01/06</span>
                   </div>
-                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">Zaim Sari on digital sovereignty in public sector</p>
+                  <p class="line-clamp-3 font-body text-[21px] leading-[1.4] text-black md:line-clamp-2 xl:text-[27px] xl:leading-[normal]">Zaim Sari on digital sovereignty in public sector</p>
                 </div>
-              </article>
+              </a>
             </li>
-            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
-              <article class="flex h-full flex-col gap-6">
-                <div class="aspect-video w-full overflow-hidden rounded-3xl">
+            <li class="carousel-card flex-none">
+              <a href="#" class="carousel-card__plate flex h-full flex-col gap-6 xl:rounded-32 xl:p-4">
+                <div class="aspect-video w-full overflow-hidden rounded-24">
                   <img src="assets/event2.jpg" alt="" class="h-full w-full object-cover" />
                 </div>
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
-                    <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">Hackathon</span>
-                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/12/06</span>
+                    <span class="rounded-full border border-black px-3 py-1 font-body text-[14px] text-black">Hackathon</span>
+                    <span class="font-body text-[14px] leading-[normal] text-neutral-300 xl:text-[18px] xl:leading-[1.4]">2026/12/06</span>
                   </div>
-                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">CODE THE STATE</p>
+                  <p class="line-clamp-3 font-body text-[21px] leading-[1.4] text-black md:line-clamp-2 xl:text-[27px] xl:leading-[normal]">CODE THE STATE</p>
                 </div>
-              </article>
+              </a>
             </li>
-            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
-              <article class="flex h-full flex-col gap-6">
-                <div class="aspect-video w-full overflow-hidden rounded-3xl">
+            <li class="carousel-card flex-none">
+              <a href="#" class="carousel-card__plate flex h-full flex-col gap-6 xl:rounded-32 xl:p-4">
+                <div class="aspect-video w-full overflow-hidden rounded-24">
                   <img src="assets/event3.jpg" alt="" class="h-full w-full object-cover" />
                 </div>
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
-                    <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">Micro Masterclass</span>
-                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/20/04</span>
+                    <span class="rounded-full border border-black px-3 py-1 font-body text-[14px] text-black">Micro Masterclass</span>
+                    <span class="font-body text-[14px] leading-[normal] text-neutral-300 xl:text-[18px] xl:leading-[1.4]">2026/20/04</span>
                   </div>
-                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">Laura Geissler on public sector modernisation</p>
+                  <p class="line-clamp-3 font-body text-[21px] leading-[1.4] text-black md:line-clamp-2 xl:text-[27px] xl:leading-[normal]">Laura Geissler on public sector modernisation</p>
                 </div>
-              </article>
+              </a>
             </li>
-            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
-              <article class="flex h-full flex-col gap-6">
-                <div class="aspect-video w-full overflow-hidden rounded-3xl">
+            <li class="carousel-card flex-none">
+              <a href="#" class="carousel-card__plate flex h-full flex-col gap-6 xl:rounded-32 xl:p-4">
+                <div class="aspect-video w-full overflow-hidden rounded-24">
                   <img src="assets/event4.jpg" alt="" class="h-full w-full object-cover" />
                 </div>
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
-                    <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">Hackathon</span>
-                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/10/04</span>
+                    <span class="rounded-full border border-black px-3 py-1 font-body text-[14px] text-black">Hackathon</span>
+                    <span class="font-body text-[14px] leading-[normal] text-neutral-300 xl:text-[18px] xl:leading-[1.4]">2026/10/04</span>
                   </div>
-                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">Agora Hacks</p>
+                  <p class="line-clamp-3 font-body text-[21px] leading-[1.4] text-black md:line-clamp-2 xl:text-[27px] xl:leading-[normal]">Agora Hacks</p>
                 </div>
-              </article>
+              </a>
             </li>
-            <li class="w-[296px] flex-none md:w-[583px] xl:w-[600px]">
-              <article class="flex h-full flex-col gap-6">
-                <div class="aspect-video w-full overflow-hidden rounded-3xl">
+            <li class="carousel-card flex-none">
+              <a href="#" class="carousel-card__plate flex h-full flex-col gap-6 xl:rounded-32 xl:p-4">
+                <div class="aspect-video w-full overflow-hidden rounded-24">
                   <img src="assets/event5.jpg" alt="" class="h-full w-full object-cover" />
                 </div>
                 <div class="flex flex-col gap-4">
                   <div class="flex items-baseline justify-between">
-                    <span class="rounded-full border border-black px-4 py-1 font-body text-[14px] text-black">PM goes…</span>
-                    <span class="font-body text-[14px] leading-[1.5] text-neutral-300 xl:text-[18px]">2026/02/02</span>
+                    <span class="rounded-full border border-black px-3 py-1 font-body text-[14px] text-black">PM goes…</span>
+                    <span class="font-body text-[14px] leading-[normal] text-neutral-300 xl:text-[18px] xl:leading-[1.4]">2026/02/02</span>
                   </div>
-                  <p class="font-body text-[21px] leading-[1.4] text-black xl:text-[27px] xl:leading-[1.15]">LSE German Symposium</p>
+                  <p class="line-clamp-3 font-body text-[21px] leading-[1.4] text-black md:line-clamp-2 xl:text-[27px] xl:leading-[normal]">LSE German Symposium</p>
                 </div>
-              </article>
+              </a>
             </li>
           </ul>
         </div>
-          <!-- Fade overlays sit in the left/right margins (width = page margin:
-               16 phone / 40 tablet / 40 desktop); the track's matching pl keeps
-               the cards clear of them, so the active + right images never fade —
-               only cards cycling through the margins do. White gradient: 100% at
-               the outer (viewport) edge → 0% at the inner edge. Figma 3236:13978. -->
-          <div class="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent md:w-10"></div>
-          <div class="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent md:w-10"></div>
+          <!-- Fade overlays, width straight from the organism: 16 phone /
+               40 tablet / 80 desktop (Figma 3236:13988 / 13978 / 13997). Phone
+               and tablet match the page margin, so the cards stay clear of them
+               and only cards cycling through the margin fade; desktop is twice
+               the margin, so the first card's left 40px fades too — as designed.
+               White gradient: 100% at the outer (viewport) edge → 0% inward. -->
+          <div class="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent md:w-10 xl:w-20"></div>
+          <div class="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent md:w-10 xl:w-20"></div>
         </div>
 
         <!-- Carousel pagination: prev/next cycle the strip one card at a time;
              dots track position. Prev is disabled at the start. -->
         <div
-          class="pagination-controls mt-10 pl-4 md:pl-10"
+          class="pagination-controls mt-12 pl-4 md:pl-10 xl:mt-16"
           data-pagination
           data-pagination-scroll="[data-events-track]"
         >
@@ -497,26 +501,28 @@
 
   <!-- ===== Footer (same as About) ===== -->
   <footer class="footer">
-    <div class="footer__inner">
-      <a class="footer__logo" href="index.html" aria-label="public makers home">
-        <img src="assets/logo-footer.svg" alt="public makers" />
-      </a>
-      <div class="footer__right">
-        <div class="footer__social">
-          <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
-          <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+    <div class="footer__panel">
+      <div class="footer__inner">
+        <a class="footer__logo" href="index.html" aria-label="public makers home">
+          <img src="assets/logo-footer.svg" alt="public makers" />
+        </a>
+        <div class="footer__right">
+          <div class="footer__social">
+            <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+          </div>
+          <div class="footer__meta">
+            <nav class="footer__links" aria-label="Legal">
+              <a class="link" href="#">Imprint</a>
+              <a class="link" href="#">Data privacy</a>
+            </nav>
+            <p class="footer__copy">© 2025 public makers</p>
+          </div>
+          <p class="footer__credits">
+            <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+            <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+          </p>
         </div>
-        <div class="footer__meta">
-          <nav class="footer__links" aria-label="Legal">
-            <a class="link" href="#">Imprint</a>
-            <a class="link" href="#">Data privacy</a>
-          </nav>
-          <p class="footer__copy">© 2025 public makers</p>
-        </div>
-        <p class="footer__credits">
-          <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
-          <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
-        </p>
       </div>
     </div>
   </footer>
@@ -570,14 +576,14 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=37"></script>
-  <!-- Phone fixed bottom nav (Figma 674:10045) -->
-  <nav class="bottom-nav bottom-nav--default" aria-label="Sections">
-    <div class="bottom-nav__bar">
-        <a class="bottom-nav__item" href="approach.html">Approach</a>
-        <a class="bottom-nav__item" href="projects.html">Projects</a>
-        <a class="bottom-nav__item" href="partners.html">Partners</a>
-        <a class="bottom-nav__item" href="about.html">About</a>
+  <script src="script.js?v=40"></script>
+  <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
+  <nav class="nav-mobile" aria-label="Sections">
+    <div class="nav-mobile__bar">
+        <a class="nav-item-mobile" href="approach.html">Approach</a>
+        <a class="nav-item-mobile" href="projects.html">Projects</a>
+        <a class="nav-item-mobile" href="partners.html">Partners</a>
+        <a class="nav-item-mobile" href="about.html">About</a>
     </div>
   </nav>
 </body>

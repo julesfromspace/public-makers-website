@@ -54,7 +54,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=86" />
+  <link rel="stylesheet" href="styles.css?v=95" />
 </head>
 
 <!-- Override the per-page accent so the active folder tab is green on this page. -->
@@ -274,26 +274,28 @@
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
-    <div class="footer__inner">
-      <a class="footer__logo" href="index.html" aria-label="public makers home">
-        <img src="assets/logo-footer.svg" alt="public makers" />
-      </a>
-      <div class="footer__right">
-        <div class="footer__social">
-          <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
-          <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+    <div class="footer__panel">
+      <div class="footer__inner">
+        <a class="footer__logo" href="index.html" aria-label="public makers home">
+          <img src="assets/logo-footer.svg" alt="public makers" />
+        </a>
+        <div class="footer__right">
+          <div class="footer__social">
+            <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+          </div>
+          <div class="footer__meta">
+            <nav class="footer__links" aria-label="Legal">
+              <a class="link" href="#">Imprint</a>
+              <a class="link" href="#">Data privacy</a>
+            </nav>
+            <p class="footer__copy">© 2025 public makers</p>
+          </div>
+          <p class="footer__credits">
+            <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+            <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+          </p>
         </div>
-        <div class="footer__meta">
-          <nav class="footer__links" aria-label="Legal">
-            <a class="link" href="#">Imprint</a>
-            <a class="link" href="#">Data privacy</a>
-          </nav>
-          <p class="footer__copy">© 2025 public makers</p>
-        </div>
-        <p class="footer__credits">
-          <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
-          <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
-        </p>
       </div>
     </div>
   </footer>
@@ -303,14 +305,14 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=37"></script>
-  <!-- Phone fixed bottom nav (Figma 674:10045) -->
-  <nav class="bottom-nav" aria-label="Sections">
-    <div class="bottom-nav__bar">
-        <a class="bottom-nav__item bottom-nav__item--active" style="--bn-accent: var(--green-10)" href="approach.html" aria-current="page">Approach</a>
-        <a class="bottom-nav__item" href="projects.html">Projects</a>
-        <a class="bottom-nav__item" href="partners.html">Partners</a>
-        <a class="bottom-nav__item" href="about.html">About</a>
+  <script src="script.js?v=40"></script>
+  <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
+  <nav class="nav-mobile" aria-label="Sections">
+    <div class="nav-mobile__bar">
+        <a class="nav-item-mobile nav-item-mobile--selected" style="--nav-mobile-accent: var(--green-10)" href="approach.html" aria-current="page">Approach</a>
+        <a class="nav-item-mobile" href="projects.html">Projects</a>
+        <a class="nav-item-mobile" href="partners.html">Partners</a>
+        <a class="nav-item-mobile" href="about.html">About</a>
     </div>
   </nav>
 </body>
