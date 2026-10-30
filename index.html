@@ -77,7 +77,7 @@
   </script>
 
   <!-- Project styles: nav folder-tab clip-path + scroll-morph live here -->
-  <link rel="stylesheet" href="styles.css?v=84" />
+  <link rel="stylesheet" href="styles.css?v=85" />
 </head>
 
 <body class="bg-white text-black font-body antialiased">
@@ -111,9 +111,9 @@
 
   <main>
     <!-- ===== Hero: full-bleed image carousel ===== -->
-    <section class="relative w-full overflow-hidden bg-black">
+    <section class="relative w-full pb-20 md:pb-24 xl:pb-48">
       <!-- Carousel track (first slide visible; others queued to the right) -->
-      <div class="relative w-full" data-hero-root>
+      <div class="relative w-full overflow-hidden bg-black" data-hero-root>
         <!-- Stacked slides; one is .is-active, others fade out via opacity -->
         <div class="absolute inset-0">
           <img src="assets/hero1.jpg" alt="" class="hero-slide is-active" data-hero-slide="0" />
@@ -183,50 +183,52 @@
     </section>
 
     <!-- ===== Intro statement (large text component: py 40/64/120) ===== -->
-    <section id="approach" class="py-10 md:py-16 xl:py-[120px]">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <p class="col-span-4 font-body text-[27px] leading-[1.15] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2 xl:text-[41px]">
+    <section id="approach" class="pb-20 md:pb-24 xl:pb-48">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+          <p class="col-span-4 font-body text-[21px] leading-[normal] text-black md:col-span-7 md:text-[27px] md:text-pretty xl:col-span-8 xl:col-start-2 xl:text-[41px] xl:leading-[1.2]">
             Public Makers is a movement that orients, enables, and connects students and trainees with the public sector to co-create its future operating system.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- ===== Metrics ===== -->
-    <section class="py-10 md:pb-16 md:pt-0 xl:py-32">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <div class="col-span-4 md:col-span-8 xl:col-span-12">
-            <div class="mx-auto flex max-w-[920px] flex-col items-center gap-16 md:flex-row md:items-start md:justify-center md:gap-6 xl:justify-between xl:gap-0">
-              <div class="flex flex-col items-center gap-2 text-center md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
-                <p class="font-body text-[61px] leading-[normal] text-black xl:font-display xl:text-[91px] xl:leading-[91px]">17+</p>
-                <p class="font-display text-[21px] leading-[1.4] text-neutral-400 xl:font-body xl:text-[27px] xl:leading-[normal]">Projects</p>
-              </div>
-              <div class="flex flex-col items-center gap-2 text-center md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
-                <p class="font-body text-[61px] leading-[normal] text-black xl:font-display xl:text-[91px] xl:leading-[91px]">31</p>
-                <p class="font-display text-[21px] leading-[1.4] text-neutral-400 xl:font-body xl:text-[27px] xl:leading-[normal]">Members</p>
-              </div>
-              <div class="flex flex-col items-center gap-2 text-center md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
-                <p class="font-body text-[61px] leading-[normal] text-black xl:font-display xl:text-[91px] xl:leading-[91px]">11</p>
-                <p class="font-display text-[21px] leading-[1.4] text-neutral-400 xl:font-body xl:text-[27px] xl:leading-[normal]">Partners</p>
-              </div>
-            </div>
+    <!-- ===== Metrics (Figma 940:13059 desktop / 3187:12925 tablet /
+         1556:9454 phone). A centred row of "value prop" items: the row is
+         920 wide with justify-between on desktop, and centred with gap
+         24 / 40 on tablet / phone. Note the page margin here is 16 at
+         tablet too, not the usual 40. Section pb 192 / 96 / 80, no top. ===== -->
+    <section class="pb-20 md:pb-24 xl:pb-48">
+      <div class="px-4 xl:px-0">
+        <div class="mx-auto flex max-w-[920px] items-start justify-center gap-10 text-center md:gap-6 xl:justify-between xl:gap-0">
+          <div class="flex flex-col items-center gap-2 md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
+            <p class="w-full font-body text-pretty text-[41px] leading-[1.2] text-black md:text-[61px] md:leading-[normal] xl:text-[91px] xl:leading-[91px]">17+</p>
+            <p class="w-full font-body text-[18px] leading-[1.4] text-neutral-300 md:text-[21px] xl:text-[27px] xl:leading-[normal]">Projects</p>
+          </div>
+          <div class="flex flex-col items-center gap-2 md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
+            <p class="w-full font-body text-pretty text-[41px] leading-[1.2] text-black md:text-[61px] md:leading-[normal] xl:text-[91px] xl:leading-[91px]">31</p>
+            <p class="w-full font-body text-[18px] leading-[1.4] text-neutral-300 md:text-[21px] xl:text-[27px] xl:leading-[normal]">Members</p>
+          </div>
+          <div class="flex flex-col items-center gap-2 md:w-[149px] xl:w-[212px] xl:max-w-[300px] xl:gap-10">
+            <p class="w-full font-body text-pretty text-[41px] leading-[1.2] text-black md:text-[61px] md:leading-[normal] xl:text-[91px] xl:leading-[91px]">11</p>
+            <p class="w-full font-body text-[18px] leading-[1.4] text-neutral-300 md:text-[21px] xl:text-[27px] xl:leading-[normal]">Partners</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Our Vision (black highlight panel) ===== -->
-    <section class="px-4 py-10 md:px-10 md:py-10 xl:py-0">
-      <div class="mx-auto w-full max-w-[1440px]">
-        <!-- tablet: panel spans 6 of 8 columns, centred (Figma 3187:13999);
-             phone + desktop: full width. -->
-        <div class="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-12">
-        <div class="col-span-4 flex flex-col items-start gap-4 rounded-40 bg-black p-4 md:col-span-6 md:col-start-2 md:px-6 md:py-4 xl:col-span-12 xl:col-start-1 xl:gap-20 xl:py-[120px] xl:pl-[142px] xl:pr-0">
-          <h2 class="font-body text-[41px] leading-[1] text-white xl:font-display xl:text-[91px]">Our Vision</h2>
-          <div class="flex w-full flex-col items-center gap-8 xl:items-start xl:gap-10">
-            <p class="w-full font-body text-[18px] leading-[1.5] text-white md:text-[27px] md:leading-[normal] xl:max-w-[1024px] xl:text-[41px] xl:leading-[normal]">
+    <!-- ===== Highlight — "Our Vision" (Figma 1314:5716 desktop /
+         3187:13999 tablet / 1314:5735 phone). Black panel: col-span-10 from
+         col 2 on desktop (the frame's px-157), full width on tablet and
+         phone. Card padding 48 / px24 py16 / 16, gap 24 / 16 / 16.
+         Section pb 192 / 96 / 80, no padding-top. ===== -->
+    <section class="pb-20 md:pb-24 xl:pb-48">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+        <div class="col-span-4 flex flex-col items-start gap-4 rounded-40 bg-black p-4 md:col-span-8 md:px-6 md:py-4 xl:col-span-10 xl:col-start-2 xl:gap-6 xl:p-12">
+          <h2 class="font-body text-[41px] leading-[1.2] text-white xl:text-[61px] xl:leading-[normal]">Our Vision</h2>
+          <div class="flex w-full flex-col items-center gap-8 md:items-start xl:gap-10">
+            <p class="w-full font-body text-[18px] leading-[1.4] text-white md:text-[27px] md:leading-[normal] xl:text-[41px] xl:leading-[1.2]">
               An operating system of the state that is digital, adaptive and genuinely built around the people who live in it, co-created with the generation that inherits it.
             </p>
             <!-- Opened via JS (script.js): always dialog.showModal() so the
@@ -246,10 +248,10 @@
     </section>
 
     <!-- ===== Second statement (large text component: py 40/64/120) ===== -->
-    <section class="py-10 md:py-16 xl:py-[120px]">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-4 gap-2 md:grid-cols-8 xl:grid-cols-12">
-          <p class="col-span-4 font-body text-[27px] leading-[1.15] text-black md:col-span-7 md:col-start-2 xl:col-span-10 xl:col-start-2 xl:text-[41px]">
+    <section class="pb-20 md:pb-24 xl:pb-48">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+          <p class="col-span-4 font-body text-[21px] leading-[normal] text-black md:col-span-7 md:text-[27px] md:text-pretty xl:col-span-8 xl:col-start-2 xl:text-[41px] xl:leading-[1.2]">
             We give students the orientation to understand how public systems work, the practice to move them, and a community that carries them forward.
           </p>
         </div>

@@ -1020,7 +1020,7 @@ img {
    on .hero). Placed last so it wins over the ad-hoc 1200/820 rules. */
 @media (max-width: 1280px) {
   .hero__panel {
-    padding: var(--spacing-4) var(--spacing-4) var(--spacing-6); /* 16 / 16 / 24 */
+    padding: var(--spacing-4);     /* 16 all round (placeholder variant) */
   }
   .hero__title {
     padding: 0 var(--spacing-2);        /* px-8 grid align */
