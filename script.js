@@ -503,9 +503,13 @@
       }
 
       function updateSpacer() {
+        // Lead-in: padding the row itself carries so the first card lines up
+        // with the text column while the track bleeds past it. It is already
+        // part of the scrollable width, so the spacer owes that much less.
+        const lead = cards[0].offsetLeft - scroller.offsetLeft;
         const w = Math.max(
           0,
-          track.clientWidth - lastCard.getBoundingClientRect().width
+          track.clientWidth - lastCard.getBoundingClientRect().width - lead
         );
         spacer.style.width = w + "px";
       }

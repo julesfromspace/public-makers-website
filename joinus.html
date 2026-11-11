@@ -55,7 +55,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=155" />
+  <link rel="stylesheet" href="styles.css?v=156" />
 </head>
 
 <!-- Per-page accent: Join us tab becomes a BLACK folder tab with white text. -->
@@ -106,16 +106,19 @@
 
             <!-- Member journey: horizontally scrollable "journey step" cards,
                  cycled with the dark pagination organism below. The track
-                 bleeds to the folder's right edge (negative margin cancels the
-                 panel's right padding); the panel's overflow-hidden clips the
-                 peeking card at the rounded edge. The row is w-max so it is
-                 sized by its cards rather than stretched to the track: that
-                 keeps the pagination's trailing spacer inside the scrollable
-                 range, so the last card can reach its left-aligned stop
-                 instead of being pinned flush against the clip edge. -->
+                 bleeds to BOTH folder edges (negative margins cancel the
+                 panel's side padding) so the hero folder's own rounded
+                 overflow-hidden is what clips a card, not the scroll
+                 container: cards run out to the folder edge on either side.
+                 The row carries the padding the track gave up, so the first
+                 card still starts on the text column. The row is w-max so it
+                 is sized by its cards rather than stretched to the track:
+                 that keeps the pagination's trailing spacer inside the
+                 scrollable range, so the last card can reach its left-aligned
+                 stop instead of being pinned flush against the clip edge. -->
             <div class="col-span-4 md:col-span-8 xl:col-span-12 xl:pb-6">
-              <div class="no-scrollbar overflow-x-auto -mr-[24px] md:pt-4 xl:-mr-[118px] xl:pt-0" data-journey-track>
-                <ul class="flex w-max items-start gap-4 md:items-stretch md:gap-10" role="list">
+              <div class="no-scrollbar overflow-x-auto -mx-6 md:pt-4 xl:-mx-[118px] xl:pt-0" data-journey-track>
+                <ul class="flex w-max items-start gap-4 pl-6 md:items-stretch md:gap-10 xl:pl-[118px]" role="list">
                   <li class="w-[280px] flex-none md:w-[480px] xl:w-[632px]">
                     <article class="journey-step">
                       <h2 class="journey-step__title"><span class="journey-step__num">01</span>Application</h2>
@@ -427,7 +430,7 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=49"></script>
+  <script src="script.js?v=50"></script>
   <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
   <nav class="nav-mobile" aria-label="Sections">
     <div class="nav-mobile__bar">
