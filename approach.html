@@ -54,7 +54,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=95" />
+  <link rel="stylesheet" href="styles.css?v=155" />
 </head>
 
 <!-- Override the per-page accent so the active folder tab is green on this page. -->
@@ -70,9 +70,11 @@
       <a class="tab tab--selected" href="approach.html" aria-current="page">
         <span class="tab__label">Approach</span>
       </a>
+      <!-- Projects temporarily hidden from the nav.
       <a class="tab" href="projects.html">
         <span class="tab__label">Projects</span>
       </a>
+      -->
       <a class="tab" href="partners.html">
         <span class="tab__label">Partners</span>
       </a>
@@ -88,20 +90,14 @@
   </header>
 
   <main>
-    <!-- ===== Hero panel (green, title + paragraph) ===== -->
-    <section>
-      <div class="mx-auto w-full max-w-[1440px] px-4 pb-16 md:px-10 md:pb-24 xl:pb-32">
-        <div class="rounded-40 bg-approach-green px-6 pb-4 pt-4 min-h-[240px] md:min-h-[400px] xl:min-h-[640px] xl:px-[118px] xl:pb-10 xl:pt-16">
-          <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-x-6 md:gap-y-0 xl:grid-cols-12 xl:gap-2">
-            <!-- Title -->
-            <h1 class="col-span-4 mb-6 font-display font-normal text-[41px] leading-[1] text-ink md:col-span-8 xl:col-span-12 xl:mb-16 xl:text-[91px] xl:leading-[91px]">
-              Our approach
-            </h1>
-            <!-- Paragraph -->
-            <p class="col-span-4 font-body text-[21px] leading-[normal] text-black md:col-span-8 md:w-[559px] md:text-[27px] md:text-pretty xl:col-span-12 xl:w-auto xl:max-w-[1010px] xl:pb-6 xl:text-[41px] xl:leading-[1.2]">
-              With our approach for change-making we connect actors across administration, policy, and society to enable collective action.
-            </p>
-          </div>
+    <!-- ===== Hero folder (green) — title + text content ===== -->
+    <section class="hero-folder">
+      <div class="hero-folder__panel">
+        <div class="hero-folder__title">
+          <h1>Our approach</h1>
+        </div>
+        <div class="hero-folder__content hero-content--text">
+          <p>With our approach for change-making we connect actors across administration, policy, and society to enable collective action.</p>
         </div>
       </div>
     </section>
@@ -115,7 +111,7 @@
          image-then-column so phone stacks image first for every section. -->
 
     <!-- Educate — desktop: tabs left, image right -->
-    <section class="pt-10 pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-48">
+    <section class="pb-20 md:pb-32 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="flex flex-col gap-10 md:grid md:grid-cols-8 md:items-start md:gap-6 xl:grid-cols-12">
           <div class="md:col-span-4 md:col-start-5 xl:col-span-5 xl:col-start-7">
@@ -155,7 +151,7 @@
     </section>
 
     <!-- Make — desktop: image left, tabs right -->
-    <section class="pt-10 pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-48">
+    <section class="pb-20 md:pb-32 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="flex flex-col gap-10 md:grid md:grid-cols-8 md:items-start md:gap-6 xl:grid-cols-12">
           <div class="md:col-span-4 md:col-start-1 xl:col-span-5 xl:col-start-2">
@@ -195,7 +191,7 @@
     </section>
 
     <!-- Connect — desktop: tabs left, image right -->
-    <section class="pt-10 pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-48">
+    <section class="pb-20 md:pb-32 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="flex flex-col gap-10 md:grid md:grid-cols-8 md:items-start md:gap-6 xl:grid-cols-12">
           <div class="md:col-span-4 md:col-start-5 xl:col-span-5 xl:col-start-7">
@@ -281,20 +277,22 @@
         </a>
         <div class="footer__right">
           <div class="footer__social">
-            <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
-            <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img class="btn__icon" src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img class="btn__icon" src="assets/icon-instagram-white.svg" alt="" /></a>
           </div>
           <div class="footer__meta">
             <nav class="footer__links" aria-label="Legal">
-              <a class="link" href="#">Imprint</a>
-              <a class="link" href="#">Data privacy</a>
+              <a class="link" href="imprint.html">Imprint</a>
+              <a class="link" href="data-privacy.html">Data privacy</a>
             </nav>
+          </div>
+          <div class="footer__credits">
+            <p class="footer__webdesign">
+              <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+              <span>by <a class="link link--inline" href="https://kamenskaya-design.com/" target="_blank" rel="noopener noreferrer">Maria Kamenskaya</a> &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+            </p>
             <p class="footer__copy">© 2025 public makers</p>
           </div>
-          <p class="footer__credits">
-            <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
-            <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
-          </p>
         </div>
       </div>
     </div>
@@ -305,12 +303,14 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=40"></script>
+  <script src="script.js?v=49"></script>
   <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
   <nav class="nav-mobile" aria-label="Sections">
     <div class="nav-mobile__bar">
         <a class="nav-item-mobile nav-item-mobile--selected" style="--nav-mobile-accent: var(--green-10)" href="approach.html" aria-current="page">Approach</a>
+        <!-- Projects temporarily hidden from the nav.
         <a class="nav-item-mobile" href="projects.html">Projects</a>
+        -->
         <a class="nav-item-mobile" href="partners.html">Partners</a>
         <a class="nav-item-mobile" href="about.html">About</a>
     </div>

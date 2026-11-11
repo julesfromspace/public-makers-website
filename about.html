@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=95" />
+  <link rel="stylesheet" href="styles.css?v=155" />
 </head>
 <body>
   <!-- Navigation -->
@@ -21,9 +21,11 @@
       <a class="tab" href="approach.html">
         <span class="tab__label">Approach</span>
       </a>
+      <!-- Projects temporarily hidden from the nav.
       <a class="tab" href="projects.html">
         <span class="tab__label">Projects</span>
       </a>
+      -->
       <a class="tab" href="partners.html">
         <span class="tab__label">Partners</span>
       </a>
@@ -40,12 +42,12 @@
 
   <main class="page">
     <!-- Hero -->
-    <section class="hero">
-      <div class="hero__panel">
-        <div class="hero__title">
+    <section class="hero-folder">
+      <div class="hero-folder__panel">
+        <div class="hero-folder__title">
           <h1>About us</h1>
         </div>
-        <div class="hero__image">
+        <div class="hero-folder__content hero-content--image">
           <img src="assets/hero.png" alt="The public makers team" />
         </div>
       </div>
@@ -128,20 +130,22 @@
         </a>
         <div class="footer__right">
           <div class="footer__social">
-            <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
-            <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img class="btn__icon" src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img class="btn__icon" src="assets/icon-instagram-white.svg" alt="" /></a>
           </div>
           <div class="footer__meta">
             <nav class="footer__links" aria-label="Legal">
-              <a class="link" href="#">Imprint</a>
-              <a class="link" href="#">Data privacy</a>
+              <a class="link" href="imprint.html">Imprint</a>
+              <a class="link" href="data-privacy.html">Data privacy</a>
             </nav>
+          </div>
+          <div class="footer__credits">
+            <p class="footer__webdesign">
+              <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+              <span>by <a class="link link--inline" href="https://kamenskaya-design.com/" target="_blank" rel="noopener noreferrer">Maria Kamenskaya</a> &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+            </p>
             <p class="footer__copy">© 2025 public makers</p>
           </div>
-          <p class="footer__credits">
-            <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
-            <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
-          </p>
         </div>
       </div>
     </div>
@@ -152,12 +156,14 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=40"></script>
+  <script src="script.js?v=49"></script>
   <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
   <nav class="nav-mobile" aria-label="Sections">
     <div class="nav-mobile__bar">
         <a class="nav-item-mobile" href="approach.html">Approach</a>
+        <!-- Projects temporarily hidden from the nav.
         <a class="nav-item-mobile" href="projects.html">Projects</a>
+        -->
         <a class="nav-item-mobile" href="partners.html">Partners</a>
         <a class="nav-item-mobile nav-item-mobile--selected" style="--nav-mobile-accent: var(--orange-05)" href="about.html" aria-current="page">About</a>
     </div>

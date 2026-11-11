@@ -40,7 +40,7 @@
     }
 
     // Hide the bar on scroll down, reveal on scroll up. The translate only
-    // applies < xl (see .nav--hidden media rule); desktop ignores it.
+    // applies < md (see .nav--hidden media rule); tablet and desktop ignore it.
     const delta = y - lastY;
     if (Math.abs(delta) < MIN_DELTA) return; // keep lastY: let slow drags add up
     if (delta > 0 && y > HIDE_AFTER) {
@@ -238,6 +238,16 @@
 
     let current = 0;
     let timer = null;
+    let startedAt = 0;      // when the running timer was last (re)started
+    let remaining = DURATION_MS;
+    let paused = false;
+
+    function schedule(ms) {
+      if (timer) { clearTimeout(timer); timer = null; }
+      remaining = ms;
+      startedAt = Date.now();
+      timer = setTimeout(() => openCard(current + 1), ms);
+    }
 
     function openCard(i) {
       if (timer) { clearTimeout(timer); timer = null; }
@@ -254,7 +264,10 @@
       void cards[current].offsetWidth;
       cards[current].classList.add("is-counting");
 
-      timer = setTimeout(() => openCard(current + 1), DURATION_MS);
+      // While paused the bar is frozen by CSS, so the card just waits with a
+      // full budget until the viewer presses play.
+      if (paused) { remaining = DURATION_MS; return; }
+      schedule(DURATION_MS);
     }
 
     cards.forEach((card, idx) => {
@@ -263,11 +276,49 @@
       toggle.addEventListener("click", () => openCard(idx));
     });
 
+    // Pause / play. Pausing keeps the open card open and freezes its bar;
+    // playing resumes from where that bar stopped rather than restarting it.
+    const pauseBtn = (list.closest("section") || document).querySelector(
+      "[data-cards-toggle]"
+    );
+    const iconPause = pauseBtn && pauseBtn.querySelector('[data-cards-icon="pause"]');
+    const iconPlay = pauseBtn && pauseBtn.querySelector('[data-cards-icon="play"]');
+
+    function render() {
+      list.classList.toggle("is-paused", paused);
+      if (iconPause) iconPause.classList.toggle("hidden", paused);
+      if (iconPlay) iconPlay.classList.toggle("hidden", !paused);
+      if (pauseBtn) {
+        pauseBtn.setAttribute(
+          "aria-label",
+          paused ? "Play auto-rotation" : "Pause auto-rotation"
+        );
+      }
+    }
+
+    function setPaused(next) {
+      if (paused === next) return;
+      paused = next;
+      if (paused) {
+        if (timer) { clearTimeout(timer); timer = null; }
+        remaining = Math.max(0, remaining - (Date.now() - startedAt));
+      } else {
+        schedule(remaining || DURATION_MS);
+      }
+      render();
+    }
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener("click", () => setPaused(!paused));
+    }
+
     // Respect reduced-motion: keep the first card open, no auto-rotate, no bar.
     if (reduce) {
+      paused = true;
       cards.forEach((c, idx) =>
         c.setAttribute("aria-expanded", idx === 0 ? "true" : "false")
       );
+      render();
     } else {
       openCard(0);
     }
@@ -275,17 +326,13 @@
 })();
 
 // Approach — tab+image sections. A SINGLE tab is open across ALL [data-vtabs]
-// groups at once; it auto-advances through every tab in DOM order. Opening a
-// tab swaps its section's image to that tab's data-tab-image.
+// groups at once. The tabs do not auto-advance: one opens on click, and
+// opening it swaps its section's image to that tab's data-tab-image.
 (function () {
   const tabs = Array.from(document.querySelectorAll("[data-vtabs] .vtab"));
   if (tabs.length === 0) return;
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const DURATION_MS = 5000;
-  document.querySelectorAll("[data-vtabs]").forEach((g) =>
-    g.style.setProperty("--card-duration", DURATION_MS + "ms")
-  );
 
   // Dissolve (true cross-fade) between two stacked <img> layers inside a
   // [data-section-img] box: the incoming image fades IN on top of the current
@@ -307,13 +354,21 @@
     const back = ls[0] === front ? ls[1] : ls[0];
     const M = window.Motion;
 
-    const finish = () => { back.style.opacity = "1"; front.style.opacity = "0"; };
+    const commit = () => { back.style.opacity = "1"; front.style.opacity = "0"; };
     const show = () => {
-      if (reduce || !M || !M.animate) { finish(); return; }
-      // Cross-fade: raise the incoming (back) layer over the current (front).
+      // The layers only stack in DOM order, so the incoming one has to be
+      // raised explicitly. Without this every second swap fades in UNDER the
+      // outgoing layer — invisible until the end-state lands as a hard cut.
+      back.style.zIndex = "1";
+      front.style.zIndex = "0";
+      if (reduce || !M || !M.animate) { commit(); return; }
+      // Commit the incoming layer's end state before animating, so a dropped
+      // animation can't snap it back to transparent when it stops filling.
+      back.style.opacity = "1";
       M.animate(back, { opacity: [0, 1] }, { duration: FADE_MS / 1000, ease: "easeInOut" });
-      // Timer fallback commits the end-state even if Motion/rAF is paused.
-      setTimeout(finish, FADE_MS);
+      // The outgoing layer stays opaque underneath for the whole fade, so the
+      // dissolve never dips through the background.
+      setTimeout(() => { front.style.opacity = "0"; }, FADE_MS);
     };
 
     back.style.opacity = "0";
@@ -334,27 +389,18 @@
   });
 
   let current = 0;
-  let timer = null;
 
   function open(i) {
-    if (timer) { clearTimeout(timer); timer = null; }
     current = ((i % tabs.length) + tabs.length) % tabs.length;
 
     tabs.forEach((t, idx) => {
-      const active = idx === current;
-      t.classList.remove("is-counting");
-      t.setAttribute("aria-expanded", active ? "true" : "false");
+      t.setAttribute("aria-expanded", idx === current ? "true" : "false");
     });
 
     const tab = tabs[current];
     const section = tab.closest("section");
     // Fade the section image to the active tab's image.
     setImg(section.querySelector("[data-section-img]"), tab.getAttribute("data-tab-image"));
-
-    void tab.offsetWidth; // reflow so the countdown bar restarts
-    tab.classList.add("is-counting");
-
-    timer = setTimeout(() => open(current + 1), DURATION_MS);
   }
 
   tabs.forEach((tab, idx) => {
@@ -362,13 +408,7 @@
     toggle.addEventListener("click", () => open(idx));
   });
 
-  if (reduce) {
-    tabs.forEach((t, idx) =>
-      t.setAttribute("aria-expanded", idx === 0 ? "true" : "false")
-    );
-  } else {
-    open(0);
-  }
+  open(0);
 })();
 
 // Pagination organism — dots morph default <-> active, prev/next arrows drive
@@ -452,6 +492,16 @@
       spacer.style.flex = "none";
       spacer.style.pointerEvents = "none";
       scroller.appendChild(spacer);
+      // Lets CSS dim the non-active cards only once JS is driving the strip;
+      // without it every card would sit at the inactive opacity.
+      scroller.classList.add("is-paginated");
+
+      // The active card is the one the strip is scrolled to (the first fully
+      // visible one). Components style their own inactive state off this.
+      function paintCards() {
+        cards.forEach((c, i) => c.classList.toggle("is-current", i === idx));
+      }
+
       function updateSpacer() {
         const w = Math.max(
           0,
@@ -480,7 +530,7 @@
           const d = Math.abs(targetOf(i) - sl);
           if (d < best) { best = d; n = i; }
         });
-        if (n !== idx) { idx = n; paintDots(animate); }
+        if (n !== idx) { idx = n; paintDots(animate); paintCards(); }
         // Every card is a distinct stop now, so gate the arrows on the index.
         if (prev) prev.disabled = idx === 0;
         if (next) next.disabled = idx === cards.length - 1;
@@ -510,6 +560,7 @@
       });
 
       paintDots(false);
+      paintCards();
       syncFromScroll(false); // initial: prev disabled at the start
       return;
     }
@@ -578,11 +629,20 @@
   });
 })();
 
-// FAQ accordion — toggle one item at a time.
+// FAQ accordion — only one item open at a time.
 (function () {
   document.querySelectorAll(".faq-item__head").forEach((btn) => {
     btn.addEventListener("click", () => {
       const open = btn.getAttribute("aria-expanded") === "true";
+      // Close the others in this list first, so two accordion sections on one
+      // page stay independent of each other.
+      const list = btn.closest("ul") || document;
+      list
+        .querySelectorAll('.faq-item__head[aria-expanded="true"]')
+        .forEach((other) => {
+          if (other !== btn) other.setAttribute("aria-expanded", "false");
+        });
+      // Clicking the open item still closes it.
       btn.setAttribute("aria-expanded", String(!open));
     });
   });
@@ -645,8 +705,8 @@
   const origin = bar.querySelector('.nav-item-mobile[href="' + from + '"]');
   if (!origin) return;
 
-  // Measured now, while the spread animation is still on its first frame, so
-  // every item is at its default width — the layout the old pill sat in.
+  // Every item carries the same padding, so the bar's layout is identical on
+  // both pages: the origin item sits exactly where the old pill was.
   const o = origin.getBoundingClientRect();
   const s = selected.getBoundingClientRect();
   const dx = o.left + o.width / 2 - (s.left + s.width / 2);
@@ -655,4 +715,71 @@
   selected.style.setProperty("--nav-rail-x", dx + "px");
   bar.classList.add("has-rail");
   }
+})();
+
+// Chips — toggle the selected state (Figma 599:9590). The chip owns its own
+// pressed state; it does not filter anything yet.
+(function () {
+  document.querySelectorAll("button.chip[aria-pressed]").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const on = chip.getAttribute("aria-pressed") === "true";
+      chip.setAttribute("aria-pressed", String(!on));
+    });
+  });
+})();
+
+// Overflow diagnostic — inert unless the URL carries ?debug=overflow.
+// Reports the viewport width and every element whose right edge sticks out
+// past it, ignoring anything inside a horizontal scroll container (the
+// carousels are meant to overflow). Remove once the tablet gap is fixed.
+(function () {
+  if (!/[?&]debug=overflow/.test(location.search)) return;
+
+  function inScroller(el) {
+    for (let p = el.parentElement; p; p = p.parentElement) {
+      const o = getComputedStyle(p).overflowX;
+      if (o === "auto" || o === "scroll" || o === "hidden" || o === "clip") return true;
+    }
+    return false;
+  }
+
+  function label(el) {
+    const cls = (el.className && el.className.baseVal !== undefined
+      ? el.className.baseVal
+      : el.className || "").toString().trim().slice(0, 70);
+    return el.tagName.toLowerCase() + (el.id ? "#" + el.id : "") + (cls ? "." + cls : "");
+  }
+
+  function run() {
+    const d = document.documentElement;
+    const vw = d.clientWidth;
+    const hits = [];
+    document.querySelectorAll("body *").forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.width > 0 && r.right > vw + 0.5 && !inScroller(el)) {
+        hits.push(Math.round(r.right) + "px  " + label(el));
+      }
+    });
+
+    const box = document.createElement("pre");
+    box.style.cssText =
+      "position:fixed;left:0;top:0;z-index:99999;margin:0;max-height:60vh;overflow:auto;" +
+      "background:#000;color:#0f0;font:11px/1.4 monospace;padding:8px;white-space:pre-wrap;" +
+      "width:100%;box-sizing:border-box";
+    box.textContent =
+      "page       " + location.pathname + "\n" +
+      "innerWidth " + window.innerWidth + "\n" +
+      "clientW    " + vw + "\n" +
+      "scrollW    " + d.scrollWidth + "\n" +
+      "overflow   " + (d.scrollWidth > vw ? "YES, by " + (d.scrollWidth - vw) + "px" : "no") + "\n" +
+      "dpr        " + window.devicePixelRatio + "\n" +
+      "ua         " + navigator.userAgent + "\n" +
+      "--- culprits (" + hits.length + ") ---\n" +
+      (hits.slice(0, 15).join("\n") || "none");
+    box.addEventListener("click", () => box.remove());
+    document.body.appendChild(box);
+  }
+
+  if (document.readyState === "complete") run();
+  else window.addEventListener("load", run);
 })();

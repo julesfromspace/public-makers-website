@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PM x TUM.ai Hackathon — public makers</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Play CDN (runtime) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        screens: { sm: "481px", md: "750px", lg: "941px", xl: "1281px" },
+        container: {
+          center: true,
+          padding: { DEFAULT: "16px", sm: "40px", md: "40px", lg: "40px", xl: "40px" },
+          screens: { xl: "1440px" },
+        },
+        extend: {
+          borderRadius: {
+            0: "var(--radius-0)", 2: "var(--radius-2)", 4: "var(--radius-4)",
+            8: "var(--radius-8)", 12: "var(--radius-12)", 16: "var(--radius-16)",
+            24: "var(--radius-24)", 32: "var(--radius-32)", 40: "var(--radius-40)",
+            48: "var(--radius-48)", 56: "var(--radius-56)", 64: "var(--radius-64)",
+            72: "var(--radius-72)", 80: "var(--radius-80)", full: "var(--radius-full)",
+          },
+          spacing: {
+            0: "var(--spacing-0)", 1: "var(--spacing-1)", 2: "var(--spacing-2)",
+            3: "var(--spacing-3)", 4: "var(--spacing-4)", 5: "var(--spacing-5)",
+            6: "var(--spacing-6)", 8: "var(--spacing-8)", 10: "var(--spacing-10)",
+            12: "var(--spacing-12)", 16: "var(--spacing-16)", 20: "var(--spacing-20)",
+            24: "var(--spacing-24)", 28: "var(--spacing-28)", 32: "var(--spacing-32)",
+            36: "var(--spacing-36)", 40: "var(--spacing-40)", 44: "var(--spacing-44)",
+            48: "var(--spacing-48)",
+          },
+          colors: {
+            ink: "#1e1e1e",
+            "neutral-400": "#444444",
+            "neutral-300": "#6b6b6b",
+            "neutral-100": "#f5f5f5",
+            "partners-blue": "#e6e6ff",
+          },
+          fontFamily: {
+            display: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+            body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=155" />
+</head>
+
+<!-- Per-page accent: blue for the active "Partners" tab. -->
+<body class="bg-white text-black font-body antialiased" style="--selected-tab-color: var(--yellow-10);">
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="public makers home">
+      <img src="assets/logo-nav.svg" alt="public makers" />
+    </a>
+
+    <nav class="nav__tabs" aria-label="Primary">
+      <a class="tab" href="approach.html">
+        <span class="tab__label">Approach</span>
+      </a>
+      <!-- Projects temporarily hidden from the nav.
+      <a class="tab" href="projects.html">
+        <span class="tab__label">Projects</span>
+      </a>
+      -->
+      <a class="tab" href="partners.html">
+        <span class="tab__label">Partners</span>
+      </a>
+      <a class="tab" href="about.html">
+        <span class="tab__label">About</span>
+      </a>
+      <a class="tab tab--primary" href="joinus.html">
+        <span class="tab__pill">Join us</span>
+      </a>
+    </nav>
+    <a class="nav__cta tab__pill" href="joinus.html">Join us</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero folder — event meta content (Figma page 601:10077 desktop /
+         3651:23638 tablet / 674:9886 phone). Panel takes the page accent
+         (yellow, set on <body>); the back link returns to the landing page's
+         events carousel. ===== -->
+    <section class="hero-folder">
+      <div class="hero-folder__panel">
+        <div class="hero-folder__title">
+          <a class="link" href="index.html#projects">
+            <span class="link__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.5 19.5L11.5575 18.4425L5.8725 12.75H21V11.25H5.8725L11.5575 5.5575L10.5 4.5L3 12L10.5 19.5Z"/></svg></span>
+            Back
+          </a>
+          <h1>PM x TUM.ai Hackathon</h1>
+        </div>
+        <div class="hero-folder__content hero-content--event-meta">
+          <div class="hero-content__meta">
+            <span class="badge badge--s">Hackathon</span>
+            <div class="hero-content__labels">
+              <p class="hero-content__label">
+                <img src="assets/icon-calendar.svg" alt="" />Saturday, 23 June 2026
+              </p>
+              <p class="hero-content__label">
+                <img src="assets/icon-clock.svg" alt="" />5pm
+              </p>
+              <p class="hero-content__label">
+                <img src="assets/icon-location.svg" alt="" />Technical University of Munich (TUM)
+              </p>
+            </div>
+          </div>
+          <img class="hero-content__image" src="assets/event-hero.jpg" alt="Participants at the Public Makers x TUM.ai Makethon" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Large text (Figma 3603:21142) — a lead over a narrower body.
+         Same type scale as the text block (21/21/27 over 16/18/21), but the
+         lead runs 7 columns and the body 5, 24 apart. ===== -->
+    <section class="section-text-block">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <div class="grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10 gap-y-6">
+          <p class="text-block__title col-span-4 md:col-span-7 xl:col-span-7 xl:col-start-2">
+            In mid-June, an unusual but powerful combination took center stage: diplomacy and code. At the Public Makers x TUM.ai Makethon, 40 highly motivated students from technology, policy, business, and design spent a weekend reimagining how diplomacy could look in times of crisis.
+          </p>
+          <p class="text-block__body col-span-4 md:col-span-5 xl:col-span-5 xl:col-start-2">
+            Over the course of 48 hours, eight interdisciplinary teams developed bold prototypes addressing challenges at the intersection of international relations and digital innovation. The ideas were as diverse as they were visionary: crisis companions built with AI, optimized visa processes, and even attempts to create a shared diplomatic language through large language models.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== section/text block — "The Challenge" ===== -->
+    <section class="section-text-block">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <div class="grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+          <div class="text-block col-span-4 md:col-span-6 xl:col-span-5 xl:col-start-2">
+            <p class="text-block__title">The Challenge</p>
+            <p class="text-block__body">The central question guiding the Makethon was: What if the next German embassy isn’t built with bricks, but with code?</p>
+            <p class="text-block__body">From digital consular services to real-time crisis communication, the participants explored what diplomacy might look like if reimagined for the digital age. The energy in the room was electric — driven by curiosity, purpose, and the shared ambition to build something meaningful.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== section/text+image — text-left ===== -->
+    <section class="section-text-image">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 gap-y-10 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:items-center xl:gap-x-10 xl:gap-y-0">
+          <div class="text-image__image col-span-4 md:col-span-6 xl:col-span-4 xl:col-start-8">
+            <img src="assets/event-conversations.jpg" alt="Teams in discussion during the Makethon" />
+          </div>
+          <div class="text-block col-span-4 md:col-span-6 xl:col-span-5 xl:col-start-2 xl:row-start-1">
+            <p class="text-block__title">Deep Conversations, Real-World Impact</p>
+            <p class="text-block__body">The event went far beyond code architecture. Teams engaged in thoughtful discussions about data availability during crises, the complexities of data protection, and the intricacies of visa application processes. These debates highlighted the practical challenges of modern diplomacy and how digital tools could help address them.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== section/text+image — text-right ===== -->
+    <section class="section-text-image">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 gap-y-10 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:items-center xl:gap-x-10 xl:gap-y-0">
+          <div class="text-image__image col-span-4 md:col-span-6 xl:col-span-4 xl:col-start-2">
+            <img src="assets/event-jury.jpg" alt="The Makethon jury during the final presentations" />
+          </div>
+          <div class="text-block col-span-4 md:col-span-6 xl:col-span-5 xl:col-start-7">
+            <p class="text-block__title">A Jury with Expertise</p>
+            <p class="text-block__body">The jury had the difficult task of selecting a winner from an impressive set of solutions. We thank our jury members for their expertise and commitment:</p>
+            <p class="text-block__body">
+              Vanessa Theel, SUMM AI<br />
+              Dr. Afsaneh Asaei, UnternehmerTUM<br />
+              Thomas Lange, Achleitner Ventures<br />
+              Hans-Christian Mangelsdorf (Head of Jury), Data Innovation Lab / German Federal Foreign Office
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== section/text+large image ===== -->
+    <section class="section-text-large-image">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+          <div class="text-large-image col-span-4 md:col-span-8 xl:col-span-7 xl:col-start-2">
+            <p class="text-large-image__text">Congratulations go to Team VisaLegatio, who took first place with their innovative solution for improving visa processes.</p>
+            <div class="text-large-image__image">
+              <img src="assets/event-winner.jpg" alt="Team VisaLegatio accepting first place" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== section/text block — "Looking Ahead" ===== -->
+    <section class="section-text-block">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <div class="grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+          <div class="text-block col-span-4 md:col-span-6 xl:col-span-5 xl:col-start-2">
+            <p class="text-block__title">Looking Ahead</p>
+            <p class="text-block__body">The Makethon showed how powerful it can be when young people from different disciplines come together to rethink diplomacy through the lens of technology. It was a weekend that proved diplomacy is not only written in treaties and negotiations — it can also be prototyped, tested, and reimagined with code.</p>
+            <p class="text-block__body">We thank all participants for their creativity, commitment, and the unique spirit they brought to this event.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__panel">
+      <div class="footer__inner">
+        <a class="footer__logo" href="index.html" aria-label="public makers home">
+          <img src="assets/logo-footer.svg" alt="public makers" />
+        </a>
+        <div class="footer__right">
+          <div class="footer__social">
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img class="btn__icon" src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img class="btn__icon" src="assets/icon-instagram-white.svg" alt="" /></a>
+          </div>
+          <div class="footer__meta">
+            <nav class="footer__links" aria-label="Legal">
+              <a class="link" href="imprint.html">Imprint</a>
+              <a class="link" href="data-privacy.html">Data privacy</a>
+            </nav>
+          </div>
+          <div class="footer__credits">
+            <p class="footer__webdesign">
+              <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+              <span>by <a class="link link--inline" href="https://kamenskaya-design.com/" target="_blank" rel="noopener noreferrer">Maria Kamenskaya</a> &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+            </p>
+            <p class="footer__copy">© 2025 public makers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Motion (motion.dev) — exposed as window.Motion -->
+  <script type="module">
+    import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
+    window.Motion = Motion;
+  </script>
+  <script src="script.js?v=49"></script>
+  <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
+  <nav class="nav-mobile" aria-label="Sections">
+    <div class="nav-mobile__bar">
+        <a class="nav-item-mobile" href="approach.html">Approach</a>
+        <!-- Projects temporarily hidden from the nav.
+        <a class="nav-item-mobile" href="projects.html">Projects</a>
+        -->
+        <a class="nav-item-mobile" href="partners.html">Partners</a>
+        <a class="nav-item-mobile" href="about.html">About</a>
+    </div>
+  </nav>
+</body>
+</html>

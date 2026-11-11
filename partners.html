@@ -53,7 +53,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=95" />
+  <link rel="stylesheet" href="styles.css?v=155" />
 </head>
 
 <!-- Per-page accent: blue for the active "Partners" tab. -->
@@ -69,9 +69,11 @@
       <a class="tab" href="approach.html">
         <span class="tab__label">Approach</span>
       </a>
+      <!-- Projects temporarily hidden from the nav.
       <a class="tab" href="projects.html">
         <span class="tab__label">Projects</span>
       </a>
+      -->
       <a class="tab tab--selected" href="partners.html" aria-current="page">
         <span class="tab__label">Partners</span>
       </a>
@@ -94,7 +96,7 @@
          the text 1010 wide, card pb40. Card inset padding is intentional
          (self-contained component), not grid alignment. Outer margin 16/40/40. -->
     <section>
-      <div class="mx-auto w-full max-w-[1440px] px-4 pb-16 md:px-10 md:pb-24 xl:pb-32">
+      <div class="hero-folder">
         <div class="flex flex-col gap-6 rounded-40 bg-partners-blue px-6 pb-4 pt-4 min-h-[240px] md:min-h-[400px] xl:min-h-[640px] xl:gap-0 xl:px-0 xl:pb-10 xl:pt-0">
           <h1 class="font-display font-normal text-balance text-[41px] leading-[1.05] text-ink xl:whitespace-nowrap xl:px-[118px] xl:py-16 xl:text-[91px] xl:leading-[91px]">
             Our partners
@@ -107,15 +109,35 @@
     </section>
 
     <!-- ===== "partner benefits" section (Figma 3358:20493): heading +
-         expandable "card" components. Heading 41/61 (left-aligned); cards gap 24; section pt48 pb96, gap96. ===== -->
-    <section class="pt-12 pb-20 md:pb-24 xl:pb-48">
+         expandable "card" components. Heading 41/61 (left-aligned); cards gap 24; section pb 80/128/192, gap96. ===== -->
+    <section class="pb-20 md:pb-32 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="grid grid-cols-4 gap-x-2 gap-y-0 md:grid-cols-8 xl:grid-cols-12">
-          <!-- Heading: 41 left +24 inset (phone/tablet) → 61 left-aligned
-               (desktop). Gap to tabs 48 (phone/tablet) → 96 (desktop). -->
-          <h2 class="col-span-4 mb-12 px-6 font-body text-balance text-[41px] leading-[1.2] text-black md:col-span-8 xl:col-span-10 xl:col-start-2 xl:mb-24 xl:px-0 xl:text-left xl:text-[61px] xl:leading-[normal]">
-            Why partner with us?
-          </h2>
+          <!-- title+button (Figma 3694:27374 desktop / 3358:20599 tablet /
+               3358:20600 phone): one row, the button right-aligned and centred
+               against the title. The row keeps the page margins and the 24px
+               inner inset that lines the title up with the tab text; desktop
+               drops the inset and runs cols 2-11. Row -> tabs gap 40/48/96. -->
+          <div class="col-span-4 mb-10 flex items-center justify-between gap-4 px-6 md:col-span-8 md:mb-12 xl:col-span-10 xl:col-start-2 xl:mb-24 xl:px-0">
+            <h2 class="font-body text-balance text-[27px] leading-[1.2] text-black md:text-[41px] xl:text-left xl:text-[61px] xl:leading-[normal]">
+              Why&nbsp;partner&nbsp;with us?
+            </h2>
+            <button
+              type="button"
+              data-cards-toggle
+              aria-label="Pause auto-rotation"
+              class="btn btn--tertiary btn--icon">
+              <!-- Pause icon (visible while rotating) -->
+              <svg class="btn__icon" data-cards-icon="pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M9 4.5H7.5C7.10218 4.5 6.72064 4.65804 6.43934 4.93934C6.15804 5.22064 6 5.60218 6 6V18C6 18.3978 6.15804 18.7794 6.43934 19.0607C6.72064 19.342 7.10218 19.5 7.5 19.5H9C9.39782 19.5 9.77936 19.342 10.0607 19.0607C10.342 18.7794 10.5 18.3978 10.5 18V6C10.5 5.60218 10.342 5.22064 10.0607 4.93934C9.77936 4.65804 9.39782 4.5 9 4.5Z"/>
+                <path d="M16.5 4.5H15C14.6022 4.5 14.2206 4.65804 13.9393 4.93934C13.658 5.22064 13.5 5.60218 13.5 6V18C13.5 18.3978 13.658 18.7794 13.9393 19.0607C14.2206 19.342 14.6022 19.5 15 19.5H16.5C16.8978 19.5 17.2794 19.342 17.5607 19.0607C17.842 18.7794 18 18.3978 18 18V6C18 5.60218 17.842 5.22064 17.5607 4.93934C17.2794 4.65804 16.8978 4.5 16.5 4.5Z"/>
+              </svg>
+              <!-- Play icon (visible while paused) -->
+              <svg class="btn__icon hidden" data-cards-icon="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M5.25 21A.75.75 0 0 1 4.5 20.25V3.75a.75.75 0 0 1 1.1115-.657l15 8.25a.75.75 0 0 1 0 1.314l-15 8.25A.75.75 0 0 1 5.25 21Z"/>
+              </svg>
+            </button>
+          </div>
 
           <ul class="col-span-4 flex flex-col gap-2 md:col-span-8 xl:col-span-10 xl:col-start-2 xl:gap-4" role="list" data-cards>
             <!-- Card 1: open by default -->
@@ -176,56 +198,55 @@
               </div>
             </li>
           </ul>
+
         </div>
       </div>
     </section>
 
-    <!-- ===== "What sets us apart" — 4x4 section (Figma 3409:17541) =====
-         Heading + two "text+image" components (Figma 707:9325). Dev-annotated
-         col-spans: paragraph 5 (desktop) / 4 (tablet+phone), image 4 (all).
-         Desktop places the pair in cols 2-11, leaving col 7 as the visual
-         gutter the design shows as a 157px gap. Images are 4:3 at every
-         viewport (426x319 desktop, 323x242 tablet), so aspect-[4/3] + the
-         column width reproduces them without fixed heights.
-         Section gap 80/96/128, pb 80/96/192. ===== -->
-    <section class="pb-20 md:pb-24 xl:pb-48">
+    <!-- ===== "What sets us apart" — section title (Figma 3730:29332) =====
+         Its own section on the partners page (601:11180 desktop /
+         3358:19749 tablet / 1206:4863 phone), pb 80 / 96 / 96. ===== -->
+    <section class="section-title">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
-        <div class="grid grid-cols-4 gap-x-4 gap-y-20 md:grid-cols-8 md:gap-x-6 md:gap-y-24 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10 xl:gap-y-32">
-          <h2 class="col-span-4 font-body text-balance text-[27px] leading-[normal] text-black md:col-span-8 md:text-[41px] md:leading-[1.2] xl:col-span-10 xl:col-start-2 xl:text-[61px] xl:leading-[normal]">
+        <div class="grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+          <h2 class="section-title__text col-span-4 md:col-span-8 xl:col-span-10 xl:col-start-2">
             What sets us apart
           </h2>
+        </div>
+      </div>
+    </section>
 
-          <!-- text+image — text-left (desktop/tablet). DOM is image-then-text
-               so phone stacks the image on top; md+ pulls the text left via
-               col-start + row-start-1. -->
-          <div class="col-span-4 grid grid-cols-4 gap-x-4 gap-y-10 md:col-span-8 md:grid-cols-8 md:items-center md:gap-x-6 md:gap-y-0 lg:gap-x-8 xl:col-span-12 xl:grid-cols-12 xl:gap-x-10">
-            <div class="col-span-4 aspect-[4/3] overflow-hidden rounded-24 md:col-start-5 xl:col-start-8">
-              <img src="assets/hero3.jpg" alt="Public Makers at the German American Conference, Harvard Kennedy School" class="h-full w-full object-cover" />
-            </div>
-            <div class="col-span-4 flex flex-col justify-center gap-4 md:col-start-1 md:row-start-1 xl:col-span-5 xl:col-start-2">
-              <p class="font-body text-[21px] leading-[1.4] text-black md:leading-[normal] xl:text-pretty xl:text-[27px]">
-                We build the people who drive it from the inside.
-              </p>
-              <p class="font-body text-[16px] leading-[normal] text-neutral-300 md:text-[18px] md:leading-[1.4] xl:text-[21px]">
-                Change in public policy comes from people who understand the system and have the skills to move it. We invest in those people first: mentoring, real responsibility, and room to grow faster than any job would allow.
-              </p>
-            </div>
+    <!-- ===== section/text+image — text-left (Figma 3589:11823) =====
+         Desktop sets the text in 5 columns and the image in 4, the pair
+         filling cols 2-11 with one empty column between them — the design's
+         157px gap. Tablet and phone stack image over text in a 6- resp.
+         4-column block. DOM is image-then-text, which is that stacked order;
+         desktop pulls the text left with col-start + row-start-1. ===== -->
+    <section class="section-text-image">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 gap-y-10 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:items-center xl:gap-x-10 xl:gap-y-0">
+          <div class="text-image__image col-span-4 md:col-span-6 xl:col-span-4 xl:col-start-8">
+            <img src="assets/hero3.jpg" alt="Public Makers at the German American Conference, Harvard Kennedy School" />
           </div>
+          <div class="text-block col-span-4 md:col-span-6 xl:col-span-5 xl:col-start-2 xl:row-start-1">
+            <p class="text-block__title">We build the people who drive it from the inside.</p>
+            <p class="text-block__body">Change in public policy comes from people who understand the system and have the skills to move it. We invest in those people first: mentoring, real responsibility, and room to grow faster than any job would allow.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- text+image — text-right (desktop/tablet): image leads, so DOM
-               order already matches and phone stacking needs no reorder. -->
-          <div class="col-span-4 grid grid-cols-4 gap-x-4 gap-y-10 md:col-span-8 md:grid-cols-8 md:items-center md:gap-x-6 md:gap-y-0 lg:gap-x-8 xl:col-span-12 xl:grid-cols-12 xl:gap-x-10">
-            <div class="col-span-4 aspect-[4/3] overflow-hidden rounded-24 md:col-start-1 xl:col-start-2">
-              <img src="assets/sets-apart-drive.jpg" alt="Public Makers members together at a project event" class="h-full w-full object-cover" />
-            </div>
-            <div class="col-span-4 flex flex-col justify-center gap-4 md:col-start-5 xl:col-span-5 xl:col-start-7">
-              <p class="font-body text-[21px] leading-[1.4] text-black md:leading-[normal] xl:text-pretty xl:text-[27px]">
-                Drive projects and your personal growth in public policy making!
-              </p>
-              <p class="font-body text-[16px] leading-[normal] text-neutral-300 md:text-[18px] md:leading-[1.4] xl:text-[21px]">
-                From day one you’ll make decisions that matter, lead projects that shape real policy and grow every skill you touch along the way. We back you with a team that wants you to outgrow us.
-              </p>
-            </div>
+    <!-- ===== section/text+image — text-right: image leads, so the DOM order
+         already matches and the stack needs no reorder. ===== -->
+    <section class="section-text-image">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 gap-y-10 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:items-center xl:gap-x-10 xl:gap-y-0">
+          <div class="text-image__image col-span-4 md:col-span-6 xl:col-span-4 xl:col-start-2">
+            <img src="assets/sets-apart-drive.jpg" alt="Public Makers members together at a project event" />
+          </div>
+          <div class="text-block col-span-4 md:col-span-6 xl:col-span-5 xl:col-start-7">
+            <p class="text-block__title">Drive projects and your personal growth in public policy making!</p>
+            <p class="text-block__body">From day one you’ll make decisions that matter, lead projects that shape real policy and grow every skill you touch along the way. We back you with a team that wants you to outgrow us.</p>
           </div>
         </div>
       </div>
@@ -237,17 +258,39 @@
          place of the "Partners" heading. The statement's Figma widths are grid
          spans: 893 = col-span-8 from col 2 (desktop), 583 = col-span-7
          (tablet), full width (phone) — the frame's pl-157 is just col 2.
-         Vertical rhythm: statement->carousel 96 / 48 / 48, carousel->button
+         Vertical rhythm: statement->carousel 96 / 80 / 48, carousel->button
          64 / 48 / 48, pb 192 / 96 / 128. ===== -->
-    <section class="bg-white pb-32 md:pb-24 xl:pb-48">
+    <section class="bg-white pb-20 md:pb-32 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px]">
-        <div class="grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+        <!-- text+button (Figma 3764:13029 desktop / 3764:13053 tablet /
+             3764:13008 phone): the button sits at the content's right edge —
+             the page margin on phone and tablet, col 11 on desktop. Phone
+             stacks it directly under the full-width statement with no gap;
+             tablet and desktop put it beside the statement, bottom-aligned. -->
+        <div class="grid grid-cols-4 items-end gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
           <p class="col-span-4 font-body text-[21px] leading-[normal] text-black md:col-span-7 md:text-pretty md:text-[27px] xl:col-span-8 xl:col-start-2 xl:text-[41px] xl:leading-[1.2]">
             Together with our partners we work towards creating meaningful change, fostering innovation, and addressing challenges in the public sector.
           </p>
+          <div class="col-span-4 flex justify-end md:col-span-1 xl:col-span-2 xl:col-start-10">
+            <button
+              type="button"
+              data-marquee-toggle
+              aria-label="Pause partner logos"
+              class="btn btn--tertiary btn--icon">
+              <!-- Pause icon (visible while scrolling) -->
+              <svg class="btn__icon" data-marquee-icon="pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M9 4.5H7.5C7.10218 4.5 6.72064 4.65804 6.43934 4.93934C6.15804 5.22064 6 5.60218 6 6V18C6 18.3978 6.15804 18.7794 6.43934 19.0607C6.72064 19.342 7.10218 19.5 7.5 19.5H9C9.39782 19.5 9.77936 19.342 10.0607 19.0607C10.342 18.7794 10.5 18.3978 10.5 18V6C10.5 5.60218 10.342 5.22064 10.0607 4.93934C9.77936 4.65804 9.39782 4.5 9 4.5Z"/>
+                <path d="M16.5 4.5H15C14.6022 4.5 14.2206 4.65804 13.9393 4.93934C13.658 5.22064 13.5 5.60218 13.5 6V18C13.5 18.3978 13.658 18.7794 13.9393 19.0607C14.2206 19.342 14.6022 19.5 15 19.5H16.5C16.8978 19.5 17.2794 19.342 17.5607 19.0607C17.842 18.7794 18 18.3978 18 18V6C18 5.60218 17.842 5.22064 17.5607 4.93934C17.2794 4.65804 16.8978 4.5 16.5 4.5Z"/>
+              </svg>
+              <!-- Play icon (visible while paused) -->
+              <svg class="btn__icon hidden" data-marquee-icon="play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M5.25 21A.75.75 0 0 1 4.5 20.25V3.75a.75.75 0 0 1 1.1115-.657l15 8.25a.75.75 0 0 1 0 1.314l-15 8.25A.75.75 0 0 1 5.25 21Z"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <div class="mt-12 xl:mt-24">
+        <div class="mt-12 md:mt-20 xl:mt-24">
           <!-- Clip box: the marquee overflows it and is cut at the container's
                max-width (1440), not at the viewport edges. pl = the first
                logo's start offset — page margin (16 / 40) on phone+tablet, and
@@ -256,7 +299,7 @@
           <div class="relative overflow-hidden pl-4 md:pl-10 xl:py-[53px] xl:pl-[185px]">
             <!-- Marquee: two identical tracks side-by-side; the whole row is
                  translated -50% on loop so the second copy replaces the first
-                 seamlessly. Pauses on hover, on the toggle button, and respects
+                 seamlessly. Pauses on the toggle button only, and respects
                  reduced-motion. -->
             <div class="marquee" data-marquee>
               <ul class="marquee__track" role="list">
@@ -290,28 +333,6 @@
             <div class="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent md:w-10"></div>
           </div>
 
-          <!-- Pause / play toggle (Figma button 3450:20503, 48x48, radius 16,
-               24px icon). Click pauses the marquee and swaps to the play icon. -->
-          <div class="mt-12 grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:mt-16 xl:grid-cols-12 xl:gap-x-10">
-            <div class="col-span-4 md:col-span-8 xl:col-span-10 xl:col-start-2">
-              <button
-                type="button"
-                data-marquee-toggle
-                aria-label="Pause partner logos"
-                class="flex size-12 items-center justify-center rounded-16 text-black">
-                <!-- Pause icon (visible while scrolling) -->
-                <svg data-marquee-icon="pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M9 4.5H7.5C7.10218 4.5 6.72064 4.65804 6.43934 4.93934C6.15804 5.22064 6 5.60218 6 6V18C6 18.3978 6.15804 18.7794 6.43934 19.0607C6.72064 19.342 7.10218 19.5 7.5 19.5H9C9.39782 19.5 9.77936 19.342 10.0607 19.0607C10.342 18.7794 10.5 18.3978 10.5 18V6C10.5 5.60218 10.342 5.22064 10.0607 4.93934C9.77936 4.65804 9.39782 4.5 9 4.5Z"/>
-                  <path d="M16.5 4.5H15C14.6022 4.5 14.2206 4.65804 13.9393 4.93934C13.658 5.22064 13.5 5.60218 13.5 6V18C13.5 18.3978 13.658 18.7794 13.9393 19.0607C14.2206 19.342 14.6022 19.5 15 19.5H16.5C16.8978 19.5 17.2794 19.342 17.5607 19.0607C17.842 18.7794 18 18.3978 18 18V6C18 5.60218 17.842 5.22064 17.5607 4.93934C17.2794 4.65804 16.8978 4.5 16.5 4.5Z"/>
-                </svg>
-                <!-- Play icon (visible while paused) — same Carbon family as the
-                     pause glyph above, scaled to the 24px grid. -->
-                <svg data-marquee-icon="play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="hidden" aria-hidden="true">
-                  <path d="M5.25 21A.75.75 0 0 1 4.5 20.25V3.75a.75.75 0 0 1 1.1115-.657l15 8.25a.75.75 0 0 1 0 1.314l-15 8.25A.75.75 0 0 1 5.25 21Z"/>
-                </svg>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -362,20 +383,22 @@
         </a>
         <div class="footer__right">
           <div class="footer__social">
-            <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
-            <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img class="btn__icon" src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img class="btn__icon" src="assets/icon-instagram-white.svg" alt="" /></a>
           </div>
           <div class="footer__meta">
             <nav class="footer__links" aria-label="Legal">
-              <a class="link" href="#">Imprint</a>
-              <a class="link" href="#">Data privacy</a>
+              <a class="link" href="imprint.html">Imprint</a>
+              <a class="link" href="data-privacy.html">Data privacy</a>
             </nav>
+          </div>
+          <div class="footer__credits">
+            <p class="footer__webdesign">
+              <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+              <span>by <a class="link link--inline" href="https://kamenskaya-design.com/" target="_blank" rel="noopener noreferrer">Maria Kamenskaya</a> &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+            </p>
             <p class="footer__copy">© 2025 public makers</p>
           </div>
-          <p class="footer__credits">
-            <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
-            <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
-          </p>
         </div>
       </div>
     </div>
@@ -386,12 +409,14 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=40"></script>
+  <script src="script.js?v=49"></script>
   <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
   <nav class="nav-mobile" aria-label="Sections">
     <div class="nav-mobile__bar">
         <a class="nav-item-mobile" href="approach.html">Approach</a>
+        <!-- Projects temporarily hidden from the nav.
         <a class="nav-item-mobile" href="projects.html">Projects</a>
+        -->
         <a class="nav-item-mobile nav-item-mobile--selected" style="--nav-mobile-accent: var(--blue-05)" href="partners.html" aria-current="page">Partners</a>
         <a class="nav-item-mobile" href="about.html">About</a>
     </div>

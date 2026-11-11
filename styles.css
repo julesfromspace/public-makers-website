@@ -18,6 +18,8 @@
   --black-20:  #dbdbdb;  /* "black 20" */
   --ink: #1e1e1e;
   --white: #ffffff;
+  --white-16: rgba(255, 255, 255, 0.16);  /* white 16% — dark-theme fills */
+  --white-28: rgba(255, 255, 255, 0.28);  /* white 28% — dark-theme hover */
   --grey-10: #f5f5f5;    /* "black 10" */
   --focus: #FF00D9;
 
@@ -77,11 +79,14 @@
 }
 
 /* Hero carousel fills exactly the space between the top and bottom navs.
-   dvh excludes the mobile browser toolbar (vh counts it, pushing the hero
-   bottom under the toolbar / bottom nav); vh is the fallback. */
+   svh excludes the mobile browser toolbar (vh counts it, pushing the hero
+   bottom under the toolbar / bottom nav); vh is the fallback. Not dvh: that
+   unit tracks the toolbar collapsing on scroll, so the container resized on
+   every scroll frame and the cover-fitted slide pumped. svh is the toolbar-
+   shown height and stays constant while scrolling. */
 [data-hero-root] {
   height: calc(100vh - var(--nav-height) - var(--nav-mobile-height));
-  height: calc(100dvh - var(--nav-height) - var(--nav-mobile-height));
+  height: calc(100svh - var(--nav-height) - var(--nav-mobile-height));
 }
 
 * {
@@ -138,9 +143,10 @@ img {
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* Phone + tablet (< xl): the top bar hides on scroll down, returns on scroll
-   up (.nav--hidden toggled in script.js). Desktop keeps the bar put. */
-@media (max-width: 1280px) {
+/* Phone only (< md): the top bar hides on scroll down, returns on scroll up
+   (.nav--hidden toggled in script.js). Tablet and desktop keep the bar put —
+   the class is still toggled there, it just has nothing to apply. */
+@media (max-width: 749px) {
   .nav--hidden { transform: translateY(-100%); }
 }
 
@@ -241,16 +247,27 @@ img {
      relevant only for selected tabs — see rule below. */
 }
 
-.tab:hover .tab__label {
-  --tab-color: var(--grey-10);
+/* Pointer devices only. Touch browsers emulate :hover on touchdown and
+   leave it stuck until the next tap elsewhere, so an untouched tab would
+   keep the grey tint after navigation. Touch gets :active instead. */
+@media (hover: hover) {
+  .tab:hover .tab__label {
+    --tab-color: var(--grey-10);
+  }
+
+  /* Hover state: non-selected folder tabs morph their clip-path into the
+     same floating-pill shape used by the scrolled+selected state (grey bg
+     via the --tab-color above). The transition timing is already defined
+     on .tab__label so it animates smoothly in both directions. */
+  .tab:not(.tab--selected):not(.tab--primary):hover .tab__label {
+    clip-path: path("M 29 22 C 29 9.85 41.15 0 51 0 L 140 0 C 152.15 0 162 9.85 162 22 L 162 23 C 162 35.15 152.15 45 140 45 L 51 45 C 41.15 45 29 35.15 29 23 Z");
+  }
 }
 
-/* Hover state: non-selected folder tabs morph their clip-path into the
-   same floating-pill shape used by the scrolled+selected state (grey bg
-   via the --tab-color above). The transition timing is already defined
-   on .tab__label so it animates smoothly in both directions. */
-.tab:not(.tab--selected):not(.tab--primary):hover .tab__label {
-  clip-path: path("M 29 22 C 29 9.85 41.15 0 51 0 L 140 0 C 152.15 0 162 9.85 162 22 L 162 23 C 162 35.15 152.15 45 140 45 L 51 45 C 41.15 45 29 35.15 29 23 Z");
+/* Pressed: the same grey tint, held only while the finger (or button) is
+   down. Selected and primary tabs keep their own fill. */
+.tab:not(.tab--selected):not(.tab--primary):active .tab__label {
+  --tab-color: var(--grey-10);
 }
 
 .tab--selected .tab__label,
@@ -318,99 +335,119 @@ img {
    shape. Default = white pill (18px black), selected = grey (#f5f5f5)
    with rounded top only, primary = black pill (18px white).
    ============================================================ */
+/* Nav bar is 80 tall on phone and tablet (Figma 3195:14387 / 712:10084),
+   and the nav button follows the tablet/phone variant of the button
+   component (3206:17262): h 44, px 16, py 4, radius 16, label 18/1.4. */
+@media (max-width: 1280px) {
+  :root { --nav-height: 80px; }
+  .tab__pill {
+    height: 44px;
+    max-height: none;
+    padding: var(--spacing-1) var(--spacing-4);   /* 4 / 16 */
+    border-radius: var(--radius-16);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.4;
+  }
+}
+
 @media (min-width: 750px) and (max-width: 1280px) {
-  :root { --nav-height: 64px; }      /* tablet nav bar is 64px tall */
-  .nav__inner { align-items: center; }
+  /* 64 left: it pulls the logo in to match the grid. 80 right: it pulls
+     the Join us tab far enough in that, on the Join us page, the selected
+     tab and its flares sit inside the hero folder's width below and the
+     two read as one shape. */
+  .nav__inner {
+    align-items: center;
+    padding: 0 var(--spacing-20) 0 var(--spacing-16);   /* right 80 / left 64 */
+  }
   .nav__logo { width: auto; }
   .nav__logo img { height: 40px; width: auto; }   /* logo 40px tall */
   .nav__tabs {
     height: 100%;
     padding: 0;
-    align-items: flex-end;                 /* 47px tab slots sit at nav bottom */
-    gap: var(--spacing-2);                 /* 8 */
+    align-items: flex-end;                 /* 60px tab slots sit at nav bottom */
+    gap: var(--spacing-1);                 /* 4 between slots */
   }
+  /* Fixed slot — Figma tablet nav 3584:11489 gives the folder tab a 123x60
+     slot. The fixed width is what lets these shapes be clip-path() like
+     desktop: the paths below are authored in that 123 x 60 space, with the
+     pill body at x 16..107 and 16 each side left for the flares. */
   .tab {
-    width: auto;                           /* hug the label */
-    height: 47px;
+    position: relative;
+    width: 123px;
+    height: 60px;                          /* 44 pill + the 16 gap strip */
+    padding: 0;
     margin-right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;           /* every label sits at the slot top */
   }
-  /* Default tab → flat white pill, no clip-path / folder sizing */
+
+  /* All three tablet shapes share one command sequence (M C L C L C L C Z),
+     so any pair interpolates — the same single-element morph desktop uses:
+       default   pill, radius 16      (x 16..107, y 0..44)
+       selected  folder: radius-16 cap + concave flares into the panel
+       scrolled  fully round pill, radius 22
+     The flares are part of the path, not pseudo-elements, so the tail
+     animates with the cap instead of snapping. */
   .tab__label {
-    position: static;
-    inset: auto;
+    position: absolute;
+    inset: 0;
     align-items: center;
-    padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 */
-    clip-path: none;
-    background: var(--white);
-    border-radius: var(--radius-16);
+    height: auto;
+    /* The bottom 16 is the gap strip the flares curve through; reserving it
+       keeps every label centred in the 44 above. */
+    padding: 0 var(--spacing-4) var(--spacing-4);
+    border-radius: 0;
+    background: var(--tab-color);
+    clip-path: path("M 16 16 C 16 7.16 23.16 0 32 0 L 91 0 C 99.84 0 107 7.16 107 16 L 107 28 C 107 36.84 99.84 44 91 44 L 32 44 C 23.16 44 16 36.84 16 28 Z");
     font-family: var(--font-body);
     font-size: 18px;
-    line-height: 1.5;
+    line-height: 1.4;
     color: var(--black-500);
   }
+  /* Non-selected tabs are already pills, so hover only changes colour. This
+     restates the shape because the desktop hover rule (a 191px-wide path)
+     lives outside this media query and would otherwise apply on a tablet
+     with a trackpad. It resolves to the default shape, so it stays safe on
+     touch even though plain CSS cannot nest the (hover: hover) guard here. */
   .tab:not(.tab--selected):not(.tab--primary):hover .tab__label {
-    clip-path: none;
-    background: var(--grey-10);
+    clip-path: path("M 16 16 C 16 7.16 23.16 0 32 0 L 91 0 C 99.84 0 107 7.16 107 16 L 107 28 C 107 36.84 99.84 44 91 44 L 32 44 C 23.16 44 16 36.84 16 28 Z");
   }
-  /* Selected tab → the page's folder colour. A folder-shaped clip-path gives
-     the rounded cap plus the concave "tail" that flares to the full tab width
-     and sits flush on the folder panel below (no white gap); tab + tail read
-     as one continuous colour, like desktop. Path authored for 107 × 47. */
+
+  /* Selected → folder: one fill, cap plus tail, flush on the panel below. */
   .tab--selected .tab__label,
   .tab--selected:hover .tab__label {
-    position: relative;
-    height: 47px;                          /* fills the slot down to nav bottom */
-    display: flex;
-    align-items: flex-start;               /* text at the cap top, aligned */
-    justify-content: center;
-    padding: var(--spacing-1) var(--spacing-3) 0;  /* hug text: 4 top, 12 sides */
-    clip-path: none;
-    background: var(--selected-tab-color);
-    color: var(--selected-tab-text);
-    border-radius: var(--radius-16) var(--radius-16) 0 0;
-    transition: border-radius 0.25s ease, background 0.25s ease;
+    clip-path: path("M 16 16 C 16 7.16 23.16 0 32 0 L 91 0 C 99.84 0 107 7.16 107 16 L 107 44 C 107 52.84 114.16 60 123 60 L 0 60 C 8.84 60 16 52.84 16 44 Z");
   }
-  /* Concave flares: the "tail" curves out of the pill's bottom corners into
-     the folder panel below, so the hugging pill blends in seamlessly. */
-  .tab--selected .tab__label::before,
-  .tab--selected .tab__label::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: var(--radius-16);
-    height: var(--radius-16);
-  }
-  .tab--selected .tab__label::before {
-    left: calc(-1 * var(--radius-16));
-    background: radial-gradient(circle at top left, transparent var(--radius-16), var(--selected-tab-color) var(--radius-16));
-  }
-  .tab--selected .tab__label::after {
-    right: calc(-1 * var(--radius-16));
-    background: radial-gradient(circle at top right, transparent var(--radius-16), var(--selected-tab-color) var(--radius-16));
-  }
-  /* selected+scrolled → tail retracts; pill rounds fully and detaches. */
+
+  /* Selected + scrolled → tail retracts, cap rounds fully and detaches.
+     Timing comes from the desktop rules: appear 0.4s ease-out entering this
+     state, disappear 0.1s ease leaving it. */
   .nav.is-scrolled .tab--selected .tab__label {
-    height: auto;
-    padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 all round */
-    border-radius: var(--radius-16);
+    clip-path: path("M 16 22 C 16 9.85 25.85 0 38 0 L 85 0 C 97.15 0 107 9.85 107 22 L 107 22 C 107 34.15 97.15 44 85 44 L 38 44 C 25.85 44 16 34.15 16 22 Z");
   }
-  .nav.is-scrolled .tab--selected .tab__label::before,
-  .nav.is-scrolled .tab--selected .tab__label::after {
-    display: none;
+
+  /* Join us is a nav button, not a folder tab: back to the radius/16 pill
+     rather than rounding fully. */
+  .nav.is-scrolled .tab--primary-selected .tab__label {
+    clip-path: path("M 16 16 C 16 7.16 23.16 0 32 0 L 91 0 C 99.84 0 107 7.16 107 16 L 107 28 C 107 36.84 99.84 44 91 44 L 32 44 C 23.16 44 16 36.84 16 28 Z");
   }
-  /* Primary (Join us) tab → black pill, 18px, aligned with the other labels */
+
+  /* Primary (Join us) tab → black pill, 18px, aligned with the other labels.
+     It uses .tab__pill (not .tab__label), so it keeps a hugging width. The
+     slot is 60 like every other tab; the 44 pill sits in the top 44 of it
+     (align-items: flex-start), not centred, so its baseline matches the
+     clip-path tabs instead of hanging 8 lower. */
   .tab--primary {
+    /* Same 123 slot as every other tab. On its own page Join us becomes
+       .tab--primary-selected, a .tab__label on the 123 clip-path slot; if
+       this hugged its pill instead (89) the whole right-anchored row would
+       shift 34 on navigation. The pill stays 89 and centres inside. */
+    width: 123px;
+    height: 60px;
+    align-items: flex-start;
     padding-bottom: 0;
   }
   .tab--primary .tab__pill {
-    padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 */
-    font-family: var(--font-body);
-    font-size: 18px;
-    line-height: 1.5;
+    padding: var(--spacing-1) var(--spacing-4);   /* 4 / 16 */
   }
 }
 
@@ -423,47 +460,209 @@ img {
   margin: 0 auto;
 }
 
-/* ---- Hero ---- */
-/* Mirrors the Tailwind container's horizontal padding (16px <481px, 40px
-   >=481px) so the hero panel sits in the same grid columns as the nav. */
-.hero {
-  padding: 0 var(--spacing-4) var(--spacing-16);   /* phone: x16, below-folder 64 */
+/* ---- Hero folder (Figma organism 601:10406) ---- */
+/* hero folder (viewport, backButton)
+     |- Back button   optional, a .link with a leading arrow
+     |- Title
+     |- Content slot  <- .hero-content--text | --image | --event-meta
+                         (Figma "hero folder content" 3613:21165)
+   The panel takes the page accent, so a page only has to set
+   --selected-tab-color on <body>; orange is the :root default. */
+.hero-folder {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: 0 var(--spacing-4) var(--spacing-20);   /* phone: x16, below 80 */
 }
 @media (min-width: 750px) {
-  .hero { padding: 0 var(--spacing-10) var(--spacing-24); }   /* tablet: x40, below-folder 96 */
+  .hero-folder { padding: 0 var(--spacing-10) var(--spacing-32); }  /* x40, below 128 */
 }
 @media (min-width: 1281px) {
-  .hero { padding-bottom: var(--spacing-32); }   /* desktop: below-folder 128 */
+  .hero-folder { padding-bottom: var(--spacing-48); }               /* below 192 */
 }
 
-.hero__panel {
-  background: var(--orange-10);
-  border-radius: var(--radius-40);
-  padding-bottom: var(--spacing-10);   /* ordner inset 40 */
+.hero-folder__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);                 /* 24 */
+  min-height: 240px;
+  padding: var(--spacing-4);             /* phone: 16 all round */
+  overflow: hidden;
+  border-radius: var(--radius-24);       /* phone: 24 */
+  background: var(--hero-accent, var(--selected-tab-color));
+}
+@media (min-width: 750px) {
+  .hero-folder__panel {
+    min-height: 400px;                   /* the frame's dev annotation */
+    padding: var(--spacing-4) var(--spacing-6) var(--spacing-6);   /* 16 / 24 / 24 */
+    border-radius: var(--radius-32);     /* tablet: 32 */
+  }
+}
+@media (min-width: 1281px) {
+  .hero-folder__panel {
+    gap: 0;                              /* title and content carry their own insets */
+    min-height: 640px;
+    padding: 0 0 var(--spacing-10);      /* ordner inset 40 */
+    border-radius: var(--radius-40);     /* desktop: 40 */
+  }
 }
 
-.hero__title {
-  padding: var(--spacing-16) 118px;        /* desktop folder: py-64 px-118 */
+/* ---- Title ---- */
+/* Back button + title. The back button is optional, and is the .link
+   component with a leading 20px arrow (Figma 3672:26779). Its label is
+   "Back" — not the name of the page it returns to:
+
+     <div class="hero-folder__title">
+       <a class="link" href="projects.html">
+         <span class="link__icon" aria-hidden="true">
+           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.5 19.5L11.5575 18.4425L5.8725 12.75H21V11.25H5.8725L11.5575 5.5575L10.5 4.5L3 12L10.5 19.5Z"/></svg>
+         </span>
+         Back
+       </a>
+       <h1>Title</h1>
+     </div>
+*/
+.hero-folder__title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-2);                 /* 8 */
+  padding: 0 var(--spacing-2);           /* phone: px 8, grid align */
 }
 
-.hero__title h1 {
+.hero-folder__title h1 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 91px;
-  line-height: 91px;
+  font-size: 41px;                       /* H4 */
+  line-height: 1.2;
+  text-wrap: pretty;
   color: var(--ink);
 }
 
-.hero__image {
-  padding: 0 var(--spacing-10);
+@media (min-width: 750px) {
+  .hero-folder__title { padding: 0; }
 }
 
-.hero__image img {
+@media (min-width: 1281px) {
+  .hero-folder__title {
+    gap: var(--spacing-6);               /* 24, back button -> title */
+    padding: var(--spacing-16) 118px;    /* py 64 / px 118 */
+  }
+  .hero-folder__title h1 {
+    font-size: 91px;                     /* H2 */
+    line-height: 91px;
+  }
+}
+
+/* ---- Content slot ---- */
+.hero-folder__content {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Content: text */
+.hero-content--text p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 21px;                       /* H6 */
+  line-height: normal;
+  color: var(--black-500);
+}
+@media (min-width: 750px) {
+  .hero-content--text p {
+    flex: none;
+    width: 559px;                        /* the variant's dev annotation */
+    max-width: 100%;
+    font-size: 27px;                     /* H5 */
+    text-wrap: pretty;
+  }
+}
+@media (min-width: 1281px) {
+  .hero-content--text { padding: 0 118px; }
+  .hero-content--text p {
+    width: 1010px;
+    font-size: 41px;                     /* H4 */
+    line-height: 1.2;
+  }
+}
+
+/* Content: image */
+.hero-content--image { flex-direction: column; }
+.hero-content--image img {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: var(--radius-24);
+}
+@media (min-width: 1281px) {
+  .hero-content--image { padding: 0 var(--spacing-10); }   /* 40 */
+}
+
+/* Content: event meta — badge + labelled details beside the event image.
+   Stacked below xl, side by side on desktop. */
+.hero-content--event-meta {
+  flex-direction: column;
+  gap: var(--spacing-10);                /* 40 */
+  width: 100%;
+}
+
+.hero-content__meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-10);                /* 40, badge -> labels */
+  width: 100%;
+}
+
+/* The badge steps S on phone -> M from tablet up. */
+@media (min-width: 750px) {
+  .hero-content__meta .badge {
+    padding: var(--spacing-3) var(--spacing-6);
+    font-size: 18px;
+    line-height: 1.4;
+  }
+}
+
+.hero-content__labels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);                 /* 16 */
+}
+
+.hero-content__label {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;                       /* Body 3 */
+  line-height: normal;
+  color: var(--black-500);
+}
+.hero-content__label img {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+
+.hero-content__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-24);
+}
+
+@media (min-width: 1281px) {
+  .hero-content--event-meta {
+    flex-direction: row;
+    gap: var(--spacing-10);
+    padding: 0 var(--spacing-10) 0 118px;   /* pl 118 / pr 40 */
+  }
+  .hero-content__meta { flex: none; width: 425px; }
+  .hero-content__label { font-size: 18px; line-height: 1.4; }   /* Body 2 */
+  .hero-content__label img { width: 24px; height: 24px; }
+  .hero-content--event-meta .hero-content__image { flex: 1 1 0; min-width: 0; }
 }
 
 /* ---- Large text (Figma "large text" 712:9585 desktop / 3187:13324 tablet /
@@ -514,7 +713,7 @@ img {
     grid-template-columns: repeat(8, 1fr);
     column-gap: var(--spacing-6);                     /* 24 */
     row-gap: var(--spacing-6);                        /* 24 */
-    padding: 0 var(--spacing-10) var(--spacing-24);   /* px 40, pb 96 */
+    padding: 0 var(--spacing-10) var(--spacing-32);   /* px 40, pb 128 */
   }
   .large-text__lead {
     grid-column: span 7;
@@ -647,7 +846,7 @@ img {
 
 /* Tablet (md 750 – <xl): 8-col tier → member span 4 = 2 across. */
 @media (min-width: 750px) {
-  .members { padding: 0 var(--spacing-10) var(--spacing-24); }  /* px 40, pb 96 */
+  .members { padding: 0 var(--spacing-10) var(--spacing-32); }  /* px 40, pb 128 */
   .members__heading { font-size: 41px; line-height: 1.2; }   /* H4 */
   .members__grid {
     grid-template-columns: repeat(8, 1fr);
@@ -725,7 +924,7 @@ img {
 }
 
 .link:focus-visible {
-  outline: 3px solid #ff00d9;
+  outline: 2px solid var(--focus);
   outline-offset: 0;
 }
 
@@ -762,15 +961,15 @@ img {
   background: var(--grey-10);
 }
 
-/* The black panel carries all the padding: the design's 118px desktop gutter
-   leaves exactly 1204px of content (logo 710 + information 494). */
+/* The black panel carries all the padding: 40 on every side on desktop, the
+   page margin from the Layout collection. */
 .footer__panel {
   max-width: var(--page-max);
   margin: 0 auto;
   background: var(--black-500);
   border-top-left-radius: var(--radius-40);
   border-top-right-radius: var(--radius-40);
-  padding: var(--spacing-10) 118px;             /* desktop: py 40 / px 118 */
+  padding: var(--spacing-10);                   /* desktop: 40 all round */
 }
 
 /* Logo and information sit side by side with no gutter between them, in the
@@ -801,15 +1000,10 @@ img {
   gap: var(--spacing-4);
 }
 
-.footer__social img {
-  width: 24px;
-  height: 24px;
-}
-
-/* links + copyright. Desktop stacks them right-aligned (Figma 1335:8897 with
-   the "imprint+data privacy" group 3464:21882): links 4 apart, then 16 down
-   to the copyright. Tablet puts them back on one baseline row; phone stacks
-   them left-aligned. */
+/* Legal links. Desktop stacks them right-aligned (Figma 1335:8897 with the
+   "imprint+data privacy" group 3464:21882), 4 apart; tablet lays them in a
+   row; phone stacks them left-aligned. The copyright now lives in the
+   credits block. */
 .footer__meta {
   display: flex;
   flex-direction: column;
@@ -833,7 +1027,7 @@ img {
   margin: 0;
   font-size: 16px;
   line-height: normal;
-  color: var(--white);
+  color: inherit;                 /* credits block colour (black 300) */
 }
 
 /* Credits (Figma 3450:20705 desktop / 3450:21010 tablet / 3450:21417 phone).
@@ -847,12 +1041,22 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--spacing-1);          /* 4 */
+  gap: var(--spacing-6);          /* 24 — webdesign block -> copyright */
   font-family: var(--font-body);
   font-size: 16px;
   line-height: normal;
   text-align: right;
   color: var(--black-300);        /* #444444, black 300 */
+}
+
+/* The credit line itself ("Webdesign with ❤️ by <names>"): two spans that
+   stack on desktop and phone and sit on one row on tablet. */
+.footer__webdesign {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-1);          /* 4 */
 }
 
 .footer__credits-made {
@@ -867,21 +1071,20 @@ img {
   line-height: 1;
 }
 
+/* Both credited names link out, and both stay underlined rather than only
+   on hover. */
+.footer__credits a {
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-underline-position: from-font;
+}
+
 /* ============================================================
    Responsive (first-version safety for narrower screens)
    ============================================================ */
 
-@media (max-width: 1200px) {
-  .hero__title h1 {
-    font-size: clamp(48px, 8vw, 91px);
-    line-height: 1.05;
-  }
-}
-
 @media (max-width: 820px) {
   .nav__tabs { padding-right: var(--spacing-6); }
-  .hero__title { padding: var(--spacing-10); }
-  .hero__image { padding: 0 var(--spacing-4); }
 }
 
 /* Footer — phone + tablet variants (< xl 1281). Figma 1335:10808 (phone) /
@@ -890,8 +1093,8 @@ img {
    copyright in one baseline row; phone stacks them. */
 @media (max-width: 1280px) {
   .footer__panel {
-    max-width: none;                                             /* full bleed */
-    padding: var(--spacing-8) var(--spacing-8) var(--spacing-10); /* 32 / 32 / 40 */
+    max-width: none;              /* full bleed */
+    padding: var(--spacing-10);   /* tablet: 40 all round (phone resets below) */
   }
   .footer__inner {
     display: flex;
@@ -919,19 +1122,26 @@ img {
     align-items: center;
     gap: var(--spacing-6);         /* 24 */
   }
-  /* Tablet runs the credits as a single row. */
+  /* Tablet: credit line on one row, copyright still 24 below it. */
   .footer__credits {
     margin-top: 0;
-    flex-direction: row;
     align-items: flex-start;
     text-align: left;
+  }
+  .footer__webdesign {
+    flex-direction: row;
+    align-items: flex-start;
   }
 }
 
 /* Phone (< md): links + copyright stack instead of sitting in a row. */
 @media (max-width: 749px) {
   .footer__panel {
-    padding: var(--spacing-8) var(--spacing-4);  /* py 32 / px 16 */
+    /* px 16, pt 32, and a bottom inset of the designed 32 plus the height of
+       the floating nav, so the black runs on behind the bar and the page
+       ends flush with the viewport. */
+    padding: var(--spacing-8) var(--spacing-4)
+             calc(var(--spacing-8) + var(--nav-mobile-height));
   }
   .footer__meta {
     flex-direction: column;
@@ -945,33 +1155,17 @@ img {
     align-items: flex-start;
     gap: 0;
   }
-  /* Phone stacks the credits again. The design puts 24 between the
-     links+copyright group and the credits; the column's own 16 gap plus
-     this 8 makes that 24. */
+  /* Phone: the credit line stacks again and the credits block tightens to
+     20. The design puts 24 between the legal links and the credits; the
+     column's own 16 gap plus this 8 makes that 24. */
   .footer__credits {
-    flex-direction: column;
+    gap: var(--spacing-5);         /* 20 */
     margin-top: var(--spacing-2);  /* 8 */
   }
-}
-
-/* Hero folder — phone + tablet variant (< xl 1281). Figma nodes 3196:15038
-   (tablet) / 669:9712 (phone): compact folder, 41px title, 16:9 image,
-   radius/24. Identical panel for both; only the outer margin differs (handled
-   on .hero). Placed last so it wins over the ad-hoc 1200/820 rules. */
-@media (max-width: 1280px) {
-  .hero__panel {
-    padding: var(--spacing-4);     /* 16 all round (placeholder variant) */
+  .footer__webdesign {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  .hero__title {
-    padding: 0 var(--spacing-2);        /* px-8 grid align */
-    margin-bottom: var(--spacing-6);    /* 24 gap to image */
-  }
-  .hero__title h1 {
-    font-size: 41px;                    /* H4 */
-    line-height: 1.1;
-  }
-  .hero__image { padding: 0; }
-  .hero__image img { border-radius: var(--radius-24); }
 }
 
 /* ============================================================
@@ -1068,8 +1262,8 @@ img {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-.marquee:hover { animation-play-state: paused; }
-/* Paused via the play/pause toggle button. */
+/* Paused only by the play/pause toggle button — hovering the strip does
+   not stop it. */
 .marquee.is-paused { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .marquee { animation: none; }
@@ -1303,18 +1497,64 @@ img {
    ============================================================ */
 
 /* ============================================================
+   Badge — static pill (atomic), Figma 3597:20280
+   ============================================================ */
+/* Same geometry as .chip, but a label only: no hover tint, no selected
+   state, no remove icon. Use it wherever a pill is read, not pressed.
+   Sizes: L (default) / M / S / XS. Themes: light (default) / .badge--dark
+   (black 300 border + white label) for dark panels. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;            /* hugs its label, never stretches to the row */
+  padding: var(--spacing-3) var(--spacing-6);   /* L: 12 / 24 */
+  border: 1px solid var(--black-500);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 21px;                              /* Body 1 */
+  line-height: 1.4;
+  color: var(--black-500);
+  white-space: nowrap;
+}
+
+.badge--m { font-size: 18px; }                  /* Body 2, same padding */
+
+.badge--s {
+  padding: var(--spacing-2) var(--spacing-4);   /* 8 / 16 */
+  font-size: 16px;                              /* Body 3 */
+  line-height: normal;
+}
+
+.badge--xs {
+  padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 */
+  font-size: 14px;                              /* Body 4 */
+  line-height: normal;
+}
+
+.badge--dark {
+  border-color: var(--black-300);               /* #444, black 300 */
+  color: var(--white);
+}
+
+/* ============================================================
    Chips — pill component (atomic), Figma 599:9590
    ============================================================ */
-/* Sizes: L (default) / M / S / XS via .chip--m, .chip--s, .chip--xs.
+/* An interactive pill — a filter toggle. For a pill that is only read,
+   use .badge above.
+   Sizes: L (default) / M / S / XS via .chip--m, .chip--s, .chip--xs.
    Themes: light (default, black border + black label) / .chip--dark
    (black 300 border + white label) for use on dark panels.
-   States: Default is transparent; hover and active (aria-pressed="true")
+   States: Default is transparent; hover and selected (aria-pressed="true")
    both take the orange tint — the border and label colour never change,
-   so the chip does not invert the way the old filter chip did. */
+   so the chip does not invert the way the old filter chip did. A selected
+   chip also reveals its remove (x) icon; focus draws a 2px magenta edge. */
 .chip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--spacing-3);                        /* L: 12, label -> icon */
   padding: var(--spacing-3) var(--spacing-6);   /* L: 12 / 24 */
   border: 1px solid var(--black-500);
   border-radius: var(--radius-full);
@@ -1329,18 +1569,21 @@ img {
 }
 
 .chip--m {
+  gap: var(--spacing-2);                        /* 8 */
   padding: var(--spacing-3) var(--spacing-6);   /* 12 / 24 */
   font-size: 18px;                              /* Body 2 */
   line-height: 1.4;
 }
 
 .chip--s {
+  gap: var(--spacing-2);                        /* 8 */
   padding: var(--spacing-2) var(--spacing-4);   /* 8 / 16 */
   font-size: 16px;                              /* Body 3 */
   line-height: normal;
 }
 
 .chip--xs {
+  gap: var(--spacing-1);                        /* 4 */
   padding: var(--spacing-1) var(--spacing-3);   /* 4 / 12 */
   font-size: 14px;                              /* Body 4 */
   line-height: normal;
@@ -1355,10 +1598,12 @@ img {
    breakpoint (Figma 1485:6797 phone / 3259:17345 tablet / 3500:16005
    desktop), so the size is a media query rather than a fixed modifier. */
 .chip--scale {                                  /* S */
+  gap: var(--spacing-2);                        /* 8 */
   padding: var(--spacing-2) var(--spacing-4);   /* 8 / 16 */
   font-size: 16px;
   line-height: normal;
 }
+.chip--scale .chip__icon { width: 16px; height: 16px; }
 @media (min-width: 750px) {
   .chip--scale {                                /* M */
     padding: var(--spacing-3) var(--spacing-6); /* 12 / 24 */
@@ -1367,10 +1612,14 @@ img {
   }
 }
 @media (min-width: 1281px) {
-  .chip--scale { font-size: 21px; }             /* L */
+  .chip--scale {                                /* L */
+    gap: var(--spacing-3);                      /* 12 */
+    font-size: 21px;
+  }
+  .chip--scale .chip__icon { width: 20px; height: 20px; }
 }
 
-/* Only the interactive chips carry the hover/active tint. */
+/* Only the interactive chips carry the hover/selected tint. */
 button.chip,
 a.chip {
   cursor: pointer;
@@ -1379,6 +1628,30 @@ button.chip:hover,
 a.chip:hover,
 .chip[aria-pressed="true"] {
   background: var(--chip-tint);
+}
+
+/* Remove icon — present in the markup, revealed only while selected, so
+   the chip grows by the icon plus its gap exactly as the design does. */
+.chip__icon {
+  display: none;
+  flex: none;
+  width: 20px;                                  /* L */
+  height: 20px;
+}
+.chip--m .chip__icon,
+.chip--s .chip__icon { width: 16px; height: 16px; }
+.chip--xs .chip__icon { width: 12px; height: 12px; }
+.chip[aria-pressed="true"] .chip__icon { display: block; }
+.chip__icon svg { display: block; width: 100%; height: 100%; }
+
+/* Focus: the design replaces the 1px edge with a 2px magenta one without
+   changing the pill's size, so the second pixel is drawn inside. The
+   transparent outline keeps the ring visible in forced-colours mode. */
+.chip:focus-visible {
+  border-color: var(--focus);
+  box-shadow: inset 0 0 0 1px var(--focus);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
 /* Molecule "list item" (Figma 1032:13332). A row is its own column:
@@ -1467,6 +1740,31 @@ a.chip:hover,
   transition: background 0.3s ease, width 0.3s ease;
 }
 .card[aria-expanded="true"] { background: var(--blue-05); }   /* open: blue 05 */
+/* Phone + tablet: every closed state (default, hover, focus) is a fixed 86
+   tall slot — Figma gives only the open / countdown / countdown+focus
+   variants a content-driven height. The title row stretches to fill it so
+   the label stays vertically centred. Reset at xl, where the collapsed
+   card is title-height again. */
+.card:not([aria-expanded="true"]) { height: 86px; }
+.card:not([aria-expanded="true"]) .card__content,
+.card:not([aria-expanded="true"]) .card__main,
+.card:not([aria-expanded="true"]) .card__head { height: 100%; }
+/* Closed states (default, hover, pressed, focus) centre the title in the
+   card at every breakpoint: the open card's pb16 under the text column is
+   image-card spacing and would push the title 16 above centre. */
+.card:not([aria-expanded="true"]) .card__content .card__main,
+.card:not([aria-expanded="true"]) .card__content:has(.card__media) .card__main {
+  padding-bottom: 0;
+  justify-content: center;
+}
+/* A closed title that would need a third line is clamped to two, so the
+   fixed 86 slot never cuts a line of text in half. */
+.card:not([aria-expanded="true"]) .card__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
 /* Hover (collapsed cards, pointer devices only): black 20 #dbdbdb. */
 @media (hover: hover) {
   .card:not([aria-expanded="true"]):hover {
@@ -1489,6 +1787,11 @@ a.chip:hover,
 }
 .card.is-counting .card__countdown {
   animation: card-countdown var(--card-duration, 7s) linear forwards;
+}
+/* Paused by the section's pause/play button: the open card stays open and
+   its countdown bar freezes where it is. */
+[data-cards].is-paused .card.is-counting .card__countdown {
+  animation-play-state: paused;
 }
 @keyframes card-countdown {
   from { transform: scaleY(0); }
@@ -1575,6 +1878,7 @@ a.chip:hover,
    collapsed card 543. */
 @media (min-width: 1281px) {
   .card { width: 543px; }
+  .card:not([aria-expanded="true"]) { height: auto; }
   .card[aria-expanded="true"] { width: 100%; }
   .card__content { gap: var(--spacing-10); align-items: flex-start; }   /* 40 */
   .card__title { font-size: 41px; line-height: 1.2; max-width: 544px; }
@@ -1590,8 +1894,9 @@ a.chip:hover,
    ============================================================ */
 
 /* Journey step card (Figma "journey step", node 1252:8849).
-   Web variant (>=md): 40 padding, inline "01 Title" at 41px, 21px list.
-   Mobile variant (<md): 20 padding, 27px title, 14px list.
+   Web variant (xl):     40 padding, inline "01 Title" at 41px, 21px list.
+   Tablet variant (md - <xl): 24 padding + gap, 27px title, 18px list.
+   Mobile variant (<md): 16 padding, 21px title, 16px list.
    Fills its carousel cell; cards equalise height via items-stretch. */
 .journey-step {
   width: 100%;
@@ -1642,37 +1947,382 @@ a.chip:hover,
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-3);                     /* 12 (web) */
-  padding-left: var(--spacing-8);            /* 32 */
+  padding: 0 0 0 var(--spacing-8);           /* desktop: pl 32, none above/below */
   margin: 0;
   list-style: none;
 }
-/* The journey tags are chips: size XS, dark theme, Default state —
-   see .chip. Only the list layout lives here. */
+/* The journey tags are badges: size XS, dark theme — see .badge. Only the
+   list layout lives here. */
 /* Mobile variant (< md 750px): compact. */
 @media (max-width: 749px) {
   .journey-step {
-    padding: var(--spacing-5);               /* 20 */
+    padding: var(--spacing-4);               /* 16 */
     gap: var(--spacing-6);                    /* 24 */
   }
   .journey-step__title { font-size: 21px; }   /* H6 */
-  .journey-step__body { gap: var(--spacing-2); } /* 8 (list -> tags) */
+  .journey-step__body { gap: var(--spacing-4); } /* 16 (list -> tags) */
   .journey-step__list {
     font-family: var(--font-body);           /* IBM Plex Sans */
-    font-size: 14px;                         /* Body 4 */
+    font-size: 16px;                         /* Body 3 */
     line-height: normal;
     gap: var(--spacing-2);                    /* 8 */
   }
   .journey-step__tags {
     gap: var(--spacing-2) var(--spacing-4);   /* row 8 / col 16 */
-    padding-left: 0;
+    padding-left: var(--spacing-5);           /* 20 */
   }
+}
+
+/* Tablet variant (md - <xl): the web layout at a smaller type scale.
+   The content -> tags gap is the base 16 already, so only the list's own
+   gap and the tag row's inset are restated here. */
+@media (min-width: 750px) and (max-width: 1280px) {
+  .journey-step {
+    padding: var(--spacing-6);                   /* 24 */
+    gap: var(--spacing-6);                       /* 24, title -> content */
+  }
+  .journey-step__title { font-size: 27px; }      /* H5 */
+  .journey-step__list  {
+    font-size: 18px;                             /* Body 2 */
+    gap: var(--spacing-2);                       /* 8 */
+  }
+  .journey-step__tags { padding-left: var(--spacing-6); }   /* 24 */
+}
+
+/* Carousel state: only the active step — the one the strip is scrolled to,
+   i.e. the first fully visible card — is at full strength; the rest sit at
+   50%. The .is-current / .is-paginated classes come from the pagination
+   module in script.js, so with no JS every card stays at full opacity. */
+.is-paginated > li .journey-step {
+  opacity: 0.5;
+  transition: opacity 0.35s ease;
+}
+.is-paginated > li.is-current .journey-step {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-paginated > li .journey-step { transition: none; }
+}
+
+/* ============================================================
+   Text block (Figma 411:6025)
+   ============================================================ */
+/* An optional title over body copy, the parts 16 apart.
+     title: 21/1.4 phone, 21/auto tablet, 27/auto desktop, black
+     body:  16/auto phone (Body 3), 18/1.4 tablet (Body 2),
+            21/1.4 desktop (Body 1), "black 200"
+   The block spans 4 / 6 / 5 columns of its tier, but placement is the
+   caller's job — see .section-text-block. The accordion uses it with no
+   title. Title and body are classed rather than typed, so the title can
+   be a heading wherever the surrounding document calls for one. */
+.text-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-4);          /* 16 */
+  font-family: var(--font-body);
+}
+
+.text-block__title {
+  margin: 0;
+  font-size: 21px;                /* H6 */
+  line-height: 1.4;
+  color: var(--black-500);
+}
+
+.text-block__body {
+  margin: 0;
+  font-size: 16px;                /* Body 3 */
+  line-height: normal;
+  color: var(--black-200);        /* #6b6b6b */
+}
+
+@media (min-width: 750px) {
+  .text-block__title { line-height: normal; }
+  .text-block__body { font-size: 18px; line-height: 1.4; }
+}
+
+@media (min-width: 1281px) {
+  .text-block__title { font-size: 27px; text-wrap: pretty; }   /* H5 */
+  .text-block__body { font-size: 21px; line-height: 1.4; }
+}
+
+/* ============================================================
+   Section title (Figma 3730:29332)
+   ============================================================ */
+/* A section's heading: 27 phone / 41 tablet / 61 desktop. Placement is
+   the grid — on desktop it starts at column 2, the design's 157px inset.
+   .section-title carries the standalone section's pb 80 / 96 / 96; where
+   the heading opens a section that holds more than the title, use
+   .section-title__text alone and leave the section its own rhythm. */
+.section-title {
+  padding-bottom: var(--spacing-10);      /* phone: 40 */
+}
+@media (min-width: 750px) {
+  .section-title { padding-bottom: var(--spacing-16); }   /* tablet: 64 */
+}
+@media (min-width: 1281px) {
+  .section-title { padding-bottom: var(--spacing-24); }   /* desktop: 96 */
+}
+
+.section-title__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 27px;                        /* H5 */
+  line-height: normal;
+  text-wrap: pretty;
+  color: var(--black-500);
+}
+@media (min-width: 750px) {
+  .section-title__text { font-size: 41px; line-height: 1.2; }        /* H4 */
+}
+@media (min-width: 1281px) {
+  .section-title__text {
+    font-size: 61px;                      /* H3 */
+    line-height: normal;
+    text-wrap: wrap;                      /* the desktop variant sets none */
+  }
+}
+
+/* ============================================================
+   Section / text + large image (Figma 3619:23282)
+   ============================================================ */
+/* A lead line over a wide 16:9 image, 40 apart, the pair left-aligned in
+   its column: 7 of the 12 desktop columns from column 2 (the design's
+   158px inset), full tier on tablet and phone.
+
+     <section class="section-text-large-image">
+       <div class="container mx-auto">
+         <div class="grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-6
+                     lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+           <div class="text-large-image col-span-4 md:col-span-8
+                       xl:col-span-7 xl:col-start-2">
+             <p class="text-large-image__text">...</p>
+             <div class="text-large-image__image"><img src="..." alt="..."></div>
+           </div>
+         </div>
+       </div>
+     </section>
+*/
+.section-text-large-image {
+  padding-bottom: var(--spacing-20);      /* phone: 80 */
+  background: var(--white);
+}
+@media (min-width: 750px) {
+  .section-text-large-image { padding-bottom: var(--spacing-32); }   /* tablet: 128 */
+}
+@media (min-width: 1281px) {
+  .section-text-large-image { padding-bottom: var(--spacing-48); }   /* desktop: 192 */
+}
+
+.text-large-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--spacing-10);                 /* 40 */
+}
+
+.text-large-image__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 21px;                        /* H6 */
+  line-height: normal;
+  color: var(--black-500);
+}
+@media (min-width: 750px) {
+  .text-large-image__text { font-size: 27px; text-wrap: pretty; }    /* H5 */
+}
+
+.text-large-image__image {
+  overflow: hidden;
+  border-radius: var(--radius-24);
+  aspect-ratio: 16 / 9;
+}
+
+.text-large-image__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================
+   Text + image (Figma 3450:20686) and section/text+image (3589:11823)
+   ============================================================ */
+/* A .text-block beside the image on desktop, stacked above it on tablet
+   and phone. Placement is the grid, so only the image treatment and the
+   section rhythm live here:
+     desktop  text 5 cols from col 2, image 4 cols from col 8 (text-left)
+              or image from col 2 and text from col 7 (text-right);
+              col 7 resp. col 6 stays empty — that empty column is the
+              design's 157px gap, and the pair fills cols 2-11.
+     tablet   one 6-column block, image above text, 40 apart.
+     phone    one 4-column block, same stack.
+   The image is 4:3, except on tablet where the design switches to 16:9. */
+.text-image__image {
+  overflow: hidden;
+  border-radius: var(--radius-24);
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 750px) and (max-width: 1280px) {
+  .text-image__image { aspect-ratio: 16 / 9; }
+}
+
+.text-image__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The section's own rhythm: pb 80 / 128 / 192. */
+.section-text-image {
+  padding-bottom: var(--spacing-20);
+  background: var(--white);
+}
+@media (min-width: 750px) {
+  .section-text-image { padding-bottom: var(--spacing-32); }   /* tablet: 128 */
+}
+@media (min-width: 1281px) {
+  .section-text-image { padding-bottom: var(--spacing-48); }
+}
+
+/* ============================================================
+   Section / text block (Figma 3589:12090)
+   ============================================================ */
+/* A text block alone on a white section. Only the vertical rhythm lives
+   here; the horizontal placement is the grid (col-span 4 / 6, and 5 from
+   column 2 on desktop — the design's 157px inset):
+
+     <section class="section-text-block">
+       <div class="container mx-auto">
+         <div class="grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-6
+                     lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+           <div class="text-block col-span-4 md:col-span-6
+                       xl:col-span-5 xl:col-start-2">
+             <p class="text-block__title">Title</p>
+             <p class="text-block__body">...</p>
+           </div>
+         </div>
+       </div>
+     </section>
+*/
+.section-text-block {
+  padding-bottom: var(--spacing-20);      /* phone: 80 */
+  background: var(--white);
+}
+@media (min-width: 750px) {
+  .section-text-block { padding-bottom: var(--spacing-32); }   /* tablet: 128 */
+}
+@media (min-width: 1281px) {
+  .section-text-block { padding-bottom: var(--spacing-48); }   /* desktop: 192 */
+}
+
+/* ============================================================
+   Utility page title (Figma 712:9678)
+   ============================================================ */
+/* The lone heading that opens a utility page (imprint, data privacy):
+   27 phone / 41 tablet / 91 desktop, in "ink" (#1e1e1e) rather than
+   black. The section carries the rhythm — pt 24 / 40 / 80 over
+   pb 40 / 80 / 80. Placement is the grid, so the desktop variant's
+   157px left inset is column 2 and the title runs to the right margin.
+
+     <section class="utility-page-title">
+       <div class="mx-auto w-full max-w-[1440px]">
+         <div class="grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6
+                     md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+           <h1 class="utility-page-title__text col-span-4 md:col-span-8
+                      xl:col-span-11 xl:col-start-2">Title</h1>
+         </div>
+       </div>
+     </section>
+*/
+.utility-page-title {
+  padding-top: var(--spacing-6);          /* phone: 24 */
+  padding-bottom: var(--spacing-10);      /* phone: 40 */
+  background: var(--white);
+}
+@media (min-width: 750px) {
+  .utility-page-title {
+    padding-top: var(--spacing-10);       /* tablet: 40 */
+    padding-bottom: var(--spacing-20);    /* tablet: 80 */
+  }
+}
+@media (min-width: 1281px) {
+  .utility-page-title { padding-top: var(--spacing-20); }   /* desktop: 80 / 80 */
+}
+
+.utility-page-title__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 27px;                        /* H5 */
+  line-height: normal;
+  text-wrap: pretty;
+  color: var(--ink);                      /* #1e1e1e */
+}
+@media (min-width: 750px) {
+  .utility-page-title__text { font-size: 41px; line-height: 1.2; }   /* H4 */
+}
+@media (min-width: 1281px) {
+  .utility-page-title__text {
+    font-size: 91px;                      /* H2 */
+    line-height: 1;                       /* the design sets 91/91 */
+    text-wrap: wrap;                      /* the desktop variant sets none */
+  }
+}
+
+/* ============================================================
+   Text section (Figma 3791:16019)
+   ============================================================ */
+/* A run of .text-block and nothing else — the body of the legal pages.
+   Only the section's rhythm lives here (pb 80 / 128 / 192); the gaps
+   between the blocks are the grid's row gap (40 / 64 / 80) and the
+   horizontal placement is the grid too: the full tier on phone and
+   tablet, 5 columns from column 2 on desktop (the 157px inset).
+
+     <section class="section-text-section">
+       <div class="mx-auto w-full max-w-[1440px]">
+         <div class="grid grid-cols-4 gap-x-4 gap-y-10 px-4 md:grid-cols-8
+                     md:gap-x-6 md:gap-y-16 md:px-10 lg:gap-x-8
+                     xl:grid-cols-12 xl:gap-x-10 xl:gap-y-20">
+           <div class="text-block col-span-4 md:col-span-8
+                       xl:col-span-5 xl:col-start-2">
+             <p class="text-block__title">Title</p>
+             <p class="text-block__body">...</p>
+           </div>
+           ...
+         </div>
+       </div>
+     </section>
+*/
+.section-text-section {
+  padding-bottom: var(--spacing-20);      /* phone: 80 */
+  background: var(--white);
+}
+@media (min-width: 750px) {
+  .section-text-section { padding-bottom: var(--spacing-32); }   /* tablet: 128 */
+}
+@media (min-width: 1281px) {
+  .section-text-section { padding-bottom: var(--spacing-48); }   /* desktop: 192 */
+}
+
+/* The long-form text block here is the larger of the component's two
+   phone sizes (Figma 3409:17581/17582): body 18/1.4 rather than the
+   16/normal the default .text-block uses, and the title at its natural
+   line height. Tablet and desktop already match, so only phone is
+   restated. Scoped to the section so the other pages are untouched. */
+@media (max-width: 749px) {
+  .section-text-section .text-block__title { line-height: normal; }
+  .section-text-section .text-block__body  { font-size: 18px; line-height: 1.4; }
 }
 
 /* ============================================================
    Accordion (Figma 133:449) — Join us FAQ section
    ============================================================ */
-/* Size M (phone + tablet): pt/gap 24, title 18/1.4.
-   Size L (desktop xl):     pt/gap 32, title 27/normal.
+/* Phone:               pt/gap 24, title 18/1.4.
+   Tablet (md – <xl):    pt/gap 24, title 21/1.4  (Figma 3555:17934).
+   Size L (desktop xl):  pt/gap 32, title 27/normal.
    The item's own pt plus the head's pb give the 24/32 gap the Figma
    frame leaves between the content row and the 2px rule. The rule is
    "black 10" at rest and black on hover or while expanded (Figma lines
@@ -1729,17 +2379,16 @@ a.chip:hover,
   padding: 0;
   transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
 }
-.faq-item__body p {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: 18px;
-  line-height: 1.5;
-  color: var(--neutral-300, #6b6b6b);
-}
 .faq-item__head[aria-expanded="true"] + .faq-item__body {
   max-height: 600px;
   opacity: 1;
   padding-bottom: var(--spacing-6);   /* 24 down to the rule */
+}
+
+/* Tablet — the only change from phone is the title size (Figma 3555:17934
+   tablet vs 826:10518 phone: 77 vs 73 tall, which is 21/1.4 vs 18/1.4). */
+@media (min-width: 750px) and (max-width: 1280px) {
+  .faq-item__title { font-size: 21px; }
 }
 
 /* Size L — desktop (xl 1281+). */
@@ -1760,7 +2409,7 @@ a.chip:hover,
    ============================================================ */
 /* Figma button component (node 374:6520). Variants:
      type:  primary | secondary | tertiary | icon   -> .btn--<type>
-     size:  Default | L                             -> (base) | .btn--l
+     size:  XS | Default | L                        -> .btn--xs | (base) | .btn--l
      theme: light | dark                            -> (base) | .btn--dark
      state: Default | hover | pressed | focus | disabled
             -> native :hover / :active / :focus-visible / :disabled|.is-disabled
@@ -1801,12 +2450,14 @@ a.chip:hover,
   width: 20px;               /* Default size icon */
   height: 20px;
 }
+/* Toggle buttons swap one icon for another; beat .btn__icon's display. */
+.btn__icon.hidden { display: none; }
 
-/* Focus (keyboard): 3px magenta inner ring, no reflow. Overrides the
+/* Focus (keyboard): 2px magenta inner ring, no reflow. Overrides the
    site-wide :focus-visible outline for buttons. */
 .btn:focus-visible {
   outline: none;
-  box-shadow: inset 0 0 0 3px var(--focus);
+  box-shadow: inset 0 0 0 2px var(--focus);
 }
 
 /* ---- Size L ---- */
@@ -1822,6 +2473,19 @@ a.chip:hover,
 .btn--l .btn__icon {
   width: 28px;               /* L size icon */
   height: 28px;
+}
+
+/* ---- Size XS ---- */
+/* Smallest size: radius/8 instead of radius/16, 16px icon. Geometry only —
+   the fill comes from the type + theme rules below. */
+.btn--xs {
+  border-radius: var(--radius-8);        /* radius/8 */
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 16px;
+}
+.btn--xs .btn__icon {
+  width: 16px;               /* XS size icon */
+  height: 16px;
 }
 
 /* ---- Type: primary (filled) ---- */
@@ -1937,6 +2601,8 @@ a.chip:hover,
 .btn--icon:focus-visible { background: var(--black-500); color: var(--white); }
 .btn--icon.btn--l { width: 72px; height: 72px; }
 .btn--icon.btn--l .btn__icon { width: 28px; height: 28px; }
+.btn--icon.btn--xs { width: 32px; height: 32px; }
+.btn--icon.btn--xs .btn__icon { width: 16px; height: 16px; }
 /* icon — dark theme (inverted pad) */
 .btn--dark.btn--icon {
   background: var(--white);
@@ -1981,6 +2647,32 @@ a.chip:hover,
 }
 .btn--dark.btn--tertiary.btn--icon:focus-visible { background: transparent; }
 
+/* ---- Type: secondary icon (square icon button, dark theme) ---- */
+/* Translucent white pad instead of the outlined secondary border: white 16%
+   at rest and when pressed, white 28% on hover. Icon is white via
+   currentColor. Disabled drops the pad and mutes the icon to black 50.
+   Geometry comes from .btn--icon + the size variant (XS = 32x32, icon 16,
+   radius/8). */
+.btn--dark.btn--secondary.btn--icon {
+  background: var(--white-16);
+  border-color: transparent;
+  color: var(--white);
+}
+/* The secondary icon button runs a smaller glyph than its size variant's
+   default (12 in the 32 XS pad). */
+.btn--dark.btn--secondary.btn--icon .btn__icon { width: 12px; height: 12px; }
+.btn--dark.btn--secondary.btn--icon:hover  { background: var(--white-28); }
+.btn--dark.btn--secondary.btn--icon:active { background: var(--white-16); }
+.btn--dark.btn--secondary.btn--icon:disabled,
+.btn--dark.btn--secondary.btn--icon.is-disabled {
+  background: transparent;
+  border-color: transparent;
+  color: var(--black-50);       /* black 50 */
+  cursor: default;
+}
+/* Keyboard focus: pad unchanged, magenta ring from .btn:focus-visible. */
+.btn--dark.btn--secondary.btn--icon:focus-visible { background: var(--white-16); }
+
 /* ============================================================
    Pagination — dot pagination (atomic design)
    ============================================================ */
@@ -2012,10 +2704,15 @@ a.chip:hover,
 }
 
 /* ---- Molecule: a row of dots ---- */
+/* The dots sit in their own 48-tall container inset 24 each side (Figma
+   3102:7261); that inset, not the controls' gap, is what separates them from
+   the prev/next buttons. */
 .pagination {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2);                   /* spacing/2 */
+  height: 48px;
+  padding: 0 var(--spacing-6);             /* 24 */
 }
 /* Dark background variant: swap the dot colour for every dot inside. */
 .pagination--dark {
@@ -2032,7 +2729,7 @@ a.chip:hover,
 .pagination-controls {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-10);                  /* spacing/10 */
+  gap: var(--spacing-0);                   /* 0 — prev / dots / next sit flush */
 }
 .pagination-controls--dark {
   --pagination-dot-color: var(--white); /* dark: white */
@@ -2115,8 +2812,8 @@ a.chip:hover,
 .pagination-item:hover { background: var(--grey-10); }     /* black 10 */
 .pagination-item:active { background: var(--black-20); }   /* pressed */
 .pagination-item:focus-visible {
-  outline: 3px solid #ff00d9;                /* focused ring (Figma) */
-  outline-offset: -3px;
+  outline: 2px solid var(--focus);           /* focused ring (Figma) */
+  outline-offset: -2px;
 }
 .pagination-item--selected,
 .pagination-item[aria-current="page"] {
@@ -2157,8 +2854,8 @@ a.chip:hover,
 .pagination-numbers__btn:hover { background: var(--grey-10); }
 .pagination-numbers__btn:active { background: var(--black-20); }
 .pagination-numbers__btn:focus-visible {
-  outline: 3px solid #ff00d9;
-  outline-offset: -3px;
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
 }
 .pagination-numbers__btn:disabled {
   color: var(--black-50);                    /* muted chevron #cccccc */
@@ -2211,8 +2908,9 @@ a.chip:hover,
        take taps — the rest of the strip lets the page through. */
     pointer-events: none;
   }
-  /* Clear the fixed bar so page content and the footer aren't hidden. */
-  body { padding-bottom: var(--nav-mobile-height); }
+  /* The clearance for the fixed bar lives on the footer panel instead of the
+     body: padding here would end the page above the bar and show the body's
+     white through the transparent part of the frame. */
 }
 
 .nav-mobile__bar {
@@ -2233,7 +2931,7 @@ a.chip:hover,
   align-items: center;
   justify-content: center;
   height: 48px;
-  padding: 0 var(--spacing-2);           /* 8 */
+  padding: 0 var(--spacing-4);           /* 16, both states */
   border-radius: var(--radius-24);
   font-family: var(--font-body);
   font-size: 16px;
@@ -2244,12 +2942,8 @@ a.chip:hover,
   white-space: nowrap;
 }
 
-.nav-item-mobile--selected {
-  padding: 0 var(--spacing-4);           /* 16 — double the default */
-  /* Spreading the padding is what pushes the other items apart, so this one
-     animation gives the siblings their ease-out slide for free. */
-  animation: nav-item-mobile-spread 320ms ease-out both;
-}
+/* Selected adds only the accent pill — the padding is the same as default,
+   so the items keep their places and nothing reflows on selection. */
 
 /* The accent fill is its own layer so it can move independently of the
    label, which stays put. */
@@ -2278,11 +2972,6 @@ a.chip:hover,
   to   { transform: translateX(0); }
 }
 
-@keyframes nav-item-mobile-spread {
-  from { padding-left: var(--spacing-2); padding-right: var(--spacing-2); }
-  to   { padding-left: var(--spacing-4); padding-right: var(--spacing-4); }
-}
-
 /* TEMPORARILY UNUSED — the scale-from-centre entrance, kept for switching back.
 @keyframes nav-item-mobile-grow {
   from { transform: scale(0); }
@@ -2291,7 +2980,6 @@ a.chip:hover,
 */
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-item-mobile--selected,
   .nav-item-mobile--selected::before,
   .nav-mobile__bar.has-rail .nav-item-mobile--selected::before { animation: none; }
 }

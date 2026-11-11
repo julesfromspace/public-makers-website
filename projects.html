@@ -57,7 +57,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=95" />
+  <link rel="stylesheet" href="styles.css?v=155" />
 </head>
 
 <!-- Per-page accent: yellow for the active "Projects" tab. -->
@@ -73,9 +73,11 @@
       <a class="tab" href="approach.html">
         <span class="tab__label">Approach</span>
       </a>
-      <a class="tab tab--selected" href="projects.html" aria-current="page">
+      <!-- Projects temporarily hidden from the nav.
+      <a class="tab" href="projects.html">
         <span class="tab__label">Projects</span>
       </a>
+      -->
       <a class="tab" href="partners.html">
         <span class="tab__label">Partners</span>
       </a>
@@ -93,7 +95,7 @@
   <main>
     <!-- ===== Hero (yellow panel: title + filter chips) ===== -->
     <section>
-      <div class="mx-auto w-full max-w-[1440px] px-4 pb-16 md:px-10 md:pb-24 xl:pb-32">
+      <div class="hero-folder">
         <div class="rounded-40 bg-projects-yellow px-6 pb-4 pt-4 md:px-6 min-h-[240px] md:min-h-[400px] xl:min-h-[640px] xl:px-0 xl:pb-10 xl:pt-16">
           <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-y-0 xl:grid-cols-12 xl:gap-y-2">
             <!-- Title -->
@@ -106,16 +108,16 @@
               <p class="font-body text-[14px] leading-[normal] text-black md:text-[18px] md:leading-[1.4]">Filter by category:</p>
               <ul class="flex flex-wrap items-center gap-2 md:gap-4 xl:flex-nowrap" role="list">
                 <li>
-                  <button type="button" class="chip chip--scale">Micro-Masterclass (MM)</button>
+                  <button type="button" class="chip chip--scale" aria-pressed="false">Micro-Masterclass (MM)<span class="chip__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.0606 12L19.5 5.56058L18.4394 4.5L12 10.9394L5.56072 4.5L4.5 5.56058L10.9394 12L4.5 18.4394L5.56072 19.5L12 13.0606L18.4394 19.5L19.5 18.4394L13.0606 12Z" /></svg></span></button>
                 </li>
                 <li>
-                  <button type="button" class="chip chip--scale">Hackathon</button>
+                  <button type="button" class="chip chip--scale" aria-pressed="false">Hackathon<span class="chip__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.0606 12L19.5 5.56058L18.4394 4.5L12 10.9394L5.56072 4.5L4.5 5.56058L10.9394 12L4.5 18.4394L5.56072 19.5L12 13.0606L18.4394 19.5L19.5 18.4394L13.0606 12Z" /></svg></span></button>
                 </li>
                 <li>
-                  <button type="button" class="chip chip--scale">PM goes …</button>
+                  <button type="button" class="chip chip--scale" aria-pressed="false">PM goes …<span class="chip__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.0606 12L19.5 5.56058L18.4394 4.5L12 10.9394L5.56072 4.5L4.5 5.56058L10.9394 12L4.5 18.4394L5.56072 19.5L12 13.0606L18.4394 19.5L19.5 18.4394L13.0606 12Z" /></svg></span></button>
                 </li>
                 <li>
-                  <button type="button" class="chip chip--scale">Milestones</button>
+                  <button type="button" class="chip chip--scale" aria-pressed="false">Milestones<span class="chip__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.0606 12L19.5 5.56058L18.4394 4.5L12 10.9394L5.56072 4.5L4.5 5.56058L10.9394 12L4.5 18.4394L5.56072 19.5L12 13.0606L18.4394 19.5L19.5 18.4394L13.0606 12Z" /></svg></span></button>
                 </li>
               </ul>
             </div>
@@ -128,7 +130,7 @@
     <!-- template/list "list section" (3259:17774). Vertical padding per
          viewport (Figma): phone pt40/pb64, tablet pt48/pb96, desktop pt64/pb80.
          Horizontal margin (16/40/40) comes from .container. -->
-    <section class="pt-10 pb-16 md:pt-12 md:pb-24 xl:pt-16 xl:pb-20">
+    <section class="pt-10 pb-16 md:pt-12 md:pb-32 xl:pt-16 xl:pb-20">
       <!-- Horizontal margin 16/40/40 (phone/tablet/desktop), capped at 1440 —
            same pattern as the hero/contact sections. -->
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
@@ -411,20 +413,22 @@
         </a>
         <div class="footer__right">
           <div class="footer__social">
-            <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
-            <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img class="btn__icon" src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img class="btn__icon" src="assets/icon-instagram-white.svg" alt="" /></a>
           </div>
           <div class="footer__meta">
             <nav class="footer__links" aria-label="Legal">
-              <a class="link" href="#">Imprint</a>
-              <a class="link" href="#">Data privacy</a>
+              <a class="link" href="imprint.html">Imprint</a>
+              <a class="link" href="data-privacy.html">Data privacy</a>
             </nav>
+          </div>
+          <div class="footer__credits">
+            <p class="footer__webdesign">
+              <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+              <span>by <a class="link link--inline" href="https://kamenskaya-design.com/" target="_blank" rel="noopener noreferrer">Maria Kamenskaya</a> &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+            </p>
             <p class="footer__copy">© 2025 public makers</p>
           </div>
-          <p class="footer__credits">
-            <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
-            <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
-          </p>
         </div>
       </div>
     </div>
@@ -435,12 +439,14 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=40"></script>
+  <script src="script.js?v=49"></script>
   <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
   <nav class="nav-mobile" aria-label="Sections">
     <div class="nav-mobile__bar">
         <a class="nav-item-mobile" href="approach.html">Approach</a>
-        <a class="nav-item-mobile nav-item-mobile--selected" style="--nav-mobile-accent: var(--yellow-10)" href="projects.html" aria-current="page">Projects</a>
+        <!-- Projects temporarily hidden from the nav.
+        <a class="nav-item-mobile" href="projects.html">Projects</a>
+        -->
         <a class="nav-item-mobile" href="partners.html">Partners</a>
         <a class="nav-item-mobile" href="about.html">About</a>
     </div>

@@ -55,7 +55,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="styles.css?v=95" />
+  <link rel="stylesheet" href="styles.css?v=155" />
 </head>
 
 <!-- Per-page accent: Join us tab becomes a BLACK folder tab with white text. -->
@@ -74,9 +74,11 @@
       <a class="tab" href="approach.html">
         <span class="tab__label">Approach</span>
       </a>
+      <!-- Projects temporarily hidden from the nav.
       <a class="tab" href="projects.html">
         <span class="tab__label">Projects</span>
       </a>
+      -->
       <a class="tab" href="partners.html">
         <span class="tab__label">Partners</span>
       </a>
@@ -94,7 +96,7 @@
   <main>
     <!-- ===== Hero (black panel with journey card) ===== -->
     <section>
-      <div class="mx-auto w-full max-w-[1440px] px-4 pb-16 md:px-10 md:pb-24 xl:pb-32">
+      <div class="hero-folder">
         <div class="overflow-hidden rounded-40 bg-black px-6 pb-4 pt-4 min-h-[240px] md:min-h-[400px] xl:min-h-[640px] xl:px-[118px] xl:pb-10 xl:pt-16">
           <div class="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-y-0 xl:grid-cols-12 xl:gap-y-2">
             <!-- Title -->
@@ -106,10 +108,14 @@
                  cycled with the dark pagination organism below. The track
                  bleeds to the folder's right edge (negative margin cancels the
                  panel's right padding); the panel's overflow-hidden clips the
-                 peeking card at the rounded edge. -->
+                 peeking card at the rounded edge. The row is w-max so it is
+                 sized by its cards rather than stretched to the track: that
+                 keeps the pagination's trailing spacer inside the scrollable
+                 range, so the last card can reach its left-aligned stop
+                 instead of being pinned flush against the clip edge. -->
             <div class="col-span-4 md:col-span-8 xl:col-span-12 xl:pb-6">
-              <div class="no-scrollbar overflow-x-auto -mr-[24px] xl:-mr-[118px]" data-journey-track>
-                <ul class="flex items-start gap-4 md:items-stretch md:gap-10" role="list">
+              <div class="no-scrollbar overflow-x-auto -mr-[24px] md:pt-4 xl:-mr-[118px] xl:pt-0" data-journey-track>
+                <ul class="flex w-max items-start gap-4 md:items-stretch md:gap-10" role="list">
                   <li class="w-[280px] flex-none md:w-[480px] xl:w-[632px]">
                     <article class="journey-step">
                       <h2 class="journey-step__title"><span class="journey-step__num">01</span>Application</h2>
@@ -132,11 +138,11 @@
                           <li>Choose an area you want to contribute to:</li>
                         </ul>
                         <ul class="journey-step__tags" role="list">
-                          <li class="chip chip--xs chip--dark">Board</li>
-                          <li class="chip chip--xs chip--dark">Brand &amp; Communications</li>
-                          <li class="chip chip--xs chip--dark">Partnerships</li>
-                          <li class="chip chip--xs chip--dark">Micro Masterclasses</li>
-                          <li class="chip chip--xs chip--dark">Hackathons</li>
+                          <li class="badge badge--xs badge--dark">Board</li>
+                          <li class="badge badge--xs badge--dark">Brand &amp; Communications</li>
+                          <li class="badge badge--xs badge--dark">Partnerships</li>
+                          <li class="badge badge--xs badge--dark">Micro Masterclasses</li>
+                          <li class="badge badge--xs badge--dark">Hackathons</li>
                         </ul>
                       </div>
                     </article>
@@ -168,9 +174,12 @@
                 </ul>
               </div>
 
-              <!-- Pagination (dark): cycle through the journey steps. -->
+              <!-- Pagination (dark): cycle through the journey steps.
+                   Right-aligned on phone and tablet, left from xl.
+                   Carousel -> pagination gap 24 / 40 / 64. -->
+              <div class="mt-6 flex justify-end md:mt-10 xl:mt-16 xl:justify-start">
               <div
-                class="pagination-controls pagination-controls--dark mt-16"
+                class="pagination-controls pagination-controls--dark"
                 data-pagination
                 data-pagination-scroll="[data-journey-track]"
               >
@@ -187,52 +196,46 @@
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13.5 4.5L12.4275 5.54475L18.1125 11.25H3V12.75H18.1125L12.4275 18.4297L13.5 19.5L21 12L13.5 4.5Z" fill="currentColor"/></svg>
                 </button>
               </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== 4x4 section (Figma 3409:17541), title=off =====
-         Same component as partners.html but without the heading: just the two
-         "text+image" blocks (Figma 707:9325). Dev-annotated col-spans:
-         paragraph 5 (desktop) / 4 (tablet+phone), image 4 (all). Desktop uses
-         cols 2-11 with col 7 left empty as the gutter the design draws as a
-         157px gap. The grid's row gap now only separates the two rows. ===== -->
-    <section class="pb-20 md:pb-24 xl:pb-48">
+    <!-- ===== section/text+image — text-left (Figma 3589:11823) =====
+         Two of these sit side by side in the page frames (1085:5014 desktop /
+         3195:14508 tablet / 1429:6701 phone), with no section title above
+         them. Desktop sets the text in 5 columns and the image in 4, the pair
+         filling cols 2-11 with one empty column between them — the design's
+         157px gap. Tablet and phone stack image over text in a 6- resp.
+         4-column block. DOM is image-then-text, which is that stacked order;
+         desktop pulls the text left with col-start + row-start-1. ===== -->
+    <section class="section-text-image">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
-        <div class="grid grid-cols-4 gap-x-4 gap-y-20 md:grid-cols-8 md:gap-x-6 md:gap-y-24 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10 xl:gap-y-32">
-          <!-- text+image — text-left (desktop/tablet). DOM is image-then-text
-               so phone stacks the image on top; md+ pulls the text left via
-               col-start + row-start-1. -->
-          <div class="col-span-4 grid grid-cols-4 gap-x-4 gap-y-10 md:col-span-8 md:grid-cols-8 md:items-center md:gap-x-6 md:gap-y-0 lg:gap-x-8 xl:col-span-12 xl:grid-cols-12 xl:gap-x-10">
-            <div class="col-span-4 aspect-[4/3] overflow-hidden rounded-24 md:col-start-5 xl:col-start-8">
-              <img src="assets/hero3.jpg" alt="Public Makers at the German American Conference, Harvard Kennedy School" class="h-full w-full object-cover" />
-            </div>
-            <div class="col-span-4 flex flex-col justify-center gap-4 md:col-start-1 md:row-start-1 xl:col-span-5 xl:col-start-2">
-              <p class="font-body text-[21px] leading-[1.4] text-black md:leading-[normal] xl:text-pretty xl:text-[27px]">
-                We build the people who drive it from the inside.
-              </p>
-              <p class="font-body text-[16px] leading-[normal] text-neutral-300 md:text-[18px] md:leading-[1.4] xl:text-[21px]">
-                Change in public policy comes from people who understand the system and have the skills to move it. We invest in those people first: mentoring, real responsibility, and room to grow faster than any job would allow.
-              </p>
-            </div>
+        <div class="grid grid-cols-4 gap-x-4 gap-y-10 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:items-center xl:gap-x-10 xl:gap-y-0">
+          <div class="text-image__image col-span-4 md:col-span-6 xl:col-span-4 xl:col-start-8">
+            <img src="assets/hero3.jpg" alt="Public Makers at the German American Conference, Harvard Kennedy School" />
           </div>
+          <div class="text-block col-span-4 md:col-span-6 xl:col-span-5 xl:col-start-2 xl:row-start-1">
+            <p class="text-block__title">We build the people who drive it from the inside.</p>
+            <p class="text-block__body">Change in public policy comes from people who understand the system and have the skills to move it. We invest in those people first: mentoring, real responsibility, and room to grow faster than any job would allow.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- text+image — text-right (desktop/tablet): image leads, so DOM
-               order already matches and phone stacking needs no reorder. -->
-          <div class="col-span-4 grid grid-cols-4 gap-x-4 gap-y-10 md:col-span-8 md:grid-cols-8 md:items-center md:gap-x-6 md:gap-y-0 lg:gap-x-8 xl:col-span-12 xl:grid-cols-12 xl:gap-x-10">
-            <div class="col-span-4 aspect-[4/3] overflow-hidden rounded-24 md:col-start-1 xl:col-start-2">
-              <img src="assets/sets-apart-drive.jpg" alt="Public Makers members together at a project event" class="h-full w-full object-cover" />
-            </div>
-            <div class="col-span-4 flex flex-col justify-center gap-4 md:col-start-5 xl:col-span-5 xl:col-start-7">
-              <p class="font-body text-[21px] leading-[1.4] text-black md:leading-[normal] xl:text-pretty xl:text-[27px]">
-                Drive projects and your personal growth in public policy making!
-              </p>
-              <p class="font-body text-[16px] leading-[normal] text-neutral-300 md:text-[18px] md:leading-[1.4] xl:text-[21px]">
-                From day one you’ll make decisions that matter, lead projects that shape real policy and grow every skill you touch along the way. We back you with a team that wants you to outgrow us.
-              </p>
-            </div>
+    <!-- ===== section/text+image — text-right: image leads, so the DOM order
+         already matches and the stack needs no reorder. ===== -->
+    <section class="section-text-image">
+      <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
+        <div class="grid grid-cols-4 gap-x-4 gap-y-10 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:items-center xl:gap-x-10 xl:gap-y-0">
+          <div class="text-image__image col-span-4 md:col-span-6 xl:col-span-4 xl:col-start-2">
+            <img src="assets/sets-apart-drive.jpg" alt="Public Makers members together at a project event" />
+          </div>
+          <div class="text-block col-span-4 md:col-span-6 xl:col-span-5 xl:col-start-7">
+            <p class="text-block__title">Drive projects and your personal growth in public policy making!</p>
+            <p class="text-block__body">From day one you’ll make decisions that matter, lead projects that shape real policy and grow every skill you touch along the way. We back you with a team that wants you to outgrow us.</p>
           </div>
         </div>
       </div>
@@ -248,7 +251,7 @@
          (426x320 desktop, 323x242 tablet), so aspect-[4/3] plus the column
          width needs no fixed height. Section pb 192 / 96 / 80, no padding-top;
          quote->attribution 24 / 8 / 8, quote block->button 48 / 40 / 40. -->
-    <section class="overflow-hidden bg-white pb-20 md:pb-24 xl:pb-48">
+    <section class="overflow-hidden bg-white pb-20 md:pb-32 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="grid grid-cols-4 gap-x-4 gap-y-10 md:grid-cols-8 md:items-start md:gap-x-6 md:gap-y-0 lg:gap-x-8 xl:grid-cols-12 xl:items-center xl:gap-x-10">
           <!-- Image. DOM order is image-then-text so phone stacks the image on
@@ -285,10 +288,10 @@
          (tablet), full width (phone). Title->list gap 64 / 48 / 32,
          pb 192 / 96 / 80. Items sit flush — no gap; each carries its own
          padding and 2px rule. -->
-    <section class="pb-20 md:pb-24 xl:pb-48">
+    <section class="pb-20 md:pb-32 xl:pb-48">
       <div class="mx-auto w-full max-w-[1440px] px-4 md:px-10">
         <div class="grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-6 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
-          <h2 class="col-span-4 font-body text-balance text-[27px] leading-[normal] text-black md:col-span-6 md:text-[41px] md:leading-[1.2] xl:col-span-6 xl:col-start-2 xl:text-[61px] xl:leading-[normal]">
+          <h2 class="section-title__text col-span-4 md:col-span-6 xl:col-span-6 xl:col-start-2">
             FAQs
           </h2>
 
@@ -306,7 +309,9 @@
                 </span>
               </button>
               <div class="faq-item__body">
-                <p>Yes — we connect students, alumni, public-sector partners and supporters in a long-term community.</p>
+                <div class="text-block">
+                  <p class="text-block__body">Yes — we connect students, alumni, public-sector partners and supporters in a long-term community.</p>
+                </div>
               </div>
             </li>
             <li class="faq-item">
@@ -322,7 +327,9 @@
                 </span>
               </button>
               <div class="faq-item__body">
-                <p>Neither — we run educational formats and co-create projects with public administration. We don't take equity or scale ventures.</p>
+                <div class="text-block">
+                  <p class="text-block__body">Neither — we run educational formats and co-create projects with public administration. We don't take equity or scale ventures.</p>
+                </div>
               </div>
             </li>
             <li class="faq-item">
@@ -338,7 +345,9 @@
                 </span>
               </button>
               <div class="faq-item__body">
-                <p>We are non-partisan. We work with institutions across the political spectrum and focus on the public good.</p>
+                <div class="text-block">
+                  <p class="text-block__body">We are non-partisan. We work with institutions across the political spectrum and focus on the public good.</p>
+                </div>
               </div>
             </li>
             <li class="faq-item">
@@ -354,7 +363,9 @@
                 </span>
               </button>
               <div class="faq-item__body">
-                <p>No — Public Makers runs alongside your studies. Time commitment varies by role.</p>
+                <div class="text-block">
+                  <p class="text-block__body">No — Public Makers runs alongside your studies. Time commitment varies by role.</p>
+                </div>
               </div>
             </li>
             <li class="faq-item">
@@ -370,7 +381,9 @@
                 </span>
               </button>
               <div class="faq-item__body">
-                <p>Real experience with public institutions, a peer network you can lean on for years, and a clearer compass for the change you want to make.</p>
+                <div class="text-block">
+                  <p class="text-block__body">Real experience with public institutions, a peer network you can lean on for years, and a clearer compass for the change you want to make.</p>
+                </div>
               </div>
             </li>
           </ul>
@@ -388,20 +401,22 @@
         </a>
         <div class="footer__right">
           <div class="footer__social">
-            <a href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icon-linkedin-white.svg" alt="" /></a>
-            <a href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icon-instagram-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img class="btn__icon" src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img class="btn__icon" src="assets/icon-instagram-white.svg" alt="" /></a>
           </div>
           <div class="footer__meta">
             <nav class="footer__links" aria-label="Legal">
-              <a class="link" href="#">Imprint</a>
-              <a class="link" href="#">Data privacy</a>
+              <a class="link" href="imprint.html">Imprint</a>
+              <a class="link" href="data-privacy.html">Data privacy</a>
             </nav>
+          </div>
+          <div class="footer__credits">
+            <p class="footer__webdesign">
+              <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+              <span>by <a class="link link--inline" href="https://kamenskaya-design.com/" target="_blank" rel="noopener noreferrer">Maria Kamenskaya</a> &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+            </p>
             <p class="footer__copy">© 2025 public makers</p>
           </div>
-          <p class="footer__credits">
-            <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
-            <span>by Maria Kamenskaya &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
-          </p>
         </div>
       </div>
     </div>
@@ -412,12 +427,14 @@
     import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
     window.Motion = Motion;
   </script>
-  <script src="script.js?v=40"></script>
+  <script src="script.js?v=49"></script>
   <!-- nav-mobile — phone bottom nav (Figma 674:10045) -->
   <nav class="nav-mobile" aria-label="Sections">
     <div class="nav-mobile__bar">
         <a class="nav-item-mobile" href="approach.html">Approach</a>
+        <!-- Projects temporarily hidden from the nav.
         <a class="nav-item-mobile" href="projects.html">Projects</a>
+        -->
         <a class="nav-item-mobile" href="partners.html">Partners</a>
         <a class="nav-item-mobile" href="about.html">About</a>
     </div>

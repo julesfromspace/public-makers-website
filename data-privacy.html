@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Privacy — public makers</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Play CDN (runtime) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        screens: { sm: "481px", md: "750px", lg: "941px", xl: "1281px" },
+        container: {
+          center: true,
+          padding: { DEFAULT: "16px", sm: "40px", md: "40px", lg: "40px", xl: "40px" },
+          screens: { xl: "1440px" },
+        },
+        extend: {
+          borderRadius: {
+            0: "var(--radius-0)", 2: "var(--radius-2)", 4: "var(--radius-4)",
+            8: "var(--radius-8)", 12: "var(--radius-12)", 16: "var(--radius-16)",
+            24: "var(--radius-24)", 32: "var(--radius-32)", 40: "var(--radius-40)",
+            48: "var(--radius-48)", 56: "var(--radius-56)", 64: "var(--radius-64)",
+            72: "var(--radius-72)", 80: "var(--radius-80)", full: "var(--radius-full)",
+          },
+          spacing: {
+            0: "var(--spacing-0)", 1: "var(--spacing-1)", 2: "var(--spacing-2)",
+            3: "var(--spacing-3)", 4: "var(--spacing-4)", 5: "var(--spacing-5)",
+            6: "var(--spacing-6)", 8: "var(--spacing-8)", 10: "var(--spacing-10)",
+            12: "var(--spacing-12)", 16: "var(--spacing-16)", 20: "var(--spacing-20)",
+            24: "var(--spacing-24)", 28: "var(--spacing-28)", 32: "var(--spacing-32)",
+            36: "var(--spacing-36)", 40: "var(--spacing-40)", 44: "var(--spacing-44)",
+            48: "var(--spacing-48)",
+          },
+          colors: {
+            ink: "#1e1e1e",
+            "neutral-400": "#444444",
+            "neutral-300": "#6b6b6b",
+            "neutral-100": "#f5f5f5",
+            "partners-blue": "#e6e6ff",
+          },
+          fontFamily: {
+            display: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+            body: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=155" />
+</head>
+
+<!-- Utility page: no folder-tab hero and no phone bottom nav — the design
+     (Figma 1043:14623 desktop / 3584:11487 tablet / 3552:17300 phone) runs
+     the plain nav straight into the page title. -->
+<body class="bg-white text-black font-body antialiased">
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="public makers home">
+      <img src="assets/logo-nav.svg" alt="public makers" />
+    </a>
+
+    <nav class="nav__tabs" aria-label="Primary">
+      <a class="tab" href="approach.html">
+        <span class="tab__label">Approach</span>
+      </a>
+      <!-- Projects temporarily hidden from the nav.
+      <a class="tab" href="projects.html">
+        <span class="tab__label">Projects</span>
+      </a>
+      -->
+      <a class="tab" href="partners.html">
+        <span class="tab__label">Partners</span>
+      </a>
+      <a class="tab" href="about.html">
+        <span class="tab__label">About</span>
+      </a>
+      <a class="tab tab--primary" href="joinus.html">
+        <span class="tab__pill">Join us</span>
+      </a>
+    </nav>
+    <a class="nav__cta tab__pill" href="joinus.html">Join us</a>
+    </div>
+  </header>
+
+
+  <main>
+    <!-- ===== Utility page title (Figma 712:9678) ===== -->
+    <section class="utility-page-title">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <div class="grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 md:gap-x-6 md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10">
+          <h1 class="utility-page-title__text col-span-4 md:col-span-8 xl:col-span-11 xl:col-start-2">Data Privacy</h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Text section (Figma 3791:16019) — German legal copy, kept in
+         German because that is the language it is binding in. ===== -->
+    <section class="section-text-section">
+      <div class="mx-auto w-full max-w-[1440px]">
+        <div class="grid grid-cols-4 gap-x-4 gap-y-10 px-4 md:grid-cols-8 md:gap-x-6 md:gap-y-16 md:px-10 lg:gap-x-8 xl:grid-cols-12 xl:gap-x-10 xl:gap-y-20">
+          <div class="text-block col-span-4 md:col-span-8 xl:col-span-5 xl:col-start-2">
+            <h2 class="text-block__title">Haftung für Inhalte</h2>
+            <p class="text-block__body">Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
+          </div>
+
+          <div class="text-block col-span-4 md:col-span-8 xl:col-span-5 xl:col-start-2">
+            <h2 class="text-block__title">Haftung für Links</h2>
+            <p class="text-block__body">Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+          </div>
+
+          <div class="text-block col-span-4 md:col-span-8 xl:col-span-5 xl:col-start-2">
+            <h2 class="text-block__title">Urheberrecht</h2>
+            <p class="text-block__body">Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
+          </div>
+
+          <div class="text-block col-span-4 md:col-span-8 xl:col-span-5 xl:col-start-2">
+            <h2 class="text-block__title">Datenschutz</h2>
+            <p class="text-block__body">Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.</p>
+            <p class="text-block__body">Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>
+            <p class="text-block__body">Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten durch Dritte zur Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__panel">
+      <div class="footer__inner">
+        <a class="footer__logo" href="index.html" aria-label="public makers home">
+          <img src="assets/logo-footer.svg" alt="public makers" />
+        </a>
+        <div class="footer__right">
+          <div class="footer__social">
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://de.linkedin.com/company/public-makers" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img class="btn__icon" src="assets/icon-linkedin-white.svg" alt="" /></a>
+            <a class="btn btn--dark btn--secondary btn--icon btn--xs" href="https://www.instagram.com/public.makers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img class="btn__icon" src="assets/icon-instagram-white.svg" alt="" /></a>
+          </div>
+          <div class="footer__meta">
+            <nav class="footer__links" aria-label="Legal">
+              <a class="link" href="imprint.html">Imprint</a>
+              <a class="link" href="data-privacy.html">Data privacy</a>
+            </nav>
+          </div>
+          <div class="footer__credits">
+            <p class="footer__webdesign">
+              <span class="footer__credits-made">Webdesign with <span class="footer__heart">❤️</span></span>
+              <span>by <a class="link link--inline" href="https://kamenskaya-design.com/" target="_blank" rel="noopener noreferrer">Maria Kamenskaya</a> &amp; <a class="link link--inline" href="https://julien-stoll.com/" target="_blank" rel="noopener noreferrer">Julien Stoll</a></span>
+            </p>
+            <p class="footer__copy">© 2025 public makers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Motion (motion.dev) — exposed as window.Motion -->
+  <script type="module">
+    import * as Motion from "https://cdn.jsdelivr.net/npm/motion@14.1.0/+esm";
+    window.Motion = Motion;
+  </script>
+  <script src="script.js?v=49"></script>
+</body>
+</html>
